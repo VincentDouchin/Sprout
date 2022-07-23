@@ -1,0 +1,14 @@
+{ "columns":6,
+ "image":"..\/images\/tilesets\/Building parts\/Water tray.png",
+ "imageheight":16,
+ "imagewidth":96,
+ "margin":0,
+ "name":"water tray",
+ "spacing":0,
+ "tilecount":6,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

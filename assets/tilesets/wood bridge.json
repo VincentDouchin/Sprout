@@ -1,0 +1,14 @@
+{ "columns":5,
+ "image":"..\/images\/tilesets\/Building parts\/Wood Bridge.png",
+ "imageheight":48,
+ "imagewidth":80,
+ "margin":0,
+ "name":"wood bridge",
+ "spacing":0,
+ "tilecount":15,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

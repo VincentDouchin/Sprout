@@ -1,0 +1,14 @@
+{ "columns":11,
+ "image":"images\/tilesets\/Building parts\/Mailbox Animation Frames.png",
+ "imageheight":336,
+ "imagewidth":176,
+ "margin":0,
+ "name":"mailbox",
+ "spacing":0,
+ "tilecount":231,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

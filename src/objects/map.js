@@ -17,12 +17,15 @@ const getMap = (name) => {
 				const tileset = map.tilesets.find(tileset => tileset.firstgid <= tile && tile <= tileset.firstgid + tileset.tilecount - 1)
 				const [sx, sy] = indexToCoord(tile - tileset.firstgid, tileset.columns, tileset.tilewidth, tileset.tileheight)
 				const [dx, dy] = indexToCoord(tileIndex, chunk.width, map.tilewidth, map.tileheight)
-				buffer.drawImage(tileset.img, sx, sy, map.tilewidth, map.tileheight, dx + chunk.x * 16, dy + chunk.y * 16, tileset.tilewidth, tileset.tileheight)
+				buffer.drawImage(tileset.img,
+					sx, sy, map.tilewidth, map.tileheight,
+					dx + chunk.x * map.tilewidth, dy + chunk.y * map.tileheight, tileset.tilewidth, tileset.tileheight
+				)
 			})
 		})
 
 	})
-	document.body.appendChild(buffer.canvas)
+	// document.body.appendChild(buffer.canvas)
 	return getPlane(buffer)
 }
 export default getMap

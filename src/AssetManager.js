@@ -22,6 +22,14 @@ const AssetManager = await (async () => {
     const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
     const images = await mapToFileName(sourceImages)
     console.log(levels)
-    return { levels, tilesets, images, }
+    return {
+        levels,
+        tilesets,
+        images,
+        async load(name) {
+            this.images[name] = await loadImage(images[name].default)
+            return this.images[name]
+        }
+    }
 })();
 export default AssetManager

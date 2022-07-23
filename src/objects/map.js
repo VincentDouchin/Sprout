@@ -1,26 +1,28 @@
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
+import getPlane from "./plane";
 
 const indexToCoord = (index, columns, width, height) => {
 	height = height ?? width
 	return [index % columns * width, Math.floor(index / columns) * height]
 }
 
-const getMap = async (name) => {
+const getMap = (name) => {
 	const map = AssetManager.levels[name]
 	const buffer = Buffer(map.width * map.tilewidth, map.height * map.tileheight)
 	map.layers.filter(x => x.type == 'tilelayer').forEach(layer => {
 		layer.chunks.forEach(chunk => {
-			if (chunk.x != 0 && chunk.y != 0) return
-			chunk.data.forEach(tileIndex => {
-				if (tileIndex == 0) return
-				const tileset = map.tilesets.find(tileset => tileset.firstgid <= tileIndex && tileset.firstgid + tileset.tilecount >= tileIndex)
-				const [x, y] = indexToCoord(tileIndex, tileset.columns, tileset.tilewidth, tileset.tileheight)
-				buffer.drawImage(tileset.img, x, y, tileset.tilewidth, tileset.tileheight)
+			chunk.data.forEach((tile, tileIndex) => {
+				if (tile == 0) return
+				const tileset = map.tilesets.find(tileset => tileset.firstgid <= tile && tile <= tileset.firstgid + tileset.tilecount - 1)
+				const [sx, sy] = indexToCoord(tile - tileset.firstgid, tileset.columns, tileset.tilewidth, tileset.tileheight)
+				const [dx, dy] = indexToCoord(tileIndex, chunk.width, map.tilewidth, map.tileheight)
+				buffer.drawImage(tileset.img, sx, sy, map.tilewidth, map.tileheight, dx + chunk.x * 16, dy + chunk.y * 16, tileset.tilewidth, tileset.tileheight)
 			})
 		})
 
 	})
 	document.body.appendChild(buffer.canvas)
+	return getPlane(buffer)
 }
 export default getMap

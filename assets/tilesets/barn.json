@@ -1,0 +1,14 @@
+{ "columns":3,
+ "image":"..\/images\/objects\/Barn structures.png",
+ "imageheight":64,
+ "imagewidth":48,
+ "margin":0,
+ "name":"barn",
+ "spacing":0,
+ "tilecount":12,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

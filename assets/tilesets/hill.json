@@ -1,0 +1,14 @@
+{ "columns":6,
+ "image":"..\/images\/tilesets\/Hills.png",
+ "imageheight":96,
+ "imagewidth":96,
+ "margin":0,
+ "name":"hill",
+ "spacing":0,
+ "tilecount":36,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

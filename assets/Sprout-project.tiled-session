@@ -1,12 +1,32 @@
 {
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
     "activeFile": "",
     "expandedProjectPaths": [
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "tilesets/Dirt.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
     },
+    "last.imagePath": "C:/Users/Vincent/Documents/dev/Sprout/assets/images/objects",
+    "map.fixedSize": false,
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
     "openFiles": [
     ],
     "project": "Sprout-project.tiled-project",
     "recentFiles": [
-    ]
+        "tilesets/Dirt.tsj"
+    ],
+    "tileset.lastUsedFormat": "json",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
 }

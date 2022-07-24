@@ -3,95 +3,181 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "tilesets/interior 2.json",
     "expandedProjectPaths": [
+        "levels",
+        ".",
+        "tilesets"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "levels/door.json": {
-            "scaleInDock": 1
+            "dynamicWrapping": true,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "levels/house interiour.json": {
+            "scale": 4,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 689.25,
+                "y": 421
+            }
         },
         "levels/map.json": {
-            "scale": 2,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                19,
+                18
+            ],
+            "scale": 0.5,
+            "selectedLayer": 11,
             "viewCenter": {
-                "x": 183,
-                "y": 498
+                "x": 1592,
+                "y": 1002
             }
         },
         "mailbox.json": {
-            "scaleInDock": 1
+            "dynamicWrapping": true,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
         },
         "tilesets/Dirt.tsj": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "tilesets/all cow.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/barn.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/basic furniture.json": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        },
+        "tilesets/boat.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/dirt.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/door.json": {
-            "scaleInDock": 1
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/farming plant.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/fences.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/flower.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/grass.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/hill.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 5.5
         },
         "tilesets/house.json": {
-            "scaleInDock": 1
+            "scaleInDock": 4,
+            "scaleInEditor": 1
+        },
+        "tilesets/interior 2.json": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 3
+        },
+        "tilesets/interiour 1.json": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        },
+        "tilesets/interiour.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
         },
         "tilesets/mailbox.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/stone path.json": {
-            "scaleInDock": 1
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/trees.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 5.5
+        },
+        "tilesets/wall.json": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
         },
         "tilesets/water objects.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/water tray.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/water well.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/water.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/wood bridge.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "tilesets/wooden path.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
-    "last.imagePath": "C:/Users/Vincent/Documents/dev/Sprout/assets/images/characters/Animal SpriteSheets/cow",
+    "last.imagePath": "C:/Users/Vincent/Documents/dev/Sprout/assets/images/Package/rpgmaker",
     "map.fixedSize": false,
     "map.lastUsedFormat": "json",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "openFiles": [
+        "levels/house interiour.json",
+        "tilesets/interiour.json",
+        "tilesets/wall.json",
+        "tilesets/basic furniture.json",
+        "tilesets/house.json",
+        "tilesets/interiour 1.json",
+        "tilesets/interior 2.json",
+        "tilesets/interior 2.json",
+        "tilesets/interior 2.json"
     ],
     "project": "Sprout-project.tiled-project",
     "recentFiles": [
-        "tilesets/grass.json",
-        "tilesets/Dirt.tsj"
+        "levels/house interiour.json",
+        "tilesets/interiour.json",
+        "tilesets/wall.json",
+        "tilesets/basic furniture.json",
+        "tilesets/house.json",
+        "tilesets/interiour 1.json",
+        "tilesets/interior 2.json",
+        "levels/map.json",
+        "tilesets/stone path.json",
+        "tilesets/water objects.json",
+        "tilesets/hill.json",
+        "tilesets/water.json"
     ],
     "tileset.lastUsedFormat": "json",
     "tileset.tileSize": {

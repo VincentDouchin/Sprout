@@ -1,6 +1,7 @@
 import getPlane from "./plane";
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
+import { Box3, BoxHelper, Vector3 } from "three";
 const friction = 0.85
 
 const Character = async () => {
@@ -11,12 +12,13 @@ const Character = async () => {
 	const bufferNormal = Buffer(normal.width, normal.height)
 	buffer.drawImage(img, 0, 0)
 	bufferNormal.drawImage(normal, 0, 0)
-	const mesh = getPlane(buffer, tileSize, tileSize, bufferNormal)
+	const mesh = getPlane({ buffer }, tileSize, tileSize, bufferNormal)
 
 	mesh.material.map.repeat.set(0.25, 0.25)
 	mesh.material.map.offset.y = 0.75
+
 	mesh.position.z = 1
-	const collisionBox = new THREE.Box3().setFromObject(mesh)
+	// const collisionBox = new Box3().setFromObject(mesh)
 	// mesh.rotation.x = -150
 	const moveForce = 0.25
 	const directions = ['right', 'left', 'up', 'down',]
@@ -44,8 +46,11 @@ const Character = async () => {
 		}
 
 	}
-	window.mesh = mesh
+	const boxhelper = new BoxHelper(mesh, 0xffff00);
+	scene.add(boxhelper);
+
 	const update = (time) => {
+		boxhelper.update()
 		if (Math.floor(time * 10 / 4) > lastAnimation) {
 			lastAnimation++
 		}
@@ -58,6 +63,6 @@ const Character = async () => {
 		mesh.position.set(mesh.position.x += velocity.x, mesh.position.y += velocity.y)
 
 	}
-	return { mesh, move, update, collisionBox }
+	return { mesh, move, update, velocity }
 }
 export default Character

@@ -5,16 +5,20 @@ const friction = 0.85
 
 const Character = async () => {
 	const img = await AssetManager.load('Basic Charakter Spritesheet')
+	const normal = await AssetManager.load('Basic Charakter Spritesheet-normal')
 	const tileSize = 48
 	const buffer = Buffer(img.width, img.height)
-	const directions = ['right', 'left', 'up', 'down',]
+	const bufferNormal = Buffer(normal.width, normal.height)
 	buffer.drawImage(img, 0, 0)
-	const mesh = getPlane(buffer, tileSize, tileSize)
+	bufferNormal.drawImage(normal, 0, 0)
+	const mesh = getPlane(buffer, tileSize, tileSize, bufferNormal)
+
 	mesh.material.map.repeat.set(0.25, 0.25)
 	mesh.material.map.offset.y = 0.75
-	mesh.position.z = 6
-	mesh.rotation.x = -150
+	mesh.position.z = 1
+	// mesh.rotation.x = -150
 	const moveForce = 0.25
+	const directions = ['right', 'left', 'up', 'down',]
 
 	const velocity = { x: 0, y: 0 }
 	let direction = 'down'

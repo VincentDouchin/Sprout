@@ -17,6 +17,7 @@ const getMap = (name) => {
 				const tileset = map.tilesets.find(tileset => tileset.firstgid <= tile && tile <= tileset.firstgid + tileset.tilecount - 1)
 				const [sx, sy] = indexToCoord(tile - tileset.firstgid, tileset.columns, tileset.tilewidth, tileset.tileheight)
 				const [dx, dy] = indexToCoord(tileIndex, chunk.width, map.tilewidth, map.tileheight)
+				if (tileset.name == 'flower') debugger
 				buffer.drawImage(tileset.img,
 					sx, sy, map.tilewidth, map.tileheight,
 					dx + chunk.x * map.tilewidth, dy + chunk.y * map.tileheight, tileset.tilewidth, tileset.tileheight
@@ -25,7 +26,8 @@ const getMap = (name) => {
 		})
 
 	})
+
 	// document.body.appendChild(buffer.canvas)
-	return getPlane(buffer)
+	return { mesh: getPlane(buffer) }
 }
 export default getMap

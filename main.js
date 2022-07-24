@@ -14,8 +14,8 @@ import keys from './src/keys'
 
 	//! Camera
 	const aspect = window.innerWidth / window.innerHeight
-	// const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 1000)
-	const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+	const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 1000)
+	// const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 	camera.position.set(0, 0, 200);
 
 	//! Scene
@@ -38,10 +38,10 @@ import keys from './src/keys'
 
 		const aspect = window.innerWidth / window.innerHeight;
 
-		// camera.left = - frustumSize * aspect / 2;
-		// camera.right = frustumSize * aspect / 2;
-		// camera.top = frustumSize / 2;
-		// camera.bottom = - frustumSize / 2;
+		camera.left = - frustumSize * aspect / 2;
+		camera.right = frustumSize * aspect / 2;
+		camera.top = frustumSize / 2;
+		camera.bottom = - frustumSize / 2;
 
 		camera.updateProjectionMatrix();
 
@@ -50,24 +50,36 @@ import keys from './src/keys'
 	//! Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
 
-
+	//! Lights
+	const light = new THREE.AmbientLight(0xffffff)
+	scene.add(light)
+	light.position.set(0, 0, 200)
+	// const redlight = new THREE.PointLight(0xff0000, 5)
+	// scene.add(redlight)
+	// redlight.position.set(5, 5, -5)
+	// const pointLightHelper = new THREE.PointLightHelper(redlight, 100);
+	// scene.add(pointLightHelper)
 	//! Objects
 	const map = getMap('map')
-	scene.add(map)
+	scene.add(map.mesh)
 	const character = await Character()
 	scene.add(character.mesh)
-
+	window.map = map.mesh
+	window.character = character.mesh
 	const controller = Controller(keys)
 	const clock = new THREE.Clock()
-	window.map = map
-	window.camera = camera
+	let orbitControlsEnabled = false
 	function animate() {
-		controls.update()
-		camera.position.x = character.mesh.position.x
-		camera.position.y = character.mesh.position.y - 150
-		camera.lookAt(character.mesh.position)
-
-		// console.log(character.mesh.position, camera.position)
+		if (orbitControlsEnabled) {
+			controls.update()
+		} else {
+			camera.position.x = character.mesh.position.x
+			camera.position.y = character.mesh.position.y
+			camera.lookAt(character.mesh.position)
+		}
+		if (controller.switchCamera.once) {
+			orbitControlsEnabled = !orbitControlsEnabled
+		}
 		if (controller.left.active) {
 			character.move('left')
 		}

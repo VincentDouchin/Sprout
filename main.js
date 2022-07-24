@@ -7,7 +7,9 @@ import Character from './src/objects/character'
 import Controller from './src/Controller'
 import keys from './src/keys'
 import Engine from './src/Engine'
-import { Vector3 } from 'three'
+import { Raycaster, Vector3 } from 'three'
+import { isColliding } from './src/utils/collider'
+import { collideRect } from './src/utils/collider'
 (async function () {
 	const engine = Engine()
 
@@ -20,11 +22,11 @@ import { Vector3 } from 'three'
 	const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 1000)
 	// const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 	camera.position.set(0, 0, 200);
-
+	window.camera = camera
 	//! Scene
 	const scene = new THREE.Scene()
 	scene.background = new THREE.Color(0x000000)
-
+	window.scene = scene
 
 
 	//! Renderer
@@ -65,17 +67,18 @@ import { Vector3 } from 'three'
 	//! Objects
 	const map = getMap('map')
 	scene.add(map.mesh)
-	const character = await Character()
+	const character = await Character('Clémentine')
 	scene.add(character.mesh)
 
 	const collisions = []
 	map.collisions.forEach(({ width, height, x, y }) => {
 		const geometry = new THREE.PlaneGeometry(width, height)
-		const material = new THREE.MeshStandardMaterial({ opacity: 0 })
+		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
 		const plane = new THREE.Mesh(geometry, material)
-		collisions.push(new THREE.Box3().setFromObject(plane))
-		scene.add(plane)
+		collisions.push(plane)
+		// scene.add(plane)
+		plane.renderOrder = -1
 		plane.position.x = x - map.mesh.geometry.parameters.width / 2
 		plane.position.y = map.mesh.geometry.parameters.height / 2 - y
 		plane.position.z = 1
@@ -87,9 +90,8 @@ import { Vector3 } from 'three'
 	let orbitControlsEnabled = false
 	const run = {
 		update() {
-			collisions.forEach(collision => {
 
-			})
+
 			if (orbitControlsEnabled) {
 				controls.update()
 			} else {
@@ -113,8 +115,18 @@ import { Vector3 } from 'three'
 			if (controller.down.active) {
 				character.move('down')
 			}
-			character.update(clock.getElapsedTime())
+
 			//! Colisions
+			collisions.forEach(obj => {
+				if (isColliding(character.mesh, 3, obj, 1)) {
+					collideRect(character.mesh, 3, obj, 1, character.velocity)
+					obj.material.color = new THREE.Color(0xffffff)
+				}
+
+			})
+			character.update(clock.getElapsedTime())
+
+
 
 		},
 		render() {

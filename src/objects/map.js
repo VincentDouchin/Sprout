@@ -43,6 +43,6 @@ const getMap = (name) => {
 
 
 	// document.body.appendChild(buffer.canvas)
-	return { mesh: getPlane(buffer), collisions }
+	return { mesh: getPlane({ buffer }), collisions }
 }
 export default getMap

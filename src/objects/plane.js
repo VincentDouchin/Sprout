@@ -1,11 +1,17 @@
 import * as THREE from 'three'
-const getPlane = (buffer, width = null, height = null, normalMap = null) => {
+const getPlane = ({ buffer, texture }, width = null, height = null, normalMap = null) => {
+    let text
+    if (buffer) {
+        const canvasTexture = new THREE.CanvasTexture(buffer.canvas)
+        canvasTexture.minFilter = THREE.NearestFilter;
+        canvasTexture.magFilter = THREE.NearestFilter;
+        text = canvasTexture
+    } else {
+        text = texture
+    }
 
-    const canvasTexture = new THREE.CanvasTexture(buffer.canvas)
-    canvasTexture.minFilter = THREE.NearestFilter;
-    canvasTexture.magFilter = THREE.NearestFilter;
     const geometry = new THREE.PlaneGeometry(width ?? buffer.canvas.width, height ?? buffer.canvas.height)
-    const material = new THREE.MeshStandardMaterial({ map: canvasTexture, transparent: true, })
+    const material = new THREE.MeshStandardMaterial({ map: text, transparent: true, })
     if (normalMap) material.normalMap = normalMap
     const plane = new THREE.Mesh(geometry, material)
     return plane

@@ -16,6 +16,7 @@ const Character = async () => {
 	mesh.material.map.repeat.set(0.25, 0.25)
 	mesh.material.map.offset.y = 0.75
 	mesh.position.z = 1
+	const collisionBox = new THREE.Box3().setFromObject(mesh)
 	// mesh.rotation.x = -150
 	const moveForce = 0.25
 	const directions = ['right', 'left', 'up', 'down',]
@@ -57,6 +58,6 @@ const Character = async () => {
 		mesh.position.set(mesh.position.x += velocity.x, mesh.position.y += velocity.y)
 
 	}
-	return { mesh, move, update }
+	return { mesh, move, update, collisionBox }
 }
 export default Character

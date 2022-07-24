@@ -6,13 +6,16 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Character from './src/objects/character'
 import Controller from './src/Controller'
 import keys from './src/keys'
+import Engine from './src/Engine'
+import { Vector3 } from 'three'
 (async function () {
+	const engine = Engine()
 
-	const frustumSize = 400
 
 
 
 	//! Camera
+	const frustumSize = 400
 	const aspect = window.innerWidth / window.innerHeight
 	const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 1000)
 	// const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -64,40 +67,68 @@ import keys from './src/keys'
 	scene.add(map.mesh)
 	const character = await Character()
 	scene.add(character.mesh)
-	window.map = map.mesh
-	window.character = character.mesh
+
+	const collisions = []
+	map.collisions.forEach(({ width, height, x, y }) => {
+		const geometry = new THREE.PlaneGeometry(width, height)
+		const material = new THREE.MeshStandardMaterial({ opacity: 0 })
+
+		const plane = new THREE.Mesh(geometry, material)
+		collisions.push(new THREE.Box3().setFromObject(plane))
+		scene.add(plane)
+		plane.position.x = x - map.mesh.geometry.parameters.width / 2
+		plane.position.y = map.mesh.geometry.parameters.height / 2 - y
+		plane.position.z = 1
+	})
+
 	const controller = Controller(keys)
 	const clock = new THREE.Clock()
+
 	let orbitControlsEnabled = false
-	function animate() {
-		if (orbitControlsEnabled) {
-			controls.update()
-		} else {
-			camera.position.x = character.mesh.position.x
-			camera.position.y = character.mesh.position.y
-			camera.lookAt(character.mesh.position)
-		}
-		if (controller.switchCamera.once) {
-			orbitControlsEnabled = !orbitControlsEnabled
-		}
-		if (controller.left.active) {
-			character.move('left')
-		}
-		if (controller.right.active) {
-			character.move('right')
-		}
-		if (controller.up.active) {
-			character.move('up')
-		}
-		if (controller.down.active) {
-			character.move('down')
-		}
-		character.update(clock.getElapsedTime())
+	const run = {
+		update() {
+			collisions.forEach(collision => {
 
-		requestAnimationFrame(animate)
-		renderer.render(scene, camera)
+			})
+			if (orbitControlsEnabled) {
+				controls.update()
+			} else {
+				camera.position.x = character.mesh.position.x
+				camera.position.y = character.mesh.position.y
+				camera.lookAt(character.mesh.position)
+			}
+
+			if (controller.switchCamera.once) {
+				orbitControlsEnabled = !orbitControlsEnabled
+			}
+			if (controller.left.active) {
+				character.move('left')
+			}
+			if (controller.right.active) {
+				character.move('right')
+			}
+			if (controller.up.active) {
+				character.move('up')
+			}
+			if (controller.down.active) {
+				character.move('down')
+			}
+			character.update(clock.getElapsedTime())
+			//! Colisions
+
+		},
+		render() {
+			renderer.render(scene, camera)
+
+		},
+		set() {
+
+		}
 	}
+	engine.setStates({ run })
+	engine.setState('run')
+	engine.start()
 
-	animate()
+
 
 }())

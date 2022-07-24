@@ -9,25 +9,40 @@ const indexToCoord = (index, columns, width, height) => {
 
 const getMap = (name) => {
 	const map = AssetManager.levels[name]
+	const collisions = []
 	const buffer = Buffer(map.width * map.tilewidth, map.height * map.tileheight)
 	map.layers.filter(x => x.type == 'tilelayer').forEach(layer => {
 		layer.chunks.forEach(chunk => {
+
 			chunk.data.forEach((tile, tileIndex) => {
 				if (tile == 0) return
 				const tileset = map.tilesets.find(tileset => tileset.firstgid <= tile && tile <= tileset.firstgid + tileset.tilecount - 1)
+				if (!tileset) return
+
 				const [sx, sy] = indexToCoord(tile - tileset.firstgid, tileset.columns, tileset.tilewidth, tileset.tileheight)
 				const [dx, dy] = indexToCoord(tileIndex, chunk.width, map.tilewidth, map.tileheight)
-				if (tileset.name == 'flower') debugger
+				const dxCorrected = dx + chunk.x * map.tilewidth
+				const dyCorrected = dy + chunk.y * map.tileheight
+
+				const tileObject = tileset.tiles?.find(t => t.id == tile - tileset.firstgid)?.objectgroup.objects[0]
+				if (tileObject) collisions.push({
+					width: tileObject.width,
+					height: tileObject.height,
+					x: dxCorrected + tileObject.x + tileObject.width / 2,
+					y: dyCorrected + tileObject.y + tileObject.height / 2
+				})
+				// if (tileObject) debugger
 				buffer.drawImage(tileset.img,
 					sx, sy, map.tilewidth, map.tileheight,
-					dx + chunk.x * map.tilewidth, dy + chunk.y * map.tileheight, tileset.tilewidth, tileset.tileheight
+					dxCorrected, dyCorrected, tileset.tilewidth, tileset.tileheight
 				)
 			})
 		})
 
 	})
 
+
 	// document.body.appendChild(buffer.canvas)
-	return { mesh: getPlane(buffer) }
+	return { mesh: getPlane(buffer), collisions }
 }
 export default getMap

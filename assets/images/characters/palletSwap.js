@@ -1,0 +1,21 @@
+const palletSwap = {
+
+	Jack: [
+		[0xF3F2C0, 0xA3A6ED],
+		[0xF3D8C5, 0xEAE6B2],
+	],
+	Hughie: [
+		[0xF3F2C0, 0xD1E5C5],
+		[0xF3D8C5, 0xEAE6B2],
+	],
+	Amélie: [
+		[0xF3F2C0, 0xE2E2B3],
+		[0xF3D8C5, 0xE0B0AF],
+	],
+	Clémentine: [
+		[0xF3F2C0, 0xE8BEDF],
+		[0xF3D8C5, 0xEAE6B2]
+	]
+
+}
+export default palletSwap

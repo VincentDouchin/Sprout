@@ -67,7 +67,8 @@ import { collideRect } from './src/utils/collider'
 	//! Objects
 	const map = getMap('map')
 	scene.add(map.mesh)
-	const character = await Character('Clémentine')
+	const character = await Character('Amélie')
+
 	scene.add(character.mesh)
 
 	const collisions = []
@@ -88,6 +89,7 @@ import { collideRect } from './src/utils/collider'
 	const clock = new THREE.Clock()
 
 	let orbitControlsEnabled = false
+
 	const run = {
 		update() {
 
@@ -99,6 +101,7 @@ import { collideRect } from './src/utils/collider'
 				camera.position.y = character.mesh.position.y
 				camera.lookAt(character.mesh.position)
 			}
+
 
 			if (controller.switchCamera.once) {
 				orbitControlsEnabled = !orbitControlsEnabled

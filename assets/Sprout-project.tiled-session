@@ -24,6 +24,14 @@
                 "y": 88.66666666666669
             }
         },
+        "levels/house interior.json": {
+            "scale": 4,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": -31.625,
+                "y": -247.5
+            }
+        },
         "levels/house interiour.json": {
             "scale": 4,
             "selectedLayer": 1,
@@ -211,8 +219,8 @@
     ],
     "project": "Sprout-project.tiled-project",
     "recentFiles": [
-        "levels/interior 7.json",
         "tileset1/interiour 1.json",
+        "levels/interior 7.json",
         "levels/house interiour.json",
         "tilesets/house exteriour.json",
         "tilesets/basic interiour.json",

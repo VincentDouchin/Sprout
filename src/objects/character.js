@@ -5,7 +5,7 @@ import { Box3, BoxHelper, Vector3, Mesh, PlaneGeometry, MeshBasicMaterial } from
 const friction = 0.85
 
 const Character = async (name) => {
-	const img = await AssetManager.load(`${name ? name + '-' : ''}}Basic Charakter Spritesheet`)
+	const img = await AssetManager.load(`Basic Charakter Spritesheet`)
 	const normal = await AssetManager.load('Basic Charakter Spritesheet-normal')
 	const tileSize = 48
 	const buffer = Buffer(img.width, img.height)

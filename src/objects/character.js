@@ -1,8 +1,10 @@
 import getPlane from "./plane";
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
+import * as CANNON from 'cannon-es'
+
 import { Box3, BoxHelper, Vector3, Mesh, PlaneGeometry, MeshBasicMaterial } from "three";
-const friction = 0.85
+const friction = 0.9
 
 const Character = async (_name) => {
 	name = _name
@@ -21,11 +23,15 @@ const Character = async (_name) => {
 
 	mesh.material.map.repeat.set(1 / tilesNb.horizontal, 1 / tilesNb.vertical)
 	mesh.material.map.offset.set(1 / tilesNb.horizontal, 1 / tilesNb.vertical)
+	const boxBody = new CANNON.Body({
+		mass: 1,
+		shape: new CANNON.Box(new CANNON.Vec3(tileSize / 2 / 3, tileSize / 2 / 3, 1)),
+	});
+	boxBody.position.set(-40, 10, 0)
+	boxBody.fixedRotation = true
 
-	mesh.position.z = 1
-	// const collisionBox = new Box3().setFromObject(mesh)
-	// mesh.rotation.x = -150
-	const moveForce = 0.25
+
+	const moveForce = 2
 	const animations = ['down', 'up', 'left', 'right', ...new Array(20).fill(0)]
 
 	const velocity = { x: 0, y: 0 }
@@ -52,11 +58,13 @@ const Character = async (_name) => {
 
 	}
 	const collisionBox = new Mesh(new PlaneGeometry(16, 16), new MeshBasicMaterial())
-	const boxhelper = new BoxHelper(collisionBox, 0xffff00);
-	scene.add(boxhelper);
+	// const boxhelper = new BoxHelper(collisionBox, 0xffff00);
+	// scene.add(boxhelper);
 
-	const update = (time) => {
-		boxhelper.update()
+	const update = () => {
+		mesh.position.copy(boxBody.position);
+		mesh.quaternion.copy(boxBody.quaternion);
+		// boxhelper.update()
 		animationCounter++
 		if (animationCounter > 4) {
 			animationCounter = 0
@@ -68,9 +76,10 @@ const Character = async (_name) => {
 		mesh.material.map.offset.set(offsetX, offsetY)
 		velocity.x *= friction
 		velocity.y *= friction
-		mesh.position.set(mesh.position.x += velocity.x, mesh.position.y += velocity.y)
+		boxBody.velocity.set(velocity.x, velocity.y, -1)
+		// boxBody.position.set(boxBody.position.x += velocity.x, boxBody.position.y += velocity.y, 0)
 		collisionBox.position.set(...mesh.position.toArray())
 	}
-	return { mesh, move, update, velocity, name }
+	return { mesh, boxBody, move, update, velocity, name }
 }
 export default Character

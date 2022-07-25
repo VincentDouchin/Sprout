@@ -5,7 +5,7 @@ const keys = {
 		KeyA: 'left',
 		KeyD: 'right',
 		KeyS: 'down',
-		KeyP: 'switchCamera'
+		KeyP: 'switchCamera',
 	}
 }
 export default keys

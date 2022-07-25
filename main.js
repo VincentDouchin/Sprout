@@ -7,6 +7,7 @@ import Character from './src/objects/character'
 import Controller from './src/Controller'
 import keys from './src/keys'
 import Engine from './src/Engine'
+import Matter from 'matter-js'
 import { Raycaster, Vector3 } from 'three'
 import { isColliding } from './src/utils/collider'
 import { collideRect } from './src/utils/collider'
@@ -54,7 +55,8 @@ import { collideRect } from './src/utils/collider'
 	})
 	//! Controls
 	const controls = new OrbitControls(camera, renderer.domElement);
-
+	const controller = Controller(keys)
+	let orbitControlsEnabled = false
 	//! Lights
 	const light = new THREE.AmbientLight(0xffffff)
 	scene.add(light)
@@ -66,33 +68,49 @@ import { collideRect } from './src/utils/collider'
 	// scene.add(pointLightHelper)
 	//! Objects
 	const map = getMap('map')
-	scene.add(map.mesh)
+	scene.add(map.meshTop)
+	scene.add(map.meshBottom)
+	map.meshBottom.renderOrder = 0
+	map.meshTop.renderOrder = 2
 	const character = await Character('Amélie')
 
 	scene.add(character.mesh)
 
 	const collisions = []
+
+	//! Physics
 	map.collisions.forEach(({ width, height, x, y }) => {
-		const geometry = new THREE.PlaneGeometry(width, height)
-		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+		// const geometry = new THREE.PlaneGeometry(width, height)
+		// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
-		const plane = new THREE.Mesh(geometry, material)
-		collisions.push(plane)
-		// scene.add(plane)
-		plane.renderOrder = -1
-		plane.position.x = x - map.mesh.geometry.parameters.width / 2
-		plane.position.y = map.mesh.geometry.parameters.height / 2 - y
-		plane.position.z = 1
+		// const plane = new THREE.Mesh(geometry, material)
+
+		// // scene.add(plane)
+		// plane.renderOrder = -1
+		// plane.position.x = x - map.mesh.geometry.parameters.width / 2
+		// plane.position.y = map.mesh.geometry.parameters.height / 2 - y
+		// plane.position.z = 1
+		const newX = x - map.meshBottom.geometry.parameters.width / 2
+		const newY = map.meshBottom.geometry.parameters.height / 2 - y
+		if (!width) debugger
+		collisions.push(Matter.Bodies.rectangle(newX, newY, width || 0.5, height || 0.5, { isStatic: true }))
 	})
-
-	const controller = Controller(keys)
+	const physicsEngine = Matter.Engine.create()
+	physicsEngine.gravity.x = 0
+	physicsEngine.gravity.y = 0
+	// const line = Matter.Bodies.fromVertices(-10, -50, Matter.Vertices.create([{ x: 0, y: 50 }, { x: 0, y: -50 }], Matter.Body))
+	Matter.Composite.add(physicsEngine.world, [...collisions, character.collisionBox]);
+	// const runner = Matter.Runner.create()
+	// Matter.Runner.run(runner, physicsEngine);
+	// Matter.World.add(engine.world, collisions);
+	// Matter.Runner.run(engine);
+	// // Matter.Render.run(render);
 	const clock = new THREE.Clock()
 
-	let orbitControlsEnabled = false
 
 	const run = {
 		update() {
-
+			Matter.Engine.update(physicsEngine, clock.getDelta() * 1000)
 
 			if (orbitControlsEnabled) {
 				controls.update()
@@ -120,14 +138,14 @@ import { collideRect } from './src/utils/collider'
 			}
 
 			//! Colisions
-			collisions.forEach(obj => {
-				if (isColliding(character.mesh, 3, obj, 1)) {
-					collideRect(character.mesh, 3, obj, 1, character.velocity)
-					obj.material.color = new THREE.Color(0xffffff)
-				}
+			// collisions.forEach(obj => {
+			// 	if (isColliding(character.mesh, 3, obj, 1)) {
+			// 		collideRect(character.mesh, 3, obj, 1, character.velocity)
+			// 		obj.material.color = new THREE.Color(0xffffff)
+			// 	}
 
-			})
-			character.update(clock.getElapsedTime())
+			// })
+			character.update()
 
 
 

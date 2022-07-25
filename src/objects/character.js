@@ -1,6 +1,7 @@
 import getPlane from "./plane";
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
+import Matter from "matter-js";
 import { Box3, BoxHelper, Vector3, Mesh, PlaneGeometry, MeshBasicMaterial } from "three";
 const friction = 0.85
 
@@ -21,8 +22,9 @@ const Character = async (_name) => {
 
 	mesh.material.map.repeat.set(1 / tilesNb.horizontal, 1 / tilesNb.vertical)
 	mesh.material.map.offset.set(1 / tilesNb.horizontal, 1 / tilesNb.vertical)
-
-	mesh.position.z = 1
+	const collisionBox = Matter.Bodies.rectangle(0, 0, 16, 16)
+	mesh.renderOrder = 1
+	// mesh.position.z = 1
 	// const collisionBox = new Box3().setFromObject(mesh)
 	// mesh.rotation.x = -150
 	const moveForce = 0.25
@@ -51,12 +53,12 @@ const Character = async (_name) => {
 		}
 
 	}
-	const collisionBox = new Mesh(new PlaneGeometry(16, 16), new MeshBasicMaterial())
-	const boxhelper = new BoxHelper(collisionBox, 0xffff00);
-	scene.add(boxhelper);
+	// const collisionBox = new Mesh(new PlaneGeometry(16, 16), new MeshBasicMaterial())
+	// const boxhelper = new BoxHelper(collisionBox, 0xffff00);
+	// scene.add(boxhelper);
 
-	const update = (time) => {
-		boxhelper.update()
+	const update = () => {
+		// boxhelper.update()
 		animationCounter++
 		if (animationCounter > 4) {
 			animationCounter = 0
@@ -68,9 +70,12 @@ const Character = async (_name) => {
 		mesh.material.map.offset.set(offsetX, offsetY)
 		velocity.x *= friction
 		velocity.y *= friction
-		mesh.position.set(mesh.position.x += velocity.x, mesh.position.y += velocity.y)
-		collisionBox.position.set(...mesh.position.toArray())
+		Matter.Body.setVelocity(collisionBox, velocity)
+		mesh.position.x = collisionBox.position.x
+		mesh.position.y = collisionBox.position.y
+		// mesh.position.set(mesh.position.x += velocity.x, mesh.position.y += velocity.y)
+		// collisionBox.position.set(...mesh.position.toArray())
 	}
-	return { mesh, move, update, velocity, name }
+	return { mesh, move, update, velocity, collisionBox }
 }
 export default Character

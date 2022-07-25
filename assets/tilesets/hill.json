@@ -6,11 +6,11 @@
  "name":"hill",
  "spacing":0,
  "tilecount":36,
- "tiledversion":"1.9.0",
+ "tiledversion":"1.8.5",
  "tileheight":16,
  "tiles":[
         {
-         "id":12,
+         "id":1,
          "objectgroup":
             {
              "draworder":"index",
@@ -18,11 +18,253 @@
              "name":"",
              "objects":[
                     {
-                     "class":"",
+                     "height":0,
+                     "id":1,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":16,
+                     "x":0,
+                     "y":0
+                    }, 
+                    {
+                     "height":16,
+                     "id":3,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":0,
+                     "y":0
+                    }, 
+                    {
+                     "height":0,
+                     "id":4,
+                     "name":"",
+                     "polyline":[
+                            {
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "x":5,
+                             "y":-5
+                            }, 
+                            {
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "x":5,
+                             "y":-5
+                            }],
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":1,
+                     "y":5
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":2,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "height":0,
+                     "id":1,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":16,
+                     "x":0,
+                     "y":0
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":3,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "height":16,
+                     "id":1,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":15,
+                     "y":0
+                    }, 
+                    {
+                     "height":0,
+                     "id":3,
+                     "name":"",
+                     "polyline":[
+                            {
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "x":15,
+                             "y":0
+                            }, 
+                            {
+                             "x":0,
+                             "y":0
+                            }],
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":0,
+                     "y":0
+                    }, 
+                    {
+                     "height":0,
+                     "id":4,
+                     "name":"",
+                     "polyline":[
+                            {
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "x":5,
+                             "y":4
+                            }, 
+                            {
+                             "x":0,
+                             "y":0
+                            }],
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":10,
+                     "y":0
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":7,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "height":0,
+                     "id":1,
+                     "name":"",
+                     "polyline":[
+                            {
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "x":0,
+                             "y":16
+                            }, 
+                            {
+                             "x":0,
+                             "y":0
+                            }],
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":1,
+                     "y":0
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":9,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "height":0,
+                     "id":1,
+                     "name":"",
+                     "polyline":[
+                            {
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "x":0,
+                             "y":16
+                            }, 
+                            {
+                             "x":0,
+                             "y":0
+                            }],
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":15,
+                     "y":0
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":12,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "name":"",
+             "objects":[
+                    {
                      "height":11,
                      "id":1,
                      "name":"",
                      "rotation":0,
+                     "type":"",
                      "visible":true,
                      "width":14,
                      "x":1,
@@ -44,13 +286,37 @@
              "name":"",
              "objects":[
                     {
-                     "class":"",
                      "height":11,
                      "id":1,
                      "name":"",
                      "rotation":0,
+                     "type":"",
                      "visible":true,
                      "width":15,
+                     "x":1,
+                     "y":5
+                    }, 
+                    {
+                     "height":0,
+                     "id":2,
+                     "name":"",
+                     "polyline":[
+                            {
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "x":0,
+                             "y":-5
+                            }, 
+                            {
+                             "x":0,
+                             "y":0
+                            }],
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
                      "x":1,
                      "y":5
                     }],
@@ -66,15 +332,14 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
-                     "class":"",
                      "height":11,
                      "id":1,
                      "name":"",
                      "rotation":0,
+                     "type":"",
                      "visible":true,
                      "width":16,
                      "x":0,
@@ -92,19 +357,43 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
+             "id":3,
              "name":"",
              "objects":[
                     {
-                     "class":"",
                      "height":11,
                      "id":1,
                      "name":"",
                      "rotation":0,
+                     "type":"",
                      "visible":true,
                      "width":15,
                      "x":0,
                      "y":5
+                    }, 
+                    {
+                     "height":0,
+                     "id":3,
+                     "name":"",
+                     "polyline":[
+                            {
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "x":0,
+                             "y":5
+                            }, 
+                            {
+                             "x":0,
+                             "y":0
+                            }],
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":0,
+                     "x":15,
+                     "y":0
                     }],
              "opacity":1,
              "type":"objectgroup",
@@ -118,19 +407,70 @@
          "objectgroup":
             {
              "draworder":"index",
-             "id":2,
              "name":"",
              "objects":[
                     {
-                     "class":"",
                      "height":9,
                      "id":1,
                      "name":"",
                      "rotation":0,
+                     "type":"",
                      "visible":true,
                      "width":16,
                      "x":0,
                      "y":7
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":28,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "height":8,
+                     "id":1,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":3,
+                     "x":0,
+                     "y":8
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }, 
+        {
+         "id":29,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":2,
+             "name":"",
+             "objects":[
+                    {
+                     "height":8,
+                     "id":1,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":3,
+                     "x":13,
+                     "y":8
                     }],
              "opacity":1,
              "type":"objectgroup",

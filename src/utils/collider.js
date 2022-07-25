@@ -24,23 +24,23 @@ const collide = {
 
 function collideRect(r1, ratio1 = 1, r2, ratio2 = 1, velocity) {
 
-	if (collide.top(r1, ratio1, r2, ratio2)) {
+	if (collide.top(r1, ratio1, r2, ratio2) && r2.userData?.collideBottom) {
 		r1.position.y = r2.position.y - halfHeight(r2, ratio2) - halfHeight(r1, ratio1)
 		velocity.y = 0
 		return true
 	}
-	if (collide.bottom(r1, ratio1, r2, ratio2)) {
-		r1.position.y = r2.position.y + halfHeight(r2, ratio2) + halfHeight(r1, ratio1)
+	if (collide.bottom(r1, ratio1, r2, ratio2) && r2.userData?.collideTop) {
+		r1.position.y = r2.position.y - halfHeight(r2, ratio2) - halfHeight(r1, ratio1)
 		velocity.y = 0
 		return true
 	}
-	if (collide.left(r1, ratio1, r2, ratio2)) {
+	if (collide.left(r1, ratio1, r2, ratio2) && r2.userData?.collideRight) {
 		r1.position.x = r2.position.x + halfWidth(r2, ratio2) + halfWidth(r1, ratio1)
 		velocity.x = 0
 		return true
 
 	}
-	if (collide.right(r1, ratio1, r2, ratio2)) {
+	if (collide.right(r1, ratio1, r2, ratio2) && r2.userData?.collideLeft) {
 		r1.position.x = r2.position.x - halfWidth(r2, ratio2) - halfWidth(r1, ratio1)
 		velocity.x = 0
 		return true

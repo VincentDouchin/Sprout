@@ -61,11 +61,8 @@ import { collideRect } from './src/utils/collider'
 	const light = new THREE.AmbientLight(0xffffff)
 	scene.add(light)
 	light.position.set(0, 0, 200)
-	// const redlight = new THREE.PointLight(0xff0000, 5)
-	// scene.add(redlight)
-	// redlight.position.set(5, 5, -5)
-	// const pointLightHelper = new THREE.PointLightHelper(redlight, 100);
-	// scene.add(pointLightHelper)
+
+
 	//! Objects
 	const map = getMap('map')
 	scene.add(map.meshTop)
@@ -75,7 +72,7 @@ import { collideRect } from './src/utils/collider'
 	const character = await Character('Amélie')
 
 	scene.add(character.mesh)
-
+	// character.mesh.renderOrder = 2
 	const collisions = []
 
 	//! Physics

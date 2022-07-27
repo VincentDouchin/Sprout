@@ -19,7 +19,6 @@ const Character = async (_name) => {
 	let selectedSprite = 0
 	let animationCounter = 0
 	const spritesNb = 8
-
 	mesh.material.map.repeat.set(1 / tilesNb.horizontal, 1 / tilesNb.vertical)
 	mesh.material.map.offset.set(1 / tilesNb.horizontal, 1 / tilesNb.vertical)
 	const collisionBox = Matter.Bodies.rectangle(0, 0, 16, 16)

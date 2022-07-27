@@ -31,7 +31,6 @@ const getMap = (name) => {
 				const tileObjects = tileset.tiles?.find(t => t.id == tile - tileset.firstgid)?.objectgroup?.objects
 				if (tileObjects) {
 					tileObjects.forEach(tileObject => {
-
 						collisions.push({
 							width: tileObject.width,
 							height: tileObject.height,
@@ -41,7 +40,7 @@ const getMap = (name) => {
 					})
 				}
 				// if (tileObject) debugger
-				buffer.drawImage(tileset.img,
+				selectedBuffer.drawImage(tileset.img,
 					sx, sy, map.tilewidth, map.tileheight,
 					dxCorrected, dyCorrected, tileset.tilewidth, tileset.tileheight
 				)
@@ -50,7 +49,8 @@ const getMap = (name) => {
 
 	})
 
-
+	const meshTop = getPlane({ buffer: bufferTop })
+	const meshBottom = getPlane({ buffer: bufferBottom })
 	// document.body.appendChild(buffer.canvas)
 	return { meshBottom: getPlane({ buffer: bufferBottom }), meshTop: getPlane({ buffer: bufferTop }), collisions }
 }

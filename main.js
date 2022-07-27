@@ -7,7 +7,7 @@ import Character from './src/objects/character'
 import Controller from './src/Controller'
 import keys from './src/keys'
 import Engine from './src/Engine'
-import Matter from 'matter-js'
+import * as planck from 'planck';
 import { Raycaster, Vector3 } from 'three'
 import { isColliding } from './src/utils/collider'
 import { collideRect } from './src/utils/collider'

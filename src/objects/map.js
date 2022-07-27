@@ -10,8 +10,12 @@ const indexToCoord = (index, columns, width, height) => {
 const getMap = (name) => {
 	const map = AssetManager.levels[name]
 	const collisions = []
-	const buffer = Buffer(map.width * map.tilewidth, map.height * map.tileheight)
+	const getMapBuffer = () => Buffer(map.width * map.tilewidth, map.height * map.tileheight)
+	const bufferBottom = getMapBuffer()
+	const bufferTop = getMapBuffer()
 	map.layers.filter(x => x.type == 'tilelayer').forEach(layer => {
+		const selectedBuffer = layer.offsetx == 0 ? bufferTop : bufferBottom
+
 		layer.chunks.forEach(chunk => {
 
 			chunk.data.forEach((tile, tileIndex) => {
@@ -24,15 +28,20 @@ const getMap = (name) => {
 				const dxCorrected = dx + chunk.x * map.tilewidth
 				const dyCorrected = dy + chunk.y * map.tileheight
 
-				const tileObject = tileset.tiles?.find(t => t.id == tile - tileset.firstgid)?.objectgroup.objects[0]
-				if (tileObject) collisions.push({
-					width: tileObject.width,
-					height: tileObject.height,
-					x: dxCorrected + tileObject.x + tileObject.width / 2,
-					y: dyCorrected + tileObject.y + tileObject.height / 2
-				})
+				const tileObjects = tileset.tiles?.find(t => t.id == tile - tileset.firstgid)?.objectgroup?.objects
+				if (tileObjects) {
+					tileObjects.forEach(tileObject => {
+						collisions.push({
+							width: tileObject.width,
+							height: tileObject.height,
+							x: dxCorrected + tileObject.x + tileObject.width / 2,
+							y: dyCorrected + tileObject.y + tileObject.height / 2,
+							properties: tileObject.properties?.reduce((acc, v) => ({ ...acc, [v.name]: v.value }), {}) ?? {}
+						})
+					})
+				}
 				// if (tileObject) debugger
-				buffer.drawImage(tileset.img,
+				selectedBuffer.drawImage(tileset.img,
 					sx, sy, map.tilewidth, map.tileheight,
 					dxCorrected, dyCorrected, tileset.tilewidth, tileset.tileheight
 				)
@@ -41,8 +50,9 @@ const getMap = (name) => {
 
 	})
 
-
+	const meshTop = getPlane({ buffer: bufferTop })
+	const meshBottom = getPlane({ buffer: bufferBottom })
 	// document.body.appendChild(buffer.canvas)
-	return { mesh: getPlane({ buffer }), collisions }
+	return { meshTop, meshBottom, collisions }
 }
 export default getMap

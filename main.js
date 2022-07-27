@@ -59,18 +59,18 @@ import { collideRect } from './src/utils/collider'
 	const light = new THREE.AmbientLight(0xffffff)
 	scene.add(light)
 	light.position.set(0, 0, 200)
-	// const redlight = new THREE.PointLight(0xff0000, 5)
-	// scene.add(redlight)
-	// redlight.position.set(5, 5, -5)
-	// const pointLightHelper = new THREE.PointLightHelper(redlight, 100);
-	// scene.add(pointLightHelper)
+
+
 	//! Objects
 	const map = getMap('map')
-	scene.add(map.mesh)
+	scene.add(map.meshTop)
+	scene.add(map.meshBottom)
+	map.meshTop.renderOrder = 2
+	map.meshBottom.renderOrder = 0
 	const character = await Character('Amélie')
 
 	scene.add(character.mesh)
-
+	// character.mesh.renderOrder = 2
 	const collisions = []
 	map.collisions.forEach(({ width, height, x, y }) => {
 		const geometry = new THREE.PlaneGeometry(width, height)
@@ -79,9 +79,9 @@ import { collideRect } from './src/utils/collider'
 		const plane = new THREE.Mesh(geometry, material)
 		collisions.push(plane)
 		// scene.add(plane)
-		plane.renderOrder = -1
-		plane.position.x = x - map.mesh.geometry.parameters.width / 2
-		plane.position.y = map.mesh.geometry.parameters.height / 2 - y
+		// plane.renderOrder = -1
+		plane.position.x = x - map.meshBottom.geometry.parameters.width / 2
+		plane.position.y = map.meshBottom.geometry.parameters.height / 2 - y
 		plane.position.z = 1
 	})
 
@@ -120,14 +120,14 @@ import { collideRect } from './src/utils/collider'
 			}
 
 			//! Colisions
-			collisions.forEach(obj => {
-				if (isColliding(character.mesh, 3, obj, 1)) {
-					collideRect(character.mesh, 3, obj, 1, character.velocity)
-					obj.material.color = new THREE.Color(0xffffff)
-				}
+			// collisions.forEach(obj => {
+			// 	if (isColliding(character.mesh, 3, obj, 1)) {
+			// 		collideRect(character.mesh, 3, obj, 1, character.velocity)
+			// 		obj.material.color = new THREE.Color(0xffffff)
+			// 	}
 
-			})
-			character.update(clock.getElapsedTime())
+			// })
+			character.update()
 
 
 

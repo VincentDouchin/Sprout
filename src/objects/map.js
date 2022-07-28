@@ -17,7 +17,7 @@ const getMap = (name) => {
 	map.layers.filter(x => x.type == 'tilelayer').forEach(layer => {
 		const buffer = layer.offsetx === 0 ? bufferTop : bufferBottom
 		layer.chunks.forEach(chunk => {
-			const selectedBuffer = layer.offsetx === 0 ? bufferTop : bufferBottom
+
 			chunk.data.forEach((tile, tileIndex) => {
 				if (tile == 0) return
 				const tileset = map.tilesets.find(tileset => tileset.firstgid <= tile && tile <= tileset.firstgid + tileset.tilecount - 1)
@@ -40,7 +40,7 @@ const getMap = (name) => {
 					})
 				}
 				// if (tileObject) debugger
-				selectedBuffer.drawImage(tileset.img,
+				buffer.drawImage(tileset.img,
 					sx, sy, map.tilewidth, map.tileheight,
 					dxCorrected, dyCorrected, tileset.tilewidth, tileset.tileheight
 				)
@@ -52,6 +52,6 @@ const getMap = (name) => {
 	const meshTop = getPlane({ buffer: bufferTop })
 	const meshBottom = getPlane({ buffer: bufferBottom })
 	// document.body.appendChild(buffer.canvas)
-	return { meshBottom: getPlane({ buffer: bufferBottom }), meshTop: getPlane({ buffer: bufferTop }), collisions }
+	return { meshBottom, meshTop, collisions }
 }
 export default getMap

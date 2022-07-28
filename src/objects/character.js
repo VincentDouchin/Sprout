@@ -65,8 +65,7 @@ const Character = async (_name) => {
 		velocity.y *= friction
 		mesh.position.x = collisionBox.position.x
 		mesh.position.y = collisionBox.position.y
-		// mesh.position.set(mesh.position.x += velocity.x, mesh.position.y += velocity.y)
-		// collisionBox.position.set(...mesh.position.toArray())
+
 	}
 	return { mesh, move, update, velocity, }
 }

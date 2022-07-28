@@ -9,13 +9,8 @@ import keys from './src/keys'
 import Engine from './src/Engine'
 import * as planck from 'planck';
 import { Raycaster, Vector3 } from 'three'
-import { isColliding } from './src/utils/collider'
-import { collideRect } from './src/utils/collider'
 (async function () {
 	const engine = Engine()
-
-
-
 
 	//! Camera
 	const frustumSize = 400
@@ -72,42 +67,22 @@ import { collideRect } from './src/utils/collider'
 	const character = await Character('Amélie')
 
 	scene.add(character.mesh)
-	// character.mesh.renderOrder = 2
 	const collisions = []
 
 	//! Physics
 	map.collisions.forEach(({ width, height, x, y }) => {
-		// const geometry = new THREE.PlaneGeometry(width, height)
-		// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
-		// const plane = new THREE.Mesh(geometry, material)
-
-		// // scene.add(plane)
-		// plane.renderOrder = -1
-		// plane.position.x = x - map.mesh.geometry.parameters.width / 2
-		// plane.position.y = map.mesh.geometry.parameters.height / 2 - y
-		// plane.position.z = 1
 		const newX = x - map.meshBottom.geometry.parameters.width / 2
 		const newY = map.meshBottom.geometry.parameters.height / 2 - y
-		if (!width) debugger
-		collisions.push(Matter.Bodies.rectangle(newX, newY, width || 0.5, height || 0.5, { isStatic: true }))
+
 	})
-	const physicsEngine = Matter.Engine.create()
-	physicsEngine.gravity.x = 0
-	physicsEngine.gravity.y = 0
-	// const line = Matter.Bodies.fromVertices(-10, -50, Matter.Vertices.create([{ x: 0, y: 50 }, { x: 0, y: -50 }], Matter.Body))
-	Matter.Composite.add(physicsEngine.world, [...collisions, character.collisionBox]);
-	// const runner = Matter.Runner.create()
-	// Matter.Runner.run(runner, physicsEngine);
-	// Matter.World.add(engine.world, collisions);
-	// Matter.Runner.run(engine);
-	// // Matter.Render.run(render);
+
 	const clock = new THREE.Clock()
 
 
 	const run = {
 		update() {
-			Matter.Engine.update(physicsEngine, clock.getDelta() * 1000)
+
 
 			if (orbitControlsEnabled) {
 				controls.update()
@@ -135,13 +110,6 @@ import { collideRect } from './src/utils/collider'
 			}
 
 			//! Colisions
-			// collisions.forEach(obj => {
-			// 	if (isColliding(character.mesh, 3, obj, 1)) {
-			// 		collideRect(character.mesh, 3, obj, 1, character.velocity)
-			// 		obj.material.color = new THREE.Color(0xffffff)
-			// 	}
-
-			// })
 			character.update()
 
 

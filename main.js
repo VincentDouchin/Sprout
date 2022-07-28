@@ -9,6 +9,7 @@ import Character from './src/objects/character'
 import Controller from './src/Controller'
 import keys from './src/keys'
 import Engine from './src/Engine'
+import * as planck from 'planck';
 import { Raycaster, Vector3 } from 'three'
 import { isColliding } from './src/utils/collider'
 import { collideRect } from './src/utils/collider'
@@ -58,95 +59,59 @@ import { collideRect } from './src/utils/collider'
 	const controls = new OrbitControls(camera, renderer.domElement);
 	const controller = Controller(keys)
 	let orbitControlsEnabled = false
-	// //! Lights
+	//! Lights
 	const light = new THREE.AmbientLight(0xffffff)
 	scene.add(light)
-	// // const redlight = new THREE.PointLight(0xff0000, 5)
-	// // scene.add(redlight)
-	// // redlight.position.set(5, 5, -5)
-	// // const pointLightHelper = new THREE.PointLightHelper(redlight, 100);
-	// // scene.add(pointLightHelper)
-	// //! Objects
+	light.position.set(0, 0, 200)
+
+
+	//! Objects
 	const map = getMap('map')
 	scene.add(map.meshTop)
 	scene.add(map.meshBottom)
-	map.meshTop.renderOrder = 2
 	map.meshBottom.renderOrder = 0
-	window.meshTop = map.meshTop
-	window.meshBottom = map.meshBottom
+	map.meshTop.renderOrder = 2
 	const character = await Character('Amélie')
 
 	scene.add(character.mesh)
+	// character.mesh.renderOrder = 2
+	const collisions = []
 
-	// character.mesh.renderOrder = 1
-	// map.mesh = character.mesh
-	// const collisions = []
+	//! Physics
+	map.collisions.forEach(({ width, height, x, y }) => {
 
-
-	// 
-	// const clock = new THREE.Clock()
-
-
-
-
-	//! Physics 
-	const axesHelper = new THREE.AxesHelper(8);
-	scene.add(axesHelper);
-
-
-	const physicsWorld = new CANNON.World({
-		gravity: new CANNON.Vec3(0, 0, 0),
-	});
-	physicsWorld.defaultContactMaterial.contactEquationStiffness = 1e9
-	const solver = new CANNON.GSSolver()
-	solver.iterations = 1
-	solver.tolerance = 0.1
-	physicsWorld.solver = new CANNON.SplitSolver(solver)
-
-	const physicsMaterial = new CANNON.Material('physics')
-	const physics_physics = new CANNON.ContactMaterial(physicsMaterial, physicsMaterial, {
-		friction: 0.0,
-		restitution: 0,
-	})
-	character.boxBody.material = physicsMaterial
-	character.boxBody.linearDamping = 0
-	const groundBody = new CANNON.Body({
-		type: CANNON.Body.STATIC,
-		// infinte geometric plane
-		shape: new CANNON.Plane(),
-	});
-	physicsWorld.addBody(groundBody);
-	physicsWorld.addBody(character.boxBody)
-	map.collisions.forEach(({ width, height, x, y, properties }) => {
-		const boxBody = new CANNON.Body({
-			mass: 0,
-			shape: new CANNON.Box(new CANNON.Vec3(width / 2, height / 2, 1)),
-			material: physicsMaterial
-		});
-		boxBody.linearDamping = 1
-		boxBody.position.set(x - map.meshBottom.geometry.parameters.width / 2, map.meshBottom.geometry.parameters.height / 2 - y, 0)
-		physicsWorld.addBody(boxBody)
 		// const geometry = new THREE.PlaneGeometry(width, height)
 		// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
 		// const plane = new THREE.Mesh(geometry, material)
-		// plane.userData = properties
-		// collisions.push(plane)
-		// scene.add(plane)
+
+
+		// // scene.add(plane)
 		// plane.renderOrder = -1
-		// plane.position.x = x - map.meshBottom.geometry.parameters.width / 2
-		// plane.position.y = map.meshBottom.geometry.parameters.height / 2 - y
+		// plane.position.x = x - map.mesh.geometry.parameters.width / 2
+		// plane.position.y = map.mesh.geometry.parameters.height / 2 - y
 		// plane.position.z = 1
+		const newX = x - map.meshBottom.geometry.parameters.width / 2
+		const newY = map.meshBottom.geometry.parameters.height / 2 - y
+		if (!width) debugger
+		collisions.push(Matter.Bodies.rectangle(newX, newY, width || 0.5, height || 0.5, { isStatic: true }))
 	})
+	const physicsEngine = Matter.Engine.create()
+	physicsEngine.gravity.x = 0
+	physicsEngine.gravity.y = 0
+	// const line = Matter.Bodies.fromVertices(-10, -50, Matter.Vertices.create([{ x: 0, y: 50 }, { x: 0, y: -50 }], Matter.Body))
+	Matter.Composite.add(physicsEngine.world, [...collisions, character.collisionBox]);
+	// const runner = Matter.Runner.create()
+	// Matter.Runner.run(runner, physicsEngine);
+	// Matter.World.add(engine.world, collisions);
+	// Matter.Runner.run(engine);
+	// // Matter.Render.run(render);
+	const clock = new THREE.Clock()
 
 
-
-	const cannonDebugger = new CannonDebugger(scene, physicsWorld, {
-		color: 0xff0000,
-	});
-
-
-
+	const run = {
+		update() {
+			Matter.Engine.update(physicsEngine, clock.getDelta() * 1000)
 
 
 
@@ -183,14 +148,15 @@ import { collideRect } from './src/utils/collider'
 				character.move('down')
 			}
 
-			// //! Colisions
-			// // collisions.forEach(obj => {
-			// // 	if (isColliding(character.mesh, 3, obj, 1)) {
-			// // 		collideRect(character.mesh, 3, obj, 1, character.velocity)
-			// // 		obj.material.color = new THREE.Color(0xffffff)
-			// // 	}
+			//! Colisions
+			// collisions.forEach(obj => {
+			// 	if (isColliding(character.mesh, 3, obj, 1)) {
+			// 		collideRect(character.mesh, 3, obj, 1, character.velocity)
+			// 		obj.material.color = new THREE.Color(0xffffff)
+			// 	}
 
-			// // })
+			// })
+
 			character.update()
 
 

@@ -52,16 +52,24 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "levels/interior test.json": {
+            "scale": 3,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 23,
+                "y": 68
+            }
+        },
         "levels/map.json": {
             "expandedObjectLayers": [
-                19,
-                18
+                18,
+                19
             ],
-            "scale": 0.5,
-            "selectedLayer": 11,
+            "scale": 0.75,
+            "selectedLayer": 10,
             "viewCenter": {
-                "x": 1592,
-                "y": 1002
+                "x": 2306.6666666666665,
+                "y": 2214.6666666666665
             }
         },
         "mailbox.json": {
@@ -69,6 +77,7 @@
             "scaleInDock": 2,
             "scaleInEditor": 1
         },
+
         "tileset1/interior 2.json": {
             "scaleInDock": 0.75,
             "scaleInEditor": 1
@@ -92,6 +101,7 @@
         "tileset1/interiorB1.json": {
             "scaleInDock": 4,
             "scaleInEditor": 4
+
         },
         "tileset1/interiour 1.json": {
             "scaleInDock": 1,
@@ -116,6 +126,10 @@
         "tilesets/basic furniture.json": {
             "scaleInDock": 3,
             "scaleInEditor": 1
+        },
+        "tilesets/basic interior.json": {
+            "dynamicWrapping": false,
+            "scaleInDock": 4
         },
         "tilesets/basic interiour.json": {
             "scaleInDock": 1,
@@ -162,7 +176,11 @@
             "scaleInDock": 1,
             "scaleInEditor": 5.5
         },
+        "tilesets/house exterior.json": {
+            "scaleInDock": 1
+        },
         "tilesets/house exteriour.json": {
+            "dynamicWrapping": true,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -250,15 +268,23 @@
             "scaleInDock": 4,
             "scaleInEditor": 1
         },
+        "tilesets/interior 0.json": {
+            "scaleInDock": 1
+        },
+        "tilesets/interior 1.json": {
+            "scaleInDock": 4
+        },
         "tilesets/interior 2.json": {
             "scaleInDock": 1.5,
             "scaleInEditor": 3
         },
         "tilesets/interiour 0.json": {
+            "dynamicWrapping": false,
             "scaleInDock": 2,
             "scaleInEditor": 1
         },
         "tilesets/interiour 1.json": {
+            "dynamicWrapping": true,
             "scaleInDock": 2,
             "scaleInEditor": 1
         },

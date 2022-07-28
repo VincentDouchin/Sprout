@@ -1,0 +1,14 @@
+{ "columns":10,
+ "image":"..\/images\/interior free\/interior free.png",
+ "imageheight":80,
+ "imagewidth":160,
+ "margin":0,
+ "name":"interior 0",
+ "spacing":0,
+ "tilecount":50,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

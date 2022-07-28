@@ -165,7 +165,6 @@
                      "visible":true,
                      "width":0,
                      "x":10,
-
                      "y":0
                     }],
              "opacity":1,
@@ -177,7 +176,6 @@
         }, 
         {
          "id":7,
-
          "objectgroup":
             {
              "draworder":"index",
@@ -293,7 +291,6 @@
                      "name":"",
                      "rotation":0,
                      "type":"",
-
                      "visible":true,
                      "width":15,
                      "x":1,
@@ -343,7 +340,6 @@
                      "name":"",
                      "rotation":0,
                      "type":"",
-
                      "visible":true,
                      "width":16,
                      "x":0,
@@ -370,7 +366,6 @@
                      "name":"",
                      "rotation":0,
                      "type":"",
-
                      "visible":true,
                      "width":15,
                      "x":0,

@@ -10521,8 +10521,8 @@
                  "y":64
                 }, 
                 {
-                 "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                 "data":[0, 0, 121, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 193, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -12739,24 +12739,6 @@
                  "width":48,
                  "x":2592,
                  "y":1840
-                }, 
-                {
-                 "class":"",
-                 "gid":1172,
-                 "height":32,
-                 "id":52,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"cut",
-                         "type":"bool",
-                         "value":false
-                        }],
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":1824,
-                 "y":1056
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -12765,7 +12747,7 @@
          "y":0
         }],
  "nextlayerid":23,
- "nextobjectid":56,
+ "nextobjectid":50,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.5",
@@ -12843,10 +12825,6 @@
         {
          "firstgid":1157,
          "source":"..\/tilesets\/wood bridge.json"
-        }, 
-        {
-         "firstgid":1172,
-         "source":"..\/tilesets\/TreesObjects.json"
         }],
  "tilewidth":16,
  "type":"map",

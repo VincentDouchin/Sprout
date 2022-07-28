@@ -33,5 +33,4 @@ const AssetManager = await (async () => {
         }
     }
 })();
-window.AssetManager = AssetManager
 export default AssetManager

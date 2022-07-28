@@ -17,7 +17,7 @@ const getMap = (name) => {
 	map.layers.filter(x => x.type == 'tilelayer').forEach(layer => {
 		const buffer = layer.offsetx === 0 ? bufferTop : bufferBottom
 		layer.chunks.forEach(chunk => {
-
+			const selectedBuffer = layer.offsetx === 0 ? bufferTop : bufferBottom
 			chunk.data.forEach((tile, tileIndex) => {
 				if (tile == 0) return
 				const tileset = map.tilesets.find(tileset => tileset.firstgid <= tile && tile <= tileset.firstgid + tileset.tilecount - 1)

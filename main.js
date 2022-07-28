@@ -11,7 +11,7 @@ import * as planck from 'planck';
 import { Raycaster, Vector3 } from 'three'
 (async function () {
 	const engine = Engine()
-
+	const world = new planck.World({ gravity: planck.Vec2(0, 0) })
 	//! Camera
 	const frustumSize = 400
 	const aspect = window.innerWidth / window.innerHeight
@@ -64,16 +64,29 @@ import { Raycaster, Vector3 } from 'three'
 	scene.add(map.meshBottom)
 	map.meshBottom.renderOrder = 0
 	map.meshTop.renderOrder = 2
-	const character = await Character('Amélie')
+	const character = await Character('Amélie', world)
 
 	scene.add(character.mesh)
-	const collisions = []
 
 	//! Physics
+	const collisionsBody = world.createBody({
+		type: 'static'
+	})
 	map.collisions.forEach(({ width, height, x, y }) => {
+		const geometry = new THREE.PlaneGeometry(width, height)
+		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
+		const plane = new THREE.Mesh(geometry, material)
+
+
+		scene.add(plane)
+		plane.renderOrder = -1
 		const newX = x - map.meshBottom.geometry.parameters.width / 2
 		const newY = map.meshBottom.geometry.parameters.height / 2 - y
+		plane.position.x = newX
+		plane.position.y = newY
+		plane.position.z = 1
+		collisionsBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX - width, newY), 0.0), 0.0);
 
 	})
 
@@ -82,7 +95,7 @@ import { Raycaster, Vector3 } from 'three'
 
 	const run = {
 		update() {
-
+			world.step(100)
 
 			if (orbitControlsEnabled) {
 				controls.update()

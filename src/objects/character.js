@@ -3,9 +3,9 @@ import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
 import * as planck from 'planck'
 import { Box3, BoxHelper, Vector3, Mesh, PlaneGeometry, MeshBasicMaterial } from "three";
-const friction = 0.85
+const friction = 0.50
 
-const Character = async (_name) => {
+const Character = async (_name, world) => {
 	name = _name
 	const img = await AssetManager.load(`${name ? name + ' - ' : ''}Premium Charakter Spritesheet`)
 	const normal = await AssetManager.load('Basic Charakter Spritesheet-normal')
@@ -26,10 +26,16 @@ const Character = async (_name) => {
 
 	const moveForce = 0.25
 	const animations = ['down', 'up', 'left', 'right', ...new Array(20).fill(0)]
-
+	const body = world.createBody({
+		type: 'dynamic',
+		fixedRotation: true,
+		bullet: true,
+		allowSleep: false
+	})
+	body.createFixture(planck.Box(8, 8, planck.Vec2(-30, 0), 0.0), 0.0)
 	const velocity = { x: 0, y: 0 }
 	let direction = 'down'
-	window.mesh = mesh
+
 
 	const move = (_direction) => {
 		direction = _direction
@@ -63,8 +69,12 @@ const Character = async (_name) => {
 		mesh.material.map.offset.set(offsetX, offsetY)
 		velocity.x *= friction
 		velocity.y *= friction
-		mesh.position.x = collisionBox.position.x
-		mesh.position.y = collisionBox.position.y
+
+		body.setLinearVelocity(velocity)
+		const bodyPosition = body.getPosition()
+		mesh.position.x = bodyPosition.x
+		mesh.position.y = bodyPosition.y
+
 
 	}
 	return { mesh, move, update, velocity, }

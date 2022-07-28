@@ -1,6 +1,8 @@
 import './style.css'
 
 import * as THREE from 'three'
+import * as CANNON from 'cannon-es'
+import CannonDebugger from 'cannon-es-debugger'
 import getMap from './src/objects/map'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Character from './src/objects/character'
@@ -18,11 +20,11 @@ import { collideRect } from './src/utils/collider'
 
 
 	//! Camera
-	const frustumSize = 400
+	const frustumSize = 50
 	const aspect = window.innerWidth / window.innerHeight
 	const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 1000)
 	// const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-	camera.position.set(0, 0, 200);
+	camera.position.set(0, 0, 20);
 	window.camera = camera
 	//! Scene
 	const scene = new THREE.Scene()
@@ -77,10 +79,12 @@ import { collideRect } from './src/utils/collider'
 
 	//! Physics
 	map.collisions.forEach(({ width, height, x, y }) => {
+
 		// const geometry = new THREE.PlaneGeometry(width, height)
 		// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
 		// const plane = new THREE.Mesh(geometry, material)
+
 
 		// // scene.add(plane)
 		// plane.renderOrder = -1
@@ -109,6 +113,16 @@ import { collideRect } from './src/utils/collider'
 		update() {
 			Matter.Engine.update(physicsEngine, clock.getDelta() * 1000)
 
+
+
+
+
+	const run = {
+		update() {
+			physicsWorld.fixedStep();
+			cannonDebugger.update();
+			// boxMesh.position.copy(boxBody.position);
+			// boxMesh.quaternion.copy(boxBody.quaternion);
 			if (orbitControlsEnabled) {
 				controls.update()
 			} else {
@@ -142,6 +156,7 @@ import { collideRect } from './src/utils/collider'
 			// 	}
 
 			// })
+
 			character.update()
 
 
@@ -149,7 +164,8 @@ import { collideRect } from './src/utils/collider'
 		},
 		render() {
 			renderer.render(scene, camera)
-
+			cannonDebugger.update();
+			physicsWorld.fixedStep();
 		},
 		set() {
 

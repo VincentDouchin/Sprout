@@ -13,6 +13,7 @@
   "dependencies": {
     "matter-js": "^0.18.0",
     "planck": "^1.0.0-alpha.4",
+
     "three": "^0.142.0"
   }
 }

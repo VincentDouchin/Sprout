@@ -1,0 +1,14 @@
+{ "columns":38,
+ "image":"..\/..\/images\/interior full 1\/furniture\/kitchens_assembled.png",
+ "imageheight":192,
+ "imagewidth":608,
+ "margin":0,
+ "name":"kitchen assembled",
+ "spacing":0,
+ "tilecount":456,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

@@ -1,0 +1,14 @@
+{ "columns":40,
+ "image":"..\/..\/images\/interior full 1\/basics\/wallpapers.png",
+ "imageheight":816,
+ "imagewidth":640,
+ "margin":0,
+ "name":"wall paper",
+ "spacing":0,
+ "tilecount":2040,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

@@ -3,10 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tilesets/interiour B1.json",
+    "activeFile": "levels/house interior.json",
     "expandedProjectPaths": [
-        "tilesets",
         "levels",
+        "tilesets",
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -15,6 +15,14 @@
             "dynamicWrapping": true,
             "scaleInDock": 2,
             "scaleInEditor": 1
+        },
+        "levels/house interior 0.json": {
+            "scale": 4,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 31.125,
+                "y": 70.75
+            }
         },
         "levels/house interior 2.json": {
             "scale": 1.5,
@@ -25,11 +33,11 @@
             }
         },
         "levels/house interior.json": {
-            "scale": 1,
-            "selectedLayer": 6,
+            "scale": 3,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": -125,
-                "y": -248.5
+                "x": 78.33333333333334,
+                "y": 141.66666666666663
             }
         },
         "levels/house interiour.json": {
@@ -69,13 +77,39 @@
             "scaleInDock": 2,
             "scaleInEditor": 1
         },
+
+        "tileset1/interior 2.json": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "tileset1/interior 4.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 2
+        },
+        "tileset1/interior 5.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "tileset1/interior 6.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tileset1/interior 7.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "tileset1/interiorB1.json": {
-            "dynamicWrapping": false,
-            "scaleInDock": 2
+            "scaleInDock": 4,
+            "scaleInEditor": 4
+
         },
         "tileset1/interiour 1.json": {
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "tileset1/intrior 3.json": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 3
         },
         "tilesets/Dirt.tsj": {
             "scaleInDock": 1,
@@ -102,6 +136,10 @@
             "scaleInEditor": 1
         },
         "tilesets/boat.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/chest.json": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -144,6 +182,86 @@
         "tilesets/house exteriour.json": {
             "dynamicWrapping": true,
             "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/basic furniture.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/bathroom.json": {
+            "scaleInDock": 5.5,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/beds.json": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/couch.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/couchetable.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/decoration.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        },
+        "tilesets/house interior 1/kitchen assembled.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/kitchen tile.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 2
+        },
+        "tilesets/house interior 1/rug.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/storage.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/table.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/wall paper.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior 1/wooden house.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior/basic furniture.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior/bathroom.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior/chair.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior/interior 1.json": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior/rug.json": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior/table.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/house interior/wallpaper.json": {
+            "scaleInDock": 3,
             "scaleInEditor": 1
         },
         "tilesets/house.json": {
@@ -233,32 +351,42 @@
         }
     },
     "last.externalTilesetPath": "C:/Users/Vincent/Documents/dev/Sprout/assets/tileset1",
-    "last.imagePath": "C:/Users/Vincent/Documents/dev/Sprout/assets/images/Package 1/rpgmaker",
+    "last.imagePath": "C:/Users/Vincent/Documents/dev/Sprout/assets/images/interior full 1/furniture",
     "map.fixedSize": false,
     "map.lastUsedFormat": "json",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "openFiles": [
-        "levels/house interiour.json",
-        "tilesets/furniture 0.json",
-        "tilesets/house exteriour.json",
-        "tilesets/interiour B1.json",
-        "tilesets/interiour B2.json"
+        "levels/house interior.json",
+        "tilesets/house interior 1/wooden house.json",
+        "tilesets/house interior 1/wall paper.json",
+        "tilesets/house interior 1/beds.json",
+        "tilesets/house interior 1/rug.json",
+        "tilesets/house interior 1/couch.json",
+        "tilesets/house interior 1/table.json",
+        "tilesets/house interior 1/storage.json",
+        "tilesets/house interior 1/basic furniture.json",
+        "tilesets/house interior 1/bathroom.json",
+        "tilesets/house interior 1/decoration.json",
+        "tilesets/house interior 1/kitchen tile.json",
+        "tilesets/house interior 1/couchetable.json",
+        "tilesets/chest.json",
+        "tilesets/house interior 1/kitchen assembled.json"
     ],
     "project": "Sprout-project.tiled-project",
     "recentFiles": [
-        "levels/house interior.json",
-        "levels/map.json",
-        "levels/interior test.json",
-        "tileset1/interiour 1.json",
-        "levels/interior 7.json",
-        "levels/house interiour.json",
-        "tilesets/house exteriour.json",
-        "tilesets/basic interiour.json",
-        "tilesets/interiour 0.json",
-        "tilesets/interiour 1.json",
-        "tilesets/interiour 2.json",
-        "tilesets/interiour 3.json"
+        "tilesets/house interior 1/kitchen assembled.json",
+        "tilesets/chest.json",
+        "tilesets/house interior 1/couchetable.json",
+        "tilesets/house interior 1/kitchen tile.json",
+        "tilesets/house interior 1/decoration.json",
+        "tilesets/house interior 1/bathroom.json",
+        "tilesets/house interior 1/basic furniture.json",
+        "tilesets/house interior 1/storage.json",
+        "tilesets/house interior 1/table.json",
+        "tilesets/house interior 1/couch.json",
+        "tilesets/house interior 1/rug.json",
+        "tilesets/house interior 1/beds.json"
     ],
     "tileset.lastUsedFilter": "All Files (*)",
     "tileset.lastUsedFormat": "json",

@@ -1,0 +1,14 @@
+{ "columns":28,
+ "image":"..\/..\/images\/Interior\/furniture\/tables.png",
+ "imageheight":352,
+ "imagewidth":448,
+ "margin":0,
+ "name":"table",
+ "spacing":0,
+ "tilecount":616,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

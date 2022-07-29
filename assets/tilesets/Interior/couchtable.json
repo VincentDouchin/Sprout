@@ -1,0 +1,14 @@
+{ "columns":20,
+ "image":"..\/..\/images\/Interior\/furniture\/couchtables.png",
+ "imageheight":112,
+ "imagewidth":320,
+ "margin":0,
+ "name":"couchtable",
+ "spacing":0,
+ "tilecount":140,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

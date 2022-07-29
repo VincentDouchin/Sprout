@@ -12695,7 +12695,41 @@
                  "width":16,
                  "x":2304,
                  "y":1984
+                }, 
+                {
+                 "id":61,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"down"
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"file",
+                         "value":"house interior.json"
+                        }],
+                 "template":"..\/object templates\/Teleport.json",
+                 "x":2608,
+                 "y":1552
+                }, 
+                {
+                 "id":62,
+                 "template":"..\/object templates\/Spawn.json",
+                 "x":2544,
+                 "y":1552
                 }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":23,
+         "name":"teleports",
+         "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -12746,8 +12780,16 @@
          "x":0,
          "y":0
         }],
+<<<<<<< HEAD
+ "nextlayerid":24,
+ "nextobjectid":87,
+=======
  "nextlayerid":23,
  "nextobjectid":50,
+<<<<<<< HEAD
+>>>>>>> 532ce1da9f821b78687760728197ed2674844a3b
+=======
+>>>>>>> 532ce1da9f821b78687760728197ed2674844a3b
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.5",

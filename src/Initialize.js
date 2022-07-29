@@ -1,6 +1,7 @@
 import * as planck from 'planck';
 
 import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 //! Camera
 const frustumSize = 200
 const aspect = window.innerWidth / window.innerHeight
@@ -39,7 +40,17 @@ window.addEventListener('resize', () => {
 })
 //! Controls
 
+const controls = new OrbitControls(camera, renderer.domElement);
+function animate() {
 
+	requestAnimationFrame(animate);
+
+	// required if controls.enableDamping or controls.autoRotate are set to true
+	controls.update();
+
+
+}
+animate()
 
 //! World
 const world = new planck.World({ gravity: planck.Vec2(0, 0) })

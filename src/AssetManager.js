@@ -12,8 +12,8 @@ const loadImage = (path) => new Promise((resolve, reject) => {
     image.onerror = () => reject(image)
 })
 const AssetManager = await (async () => {
-    const sourceLevels = import.meta.globEager('../assets/levels/*.json')
-    const sourceTilesets = import.meta.globEager('../assets/tilesets/*.json')
+    const sourceLevels = import.meta.globEager('../assets/levels/**/*.json')
+    const sourceTilesets = import.meta.globEager('../assets/tilesets/**/*.*')
     const sourceImages = import.meta.globEager('../assets/images/**/*.png')
     const sourceTemplates = import.meta.globEager('../assets/object templates/**/*.json')
 

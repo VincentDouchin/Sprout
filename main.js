@@ -18,7 +18,8 @@ light.position.set(0, 0, 200)
 
 
 //! Objects
-const map = getMap('map')
+const map = getMap('house1')
+
 scene.add(map.meshTop)
 scene.add(map.meshBottom)
 map.meshBottom.renderOrder = 0
@@ -32,7 +33,7 @@ const collisionsBody = world.createBody({
 	type: 'static',
 	position: { x: 0, y: 0 }
 })
-map.collisions.forEach(({ width, height, x, y }, i) => {
+map.collisions.forEach(({ width, height, x, y }) => {
 	const newX = x - map.meshBottom.geometry.parameters.width / 2
 	const newY = map.meshBottom.geometry.parameters.height / 2 - y
 	collisionsBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0), 0.0);
@@ -42,19 +43,36 @@ const teleportBody = world.createBody({
 	type: 'static',
 	position: { x: 0, y: 0 }
 })
-map.teleports.forEach(({ width, height, x, y }) => {
+map.teleports.forEach(({ width, height, x, y, properties },) => {
+
 	const newX = x - map.meshBottom.geometry.parameters.width / 2
 	const newY = map.meshBottom.geometry.parameters.height / 2 - y
-	teleportBody.createFixture(planck.Box(width / 2, height / 2, { x: newX, newY }, 0), 0)
+	const geometry = new THREE.PlaneGeometry(width, height)
+	const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+
+	const plane = new THREE.Mesh(geometry, material)
+
+
+	scene.add(plane)
+	plane.renderOrder = -1
+	plane.position.x = newX
+	plane.position.y = newY
+	plane.position.z = 1
+	const fixture = teleportBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0), 0)
+	fixture.setUserData(properties)
 })
 const clock = new THREE.Clock()
 const controller = Controller(keys)
-
+window.world = world
 const run = {
 	update() {
 		world.step(clock.getDelta() * 1000)
 
+		world.on('begin-contact', contact => {
+			if (contact.getFixtureB().getUserData().type == 'teleport') {
 
+			}
+		})
 		camera.position.x = character.mesh.position.x
 		camera.position.y = character.mesh.position.y
 		camera.lookAt(character.mesh.position)

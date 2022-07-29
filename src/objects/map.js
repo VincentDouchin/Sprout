@@ -33,7 +33,7 @@ const getMap = (name) => {
 				if (tileObjects) {
 					tileObjects.forEach(tileObject => {
 						collisions.push({
-							width: assignObjectProps.width,
+							width: tileObject.width,
 							height: tileObject.height,
 							x: dxCorrected + tileObject.x + tileObject.width / 2,
 							y: dyCorrected + tileObject.y + tileObject.height / 2,
@@ -52,7 +52,7 @@ const getMap = (name) => {
 	const teleports = map.layers.find(x => x.name == 'teleports').objects.map(object => ({
 		...object,
 		...AssetManager.templates.teleport.default.object,
-		properties: assignObjectProps(object)
+		properties: { ...assignObjectProps(object), type: 'teleport' }
 	}))
 
 

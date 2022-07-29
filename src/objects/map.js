@@ -10,12 +10,12 @@ const indexToCoord = (index, columns, width, height) => {
 const getMap = (name) => {
 	const map = AssetManager.levels[name]
 	const collisions = []
-	const getBuffer = () => Buffer(map.width * map.tilewidth, map.height * map.tileheight)
-	const bufferBottom = getBuffer()
-	const bufferTop = getBuffer()
-
+	const getMapBuffer = () => Buffer(map.width * map.tilewidth, map.height * map.tileheight)
+	const bufferBottom = getMapBuffer()
+	const bufferTop = getMapBuffer()
 	map.layers.filter(x => x.type == 'tilelayer').forEach(layer => {
-		const buffer = layer.offsetx === 0 ? bufferTop : bufferBottom
+		const selectedBuffer = layer.offsetx == 0 ? bufferTop : bufferBottom
+
 		layer.chunks.forEach(chunk => {
 
 			chunk.data.forEach((tile, tileIndex) => {
@@ -35,12 +35,13 @@ const getMap = (name) => {
 							width: tileObject.width,
 							height: tileObject.height,
 							x: dxCorrected + tileObject.x + tileObject.width / 2,
-							y: dyCorrected + tileObject.y + tileObject.height / 2
+							y: dyCorrected + tileObject.y + tileObject.height / 2,
+							properties: tileObject.properties?.reduce((acc, v) => ({ ...acc, [v.name]: v.value }), {}) ?? {}
 						})
 					})
 				}
 				// if (tileObject) debugger
-				buffer.drawImage(tileset.img,
+				selectedBuffer.drawImage(tileset.img,
 					sx, sy, map.tilewidth, map.tileheight,
 					dxCorrected, dyCorrected, tileset.tilewidth, tileset.tileheight
 				)
@@ -49,9 +50,8 @@ const getMap = (name) => {
 
 	})
 
-	const meshTop = getPlane({ buffer: bufferTop })
-	const meshBottom = getPlane({ buffer: bufferBottom })
+
 	// document.body.appendChild(buffer.canvas)
-	return { meshBottom, meshTop, collisions }
+	return { meshTop: getPlane({ buffer: bufferTop }), meshBottom: getPlane({ buffer: bufferBottom }), collisions }
 }
 export default getMap

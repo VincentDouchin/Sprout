@@ -1,23 +1,29 @@
 import './style.css'
 
 import * as THREE from 'three'
+import * as CANNON from 'cannon-es'
+import CannonDebugger from 'cannon-es-debugger'
 import getMap from './src/objects/map'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Character from './src/objects/character'
 import Controller from './src/Controller'
 import keys from './src/keys'
 import Engine from './src/Engine'
-import * as planck from 'planck';
 import { Raycaster, Vector3 } from 'three'
+import { isColliding } from './src/utils/collider'
+import { collideRect } from './src/utils/collider'
 (async function () {
 	const engine = Engine()
-	const world = new planck.World({ gravity: planck.Vec2(0, 0) })
+
+
+
+
 	//! Camera
 	const frustumSize = 200
 	const aspect = window.innerWidth / window.innerHeight
 	const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 1000)
 	// const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-	camera.position.set(0, 0, 200);
+	camera.position.set(0, 0, 20);
 	window.camera = camera
 	//! Scene
 	const scene = new THREE.Scene()
@@ -52,19 +58,23 @@ import { Raycaster, Vector3 } from 'three'
 	const controls = new OrbitControls(camera, renderer.domElement);
 	const controller = Controller(keys)
 	let orbitControlsEnabled = false
-	//! Lights
+	// //! Lights
 	const light = new THREE.AmbientLight(0xffffff)
 	scene.add(light)
-	light.position.set(0, 0, 200)
-
-
-	//! Objects
+	// // const redlight = new THREE.PointLight(0xff0000, 5)
+	// // scene.add(redlight)
+	// // redlight.position.set(5, 5, -5)
+	// // const pointLightHelper = new THREE.PointLightHelper(redlight, 100);
+	// // scene.add(pointLightHelper)
+	// //! Objects
 	const map = getMap('map')
 	scene.add(map.meshTop)
 	scene.add(map.meshBottom)
-	map.meshBottom.renderOrder = 0
 	map.meshTop.renderOrder = 2
-	const character = await Character('Amélie', world)
+	map.meshBottom.renderOrder = 0
+	window.meshTop = map.meshTop
+	window.meshBottom = map.meshBottom
+	const character = await Character('Amélie')
 
 	scene.add(character.mesh)
 
@@ -89,15 +99,35 @@ import { Raycaster, Vector3 } from 'three'
 		// plane.position.z = 1
 		collisionsBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0), 0.0);
 
+		// const plane = new THREE.Mesh(geometry, material)
+		// plane.userData = properties
+		// collisions.push(plane)
+		// scene.add(plane)
+		// plane.renderOrder = -1
+		// plane.position.x = x - map.meshBottom.geometry.parameters.width / 2
+		// plane.position.y = map.meshBottom.geometry.parameters.height / 2 - y
+		// plane.position.z = 1
 	})
 
-	const clock = new THREE.Clock()
+
+
+	const cannonDebugger = new CannonDebugger(scene, physicsWorld, {
+		color: 0xff0000,
+	});
+
+
+
+
+
+
 
 
 	const run = {
 		update() {
-			world.step(100)
-
+			physicsWorld.fixedStep();
+			cannonDebugger.update();
+			// boxMesh.position.copy(boxBody.position);
+			// boxMesh.quaternion.copy(boxBody.quaternion);
 			if (orbitControlsEnabled) {
 				controls.update()
 			} else {
@@ -123,7 +153,14 @@ import { Raycaster, Vector3 } from 'three'
 				character.move('down')
 			}
 
-			//! Colisions
+			// //! Colisions
+			// // collisions.forEach(obj => {
+			// // 	if (isColliding(character.mesh, 3, obj, 1)) {
+			// // 		collideRect(character.mesh, 3, obj, 1, character.velocity)
+			// // 		obj.material.color = new THREE.Color(0xffffff)
+			// // 	}
+
+			// // })
 			character.update()
 
 
@@ -131,7 +168,8 @@ import { Raycaster, Vector3 } from 'three'
 		},
 		render() {
 			renderer.render(scene, camera)
-
+			cannonDebugger.update();
+			physicsWorld.fixedStep();
 		},
 		set() {
 

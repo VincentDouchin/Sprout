@@ -30,9 +30,10 @@ const Character = async (_name, world) => {
 		type: 'dynamic',
 		fixedRotation: true,
 		bullet: true,
-		allowSleep: false
+		allowSleep: false,
+		position: { x: -100, y: 0 }
 	})
-	body.createFixture(planck.Box(8, 8, planck.Vec2(-30, 0), 0.0), 0.0)
+	body.createFixture(planck.Box(8, 8, planck.Vec2(0, 0), 0.0), 0.0)
 	const velocity = { x: 0, y: 0 }
 	let direction = 'down'
 
@@ -63,7 +64,7 @@ const Character = async (_name, world) => {
 			animationCounter = 0
 			selectedSprite = (selectedSprite + 1) % spritesNb
 		}
-		const moving = Math.abs(velocity.x) > 1 || Math.abs(velocity.y) > 1
+		const moving = Math.abs(velocity.x) > moveForce || Math.abs(velocity.y) > moveForce
 		const offsetY = 1 - ((animations.findIndex(animation => animation == direction) + 1) / animations.length)
 		const offsetX = moving ? selectedSprite / tilesNb.horizontal : 0
 		mesh.material.map.offset.set(offsetX, offsetY)

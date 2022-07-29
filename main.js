@@ -13,7 +13,7 @@ import { Raycaster, Vector3 } from 'three'
 	const engine = Engine()
 	const world = new planck.World({ gravity: planck.Vec2(0, 0) })
 	//! Camera
-	const frustumSize = 400
+	const frustumSize = 200
 	const aspect = window.innerWidth / window.innerHeight
 	const camera = new THREE.OrthographicCamera(frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 1, 1000)
 	// const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -70,23 +70,24 @@ import { Raycaster, Vector3 } from 'three'
 
 	//! Physics
 	const collisionsBody = world.createBody({
-		type: 'static'
+		type: 'static',
+		position: { x: 0, y: 0 }
 	})
 	map.collisions.forEach(({ width, height, x, y }) => {
-		const geometry = new THREE.PlaneGeometry(width, height)
-		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+		// const geometry = new THREE.PlaneGeometry(width, height)
+		// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
-		const plane = new THREE.Mesh(geometry, material)
+		// const plane = new THREE.Mesh(geometry, material)
 
 
-		scene.add(plane)
-		plane.renderOrder = -1
+		// scene.add(plane)
+		// plane.renderOrder = -1
 		const newX = x - map.meshBottom.geometry.parameters.width / 2
 		const newY = map.meshBottom.geometry.parameters.height / 2 - y
-		plane.position.x = newX
-		plane.position.y = newY
-		plane.position.z = 1
-		collisionsBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX - width, newY), 0.0), 0.0);
+		// plane.position.x = newX
+		// plane.position.y = newY
+		// plane.position.z = 1
+		collisionsBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0), 0.0);
 
 	})
 

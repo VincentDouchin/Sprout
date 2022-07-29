@@ -2,15 +2,16 @@ import getPlane from "./plane";
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
 import * as planck from 'planck'
+import { world } from '../../src/Initialize'
 import { Box3, BoxHelper, Vector3, Mesh, PlaneGeometry, MeshBasicMaterial } from "three";
 const friction = 0.50
 
-const Character = async (_name, world) => {
-	name = _name
+const Character = async (_name) => {
+	const name = _name
 	const img = await AssetManager.load(`${name ? name + ' - ' : ''}Premium Charakter Spritesheet`)
 	const normal = await AssetManager.load('Basic Charakter Spritesheet-normal')
 	const tileSize = 48
-	const tilesNb = { vertical: img.height / 48, horizontal: img.width / 48 }
+	const tilesNb = { vertical: img.height / tileSize, horizontal: img.width / tileSize }
 	const buffer = Buffer(img.width, img.height)
 	const bufferNormal = Buffer(normal.width, normal.height)
 	buffer.drawImage(img, 0, 0)
@@ -25,7 +26,11 @@ const Character = async (_name, world) => {
 	mesh.renderOrder = 1
 
 	const moveForce = 0.25
-	const animations = ['down', 'up', 'left', 'right', ...new Array(20).fill(0)]
+	const animations = {
+		idle: { down: 0, up: 1, left: 2, right: 3 },
+		moving: { down: 4, up: 5, right: 6, left: 7 },
+
+	}
 	const body = world.createBody({
 		type: 'dynamic',
 		fixedRotation: true,
@@ -63,9 +68,10 @@ const Character = async (_name, world) => {
 			animationCounter = 0
 			selectedSprite = (selectedSprite + 1) % spritesNb
 		}
-		const moving = Math.abs(velocity.x) > moveForce || Math.abs(velocity.y) > moveForce
-		const offsetY = 1 - ((animations.findIndex(animation => animation == direction) + 1) / animations.length)
-		const offsetX = moving ? selectedSprite / tilesNb.horizontal : 0
+		const moving = Math.abs(velocity.x) > moveForce || Math.abs(velocity.y) > moveForce ? 'moving' : 'idle'
+		// const offsetY = 1 - ((animations.findIndex(animation => animation == direction) + 1 + moving) / animations.length)
+		const offsetY = 1 - ((animations[moving][direction] + 1) / tilesNb.vertical)
+		const offsetX = selectedSprite / tilesNb.horizontal
 		mesh.material.map.offset.set(offsetX, offsetY)
 		velocity.x *= friction
 		velocity.y *= friction
@@ -77,6 +83,6 @@ const Character = async (_name, world) => {
 
 
 	}
-	return { mesh, move, update, velocity, }
+	return { mesh, move, update, velocity, body }
 }
 export default Character

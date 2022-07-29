@@ -13,6 +13,7 @@ const getMap = (name) => {
 	const getMapBuffer = () => Buffer(map.width * map.tilewidth, map.height * map.tileheight)
 	const bufferBottom = getMapBuffer()
 	const bufferTop = getMapBuffer()
+
 	map.layers.filter(x => x.type == 'tilelayer').forEach(layer => {
 		const selectedBuffer = layer.offsetx == 0 ? bufferTop : bufferBottom
 

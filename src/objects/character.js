@@ -1,7 +1,7 @@
 import getPlane from "./plane";
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
-import * as CANNON from 'cannon-es'
+import * as planck from 'planck'
 
 import { Box3, BoxHelper, Vector3, Mesh, PlaneGeometry, MeshBasicMaterial } from "three";
 const friction = 0.9

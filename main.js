@@ -1,17 +1,14 @@
 import './style.css'
 
 import * as THREE from 'three'
-import * as CANNON from 'cannon-es'
-import CannonDebugger from 'cannon-es-debugger'
 import getMap from './src/objects/map'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Character from './src/objects/character'
 import Controller from './src/Controller'
 import keys from './src/keys'
 import Engine from './src/Engine'
+import * as planck from 'planck'
 import { Raycaster, Vector3 } from 'three'
-import { isColliding } from './src/utils/collider'
-import { collideRect } from './src/utils/collider'
 (async function () {
 	const engine = Engine()
 
@@ -61,11 +58,7 @@ import { collideRect } from './src/utils/collider'
 	// //! Lights
 	const light = new THREE.AmbientLight(0xffffff)
 	scene.add(light)
-	// // const redlight = new THREE.PointLight(0xff0000, 5)
-	// // scene.add(redlight)
-	// // redlight.position.set(5, 5, -5)
-	// // const pointLightHelper = new THREE.PointLightHelper(redlight, 100);
-	// // scene.add(pointLightHelper)
+
 	// //! Objects
 	const map = getMap('map')
 	scene.add(map.meshTop)
@@ -111,9 +104,7 @@ import { collideRect } from './src/utils/collider'
 
 
 
-	const cannonDebugger = new CannonDebugger(scene, physicsWorld, {
-		color: 0xff0000,
-	});
+
 
 
 
@@ -166,8 +157,7 @@ import { collideRect } from './src/utils/collider'
 		},
 		render() {
 			renderer.render(scene, camera)
-			cannonDebugger.update();
-			physicsWorld.fixedStep();
+
 		},
 		set() {
 

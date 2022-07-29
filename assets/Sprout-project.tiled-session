@@ -24,8 +24,8 @@
             "scale": 3,
             "selectedLayer": 12,
             "viewCenter": {
-                "x": -5.5,
-                "y": 93.83333333333334
+                "x": -94.16666666666666,
+                "y": 119.66666666666667
             }
         },
         "levels/house interior 2.json": {
@@ -44,7 +44,7 @@
             "selectedLayer": 12,
             "viewCenter": {
                 "x": 127.5,
-                "y": 108.83333333333331
+                "y": 113.66666666666667
             }
         },
         "levels/house interiour.json": {
@@ -68,8 +68,8 @@
             "scale": 3,
             "selectedLayer": 19,
             "viewCenter": {
-                "x": 2270.1666666666665,
-                "y": 1706.6666666666665
+                "x": 2519.5,
+                "y": 1572
             }
         },
         "mailbox.json": {
@@ -354,6 +354,7 @@
             "scaleInEditor": 1
         }
     },
+    "last.imagePath": "C:/Users/Vincent/Documents/dev/Sprout/assets/images/interior full 1/furniture",
     "openFiles": [
         "levels/house interior 1.json",
         "levels/house interior.json",

@@ -6,7 +6,7 @@ const indexToCoord = (index, columns, width, height) => {
 	height = height ?? width
 	return [index % columns * width, Math.floor(index / columns) * height]
 }
-
+const assignObjectProps = tileObject => tileObject.properties?.reduce((acc, v) => ({ ...acc, [v.name]: v.value }), {}) ?? {}
 const getMap = (name) => {
 	const map = AssetManager.levels[name]
 	const collisions = []
@@ -33,15 +33,14 @@ const getMap = (name) => {
 				if (tileObjects) {
 					tileObjects.forEach(tileObject => {
 						collisions.push({
-							width: tileObject.width,
+							width: assignObjectProps.width,
 							height: tileObject.height,
 							x: dxCorrected + tileObject.x + tileObject.width / 2,
 							y: dyCorrected + tileObject.y + tileObject.height / 2,
-							properties: tileObject.properties?.reduce((acc, v) => ({ ...acc, [v.name]: v.value }), {}) ?? {}
+							properties: assignObjectProps(tileObject)
 						})
 					})
 				}
-				// if (tileObject) debugger
 				selectedBuffer.drawImage(tileset.img,
 					sx, sy, map.tilewidth, map.tileheight,
 					dxCorrected, dyCorrected, tileset.tilewidth, tileset.tileheight
@@ -50,9 +49,14 @@ const getMap = (name) => {
 		})
 
 	})
+	const teleports = map.layers.find(x => x.name == 'teleports').objects.map(object => ({
+		...object,
+		...AssetManager.templates.teleport.default.object,
+		properties: assignObjectProps(object)
+	}))
 
 
 	// document.body.appendChild(buffer.canvas)
-	return { meshTop: getPlane({ buffer: bufferTop }), meshBottom: getPlane({ buffer: bufferBottom }), collisions }
+	return { meshTop: getPlane({ buffer: bufferTop }), meshBottom: getPlane({ buffer: bufferBottom }), collisions, teleports }
 }
 export default getMap

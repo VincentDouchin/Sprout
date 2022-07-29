@@ -35,8 +35,8 @@ const Character = async (_name) => {
 		type: 'dynamic',
 		fixedRotation: true,
 		bullet: true,
-		allowSleep: false,
-		position: { x: -100, y: 0 }
+		allowSleep: true,
+		position: { x: 1000, y: -200 }
 	})
 	body.createFixture(planck.Box(8, 8, planck.Vec2(0, 0), 0.0), 0.0)
 	const velocity = { x: 0, y: 0 }

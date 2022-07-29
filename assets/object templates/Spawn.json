@@ -1,0 +1,23 @@
+{ "object":
+    {
+     "class":"",
+     "height":16,
+     "id":62,
+     "name":"Spawn",
+     "properties":[
+            {
+             "name":"Amount",
+             "type":"int",
+             "value":1
+            }, 
+            {
+             "name":"Entity",
+             "type":"string",
+             "value":"Player"
+            }],
+     "rotation":0,
+     "visible":true,
+     "width":16
+    },
+ "type":"template"
+}

@@ -96,7 +96,7 @@ import { Raycaster, Vector3 } from 'three'
 
 	const run = {
 		update() {
-			world.step(100)
+			world.step(clock.getDelta() * 1000)
 
 			if (orbitControlsEnabled) {
 				controls.update()

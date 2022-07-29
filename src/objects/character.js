@@ -55,7 +55,6 @@ const Character = async (_name, world) => {
 
 			}; break
 		}
-
 	}
 
 	const update = () => {

@@ -1,0 +1,14 @@
+{ "columns":270,
+ "image":"..\/..\/images\/Interior\/furniture\/curtains.png",
+ "imageheight":1024,
+ "imagewidth":4320,
+ "margin":0,
+ "name":"curtain",
+ "spacing":0,
+ "tilecount":17280,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

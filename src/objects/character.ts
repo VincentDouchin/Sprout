@@ -61,7 +61,7 @@ const Character = async (_name) => {
 			}; break
 		}
 	}
-
+	let canTeleport = true
 	const update = () => {
 		animationCounter++
 		if (animationCounter > 4) {
@@ -83,6 +83,10 @@ const Character = async (_name) => {
 
 
 	}
-	return { mesh, move, update, velocity, body }
+	const teleport = (position: planck.Vec2) => {
+		body.setPosition(position)
+	}
+
+	return { mesh, move, update, velocity, body, canTeleport, teleport }
 }
 export default Character

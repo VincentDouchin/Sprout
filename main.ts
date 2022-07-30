@@ -32,22 +32,40 @@ scene.add(character.mesh)
 
 const clock = new THREE.Clock()
 const controller = Controller(keys)
-const lastTeleport = null
+let lastTeleport = null
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 const run = {
 	update() {
 		world.step(clock.getDelta() * 1000)
 
 		world.on('begin-contact', contact => {
-
 			const contactData: any[] = [contact.getFixtureA(), contact.getFixtureB()].map(fixture => fixture.getUserData())
-			const teleport: teleport = contactData.find(x => x?.type == 'teleport')
-			if (teleport) {
-				if (map.loaded) map.unLoad()
-				const from: string | null = teleport?.from?.split('.').at(-2)
-				map = getMap(from)
+			if (character.canTeleport) {
+				lastTeleport = contactData.find(x => x?.type == 'teleport')
 			}
-
 		})
+		world.on('end-contact', contact => {
+			const contactData: any[] = [contact.getFixtureA(), contact.getFixtureB()].map(fixture => fixture.getUserData())
+			if (contactData.some(x => x?.type == 'teleport')) {
+				// lastTeleport = null
+				character.canTeleport = true
+			}
+		})
+
+		if (lastTeleport && character.canTeleport) {
+			if (map.loaded) map.unLoad()
+
+			const from = lastTeleport?.from?.split('.').at(-2)
+			console.log({ lastTeleport })
+			map = getMap(from)
+			const newTeleport = map.getTeleport(from)
+			console.log(newTeleport)
+			character.move(newTeleport.direction)
+			character.teleport(newTeleport.position)
+			character.canTeleport = false
+			lastTeleport = null
+
+		}
 		camera.position.x = character.mesh.position.x
 		camera.position.y = character.mesh.position.y
 		camera.lookAt(character.mesh.position)

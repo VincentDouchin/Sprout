@@ -46,4 +46,4 @@ animate()
 const world = new planck.World({ gravity: planck.Vec2(0, 0) })
 
 const render = () => renderer.render(scene, camera)
-export { render, world, scene, camera }
+export { render, world, scene, camera, }

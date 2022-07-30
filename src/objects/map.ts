@@ -3,7 +3,7 @@ import Buffer from "../utils/buffer";
 import getPlane from "./plane";
 import * as planck from 'planck'
 import * as THREE from 'three'
-import { world, scene } from '../Initialize'
+import { world, scene, } from '../Initialize'
 
 //! Types
 interface collision {
@@ -14,12 +14,12 @@ interface collision {
 	properties: any;
 }
 
-const indexToCoord = (index, columns, width, height) => {
+const indexToCoord = (index: number, columns: number, width: number, height: number) => {
 	height = height ?? width
 	return [index % columns * width, Math.floor(index / columns) * height]
 }
-const assignObjectProps = tileObject => tileObject.properties?.reduce((acc, v) => ({ ...acc, [v.name]: v.value }), {}) ?? {}
-const getMap = (name) => {
+const assignObjectProps = (tileObject: any) => tileObject.properties?.reduce((acc: any, v: any) => ({ ...acc, [v.name]: v.value }), {}) ?? {}
+const getMap = (name: string) => {
 
 
 	const map = AssetManager.levels[name]
@@ -66,7 +66,7 @@ const getMap = (name) => {
 
 	})
 	//! Teleports
-	const teleports = map.layers.find((x: any) => x.name == 'teleports').objects.map(object => ({
+	const teleports = map.layers.find((x: any) => x.name == 'teleports').objects.map((object: any) => ({
 		...object,
 		...AssetManager.templates.teleport.default.object,
 		properties: { ...assignObjectProps(object), type: 'teleport' }
@@ -79,52 +79,63 @@ const getMap = (name) => {
 
 	scene.add(meshTop)
 	scene.add(meshBottom)
-	// document.body.appendChild(buffer.canvas)
 
 	//! Add collisions
-	const collisionsBody = world.createBody({
+	const bodies: planck.Body[] = []
+	const collisionBody = world.createBody({
 		type: 'static',
 		position: planck.Vec2(0, 0)
 	})
+	bodies.push(collisionBody)
 	collisions.forEach(({ width, height, x, y }) => {
 		const newX = x - map.width * map.tilewidth / 2
 		const newY = map.height * map.tileheight / 2 - y
-		collisionsBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0), 0.0);
+		collisionBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0), 0.0)
+
 	})
 
 	//! Add teleports
-	const teleportBody = world.createBody({
-		type: 'static',
-		position: planck.Vec2(0, 0)
-	})
 
-	teleports.forEach(({ width, height, x, y, properties },) => {
 
+
+
+	const mapTeleports = []
+	teleports.forEach(({ width, height, x, y, properties }) => {
 		const newX = x - map.width * map.tilewidth / 2
 		const newY = map.height * map.tileheight / 2 - y
-		const geometry = new THREE.PlaneGeometry(width, height)
-		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+		const position = planck.Vec2(newX, newY)
+		const teleportBody = world.createBody({
+			type: 'static',
+			position
+		})
+		bodies.push(teleportBody)
+		// const geometry = new THREE.PlaneGeometry(width, height)
+		// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
-		const plane = new THREE.Mesh(geometry, material)
+		// const plane = new THREE.Mesh(geometry, material)
 
 
-		scene.add(plane)
-		plane.renderOrder = -1
-		plane.position.x = newX
-		plane.position.y = newY
-		plane.position.z = 1
-		const teleport = teleportBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0), 0)
-
-		teleport.setUserData(properties)
-
+		// scene.add(plane)
+		// plane.renderOrder = -1
+		// plane.position.x = newX
+		// plane.position.y = newY
+		// plane.position.z = 1
+		const teleport = teleportBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(0, 0), 0), 0)
+		teleport.setUserData({ ...properties, position })
+		mapTeleports.push(teleport)
 	})
+
 	let loaded = true
-	const unLoad = () => {
+	const getTeleport = (name: string) => {
 		debugger
+		return mapTeleports.find(fixture => fixture.getUserData().name == name)?.getUserData()
+	}
+	const unLoad = () => {
+		bodies.forEach(body => world.destroyBody(body))
 		scene.remove(scene.getObjectById(meshBottom.id))
 		scene.remove(scene.getObjectById(meshTop.id))
 		loaded = false
 	}
-	return { meshTop: meshTop, meshBottom: meshBottom, collisions, teleports, unLoad, loaded }
+	return { meshTop: meshTop, meshBottom: meshBottom, collisions, getTeleport, unLoad, loaded }
 }
 export default getMap

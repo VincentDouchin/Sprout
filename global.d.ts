@@ -8,7 +8,8 @@ interface teleport {
 	type: string
 }
 interface UIModule {
-	mesh: THREE.Mesh
+	mesh: THREE.Group
 	position: string
 	name: string
+	click: Function
 }

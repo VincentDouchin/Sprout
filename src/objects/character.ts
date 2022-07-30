@@ -46,7 +46,7 @@ const Character = (_name: string) => {
 	let direction = 'down'
 
 	//! Items
-	const items = [{ category: 'seed', type: 'maize' }, { category: 'tool', type: 'axe' }]
+	const items = [{ category: 'seed', type: 'maize' }, { category: 'tool', type: 'hoe' }]
 	//! Move
 	const move = (_direction: string) => {
 		direction = _direction

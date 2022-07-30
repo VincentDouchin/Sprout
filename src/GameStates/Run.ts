@@ -91,8 +91,9 @@ const Run = () => {
 		//+ Render
 		render() {
 			render()
-
+			renderer.autoClear = false
 			UIManager.render()
+			renderer.autoClear = true
 
 		},
 		//+Set

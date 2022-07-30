@@ -372,11 +372,11 @@
          "id":4,
          "name":"side wall 2",
          "opacity":1,
-         "startx":-16,
+         "startx":0,
          "starty":-16,
          "type":"tilelayer",
          "visible":true,
-         "width":32,
+         "width":16,
          "x":0,
          "y":0
         }, 
@@ -426,7 +426,7 @@
                  "x":0,
                  "y":-16
                 }],
-         "height":32,
+         "height":16,
          "id":7,
          "name":"wall photo",
          "opacity":1,
@@ -506,7 +506,7 @@
          "starty":-16,
          "type":"tilelayer",
          "visible":true,
-         "width":32,
+         "width":16,
          "x":0,
          "y":0
         }, 
@@ -680,7 +680,7 @@
          "starty":-16,
          "type":"tilelayer",
          "visible":true,
-         "width":32,
+         "width":16,
          "x":0,
          "y":0
         }, 
@@ -945,6 +945,22 @@
          "objects":[
                 {
                  "id":1,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"up"
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"file",
+                         "value":"map.json"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"house1"
+                        }],
                  "template":"..\/object templates\/teleport.json",
                  "x":0,
                  "y":80

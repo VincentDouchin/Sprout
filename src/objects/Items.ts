@@ -1,8 +1,8 @@
 import { MeshBasicMaterial } from "three"
 import AssetManager from "../AssetManager"
-import Buffer from "../utils/buffer"
-import { indexToCoord } from "../utils/functions"
-import getPlane from "../utils/plane"
+import Buffer from "../utils/Buffer"
+import { indexToCoord } from "../utils/Functions"
+import getPlane from "../utils/Plane"
 
 const Items = (function () {
 	const tileset1 = AssetManager.items['items1']

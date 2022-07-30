@@ -1,7 +1,7 @@
 import AssetManager from '../AssetManager'
-import Buffer from './buffer'
+import Buffer from './Buffer'
 import { MeshBasicMaterial } from "three"
-import getPlane from './plane'
+import getPlane from './Plane'
 AssetManager.load('containers')
 
 const getOffset = (offset: number, dimension: number) => offset === 0 ? 0 : offset === dimension - 1 ? 32 : 16

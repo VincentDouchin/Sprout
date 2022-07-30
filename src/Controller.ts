@@ -10,28 +10,28 @@ const Controller = (keys: any) => {
 				}
 				return false
 			},
-			getInput(state) {
+			getInput(state: boolean) {
 				if (this.down != state) this.active = state
 				this.down = state
 			}
 		}
 	}
-	const inputs = keys.actions.reduce((acc, v) => ({ ...acc, [v]: Input() }), {})
-	const keyDownUp = (e) => {
+	const inputs = keys.actions.reduce((acc: any, v: string) => ({ ...acc, [v]: Input() }), {})
+	const downUp = (type: string, callback: Function) => (e: KeyboardEvent) => {
 
 		e.preventDefault()
-		const state = e.type == 'keydown'
-		const key = keys.keyboard?.[e.code]
+		const state = e.type == type
+		const key = callback(e)
 		if (key) inputs[key].getInput(state)
 
 	}
+	const keyDownUp = downUp('keydown', (e: KeyboardEvent) => keys.keyboard?.[e.code])
+	const pointerDownUp = downUp('pointerdown', (e: PointerEvent) => keys.mouse?.[e.button])
+
+	document.addEventListener('pointerdown', pointerDownUp)
+	document.addEventListener('pointerup', pointerDownUp)
 	document.addEventListener('keydown', keyDownUp)
 	document.addEventListener('keyup', keyDownUp)
 	return inputs
-
-
-
-
-
 }
 export default Controller

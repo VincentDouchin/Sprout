@@ -12466,17 +12466,6 @@
                 }, 
                 {
                  "class":"",
-                 "height":16,
-                 "id":29,
-                 "name":"door",
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":2608,
-                 "y":1696
-                }, 
-                {
-                 "class":"",
                  "height":32,
                  "id":30,
                  "name":"mailbox",
@@ -12496,17 +12485,6 @@
                  "width":16,
                  "x":2528,
                  "y":1712
-                }, 
-                {
-                 "class":"",
-                 "height":16,
-                 "id":32,
-                 "name":"door",
-                 "rotation":0,
-                 "visible":true,
-                 "width":16,
-                 "x":2608,
-                 "y":1552
                 }, 
                 {
                  "class":"",
@@ -12551,8 +12529,7 @@
                  "width":16,
                  "x":2240,
                  "y":1984
-                },
-            
+                }, 
                 {
                  "class":"",
                  "height":32,
@@ -12574,7 +12551,8 @@
                  "width":16,
                  "x":2320,
                  "y":2240
-                }, 
+                },
+            
                 {
                  "class":"",
                  "height":32,
@@ -12709,11 +12687,17 @@
          "objects":[
                 {
                  "id":52,
+                 "name":"Teleport house1",
                  "properties":[
                         {
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"door",
+                         "type":"bool",
+                         "value":true
                         }, 
                         {
                          "name":"from",
@@ -12731,11 +12715,17 @@
                 }, 
                 {
                  "id":56,
+                 "name":"Teleport house2",
                  "properties":[
                         {
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"door",
+                         "type":"bool",
+                         "value":true
                         }, 
                         {
                          "name":"from",

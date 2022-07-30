@@ -11,6 +11,11 @@
              "value":"up"
             }, 
             {
+             "name":"door",
+             "type":"bool",
+             "value":true
+            }, 
+            {
              "name":"from",
              "type":"file",
              "value":"..\/levels\/map.json"

@@ -1,0 +1,14 @@
+{ "columns":23,
+ "image":"..\/..\/images\/Interior\/furniture\/kidsroom.png",
+ "imageheight":128,
+ "imagewidth":368,
+ "margin":0,
+ "name":"kidroom",
+ "spacing":0,
+ "tilecount":184,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

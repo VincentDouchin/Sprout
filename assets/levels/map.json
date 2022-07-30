@@ -12719,6 +12719,11 @@
                          "name":"from",
                          "type":"file",
                          "value":"house1.json"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"house1"
                         }],
                  "template":"..\/object templates\/teleport.json",
                  "x":2608,
@@ -12855,7 +12860,7 @@
          "source":"..\/tilesets\/wood bridge.json"
         }, 
         {
-         "firstgid":1172,
+         "firstgid":2620,
          "source":"wallpapers.json"
         }],
  "tilewidth":16,

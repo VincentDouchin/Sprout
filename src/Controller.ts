@@ -1,4 +1,4 @@
-const Controller = (keys) => {
+const Controller = (keys: any) => {
 	const Input = function () {
 		return {
 			active: false,
@@ -27,13 +27,11 @@ const Controller = (keys) => {
 	}
 	document.addEventListener('keydown', keyDownUp)
 	document.addEventListener('keyup', keyDownUp)
-	return {
-		...inputs,
-		get: key => keys[getKeyName(key)].active,
-		set: (key, state) => keys[getKeyName(key)].active = state
+	return inputs
 
 
 
-	}
+
+
 }
 export default Controller

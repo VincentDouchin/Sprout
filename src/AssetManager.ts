@@ -9,20 +9,20 @@ const loadImage = (path) => new Promise((resolve, reject) => {
     const image = new Image()
     image.src = path
     image.onload = () => resolve(image)
-    image.onerror = () => reject(image)
+    image.onerror = () => resolve('')
 })
 const AssetManager = await (async () => {
-    const sourceLevels = import.meta.globEager('../assets/levels/**/*.json')
+    const sourceLevels = import.meta.globEager('../assets/levels/*.json')
     const sourceTilesets = import.meta.globEager('../assets/tilesets/**/*.*')
     const sourceImages = import.meta.globEager('../assets/images/**/*.png')
     const sourceTemplates = import.meta.globEager('../assets/object templates/**/*.json')
 
-    const loadTileSet = async (tileset) => ({ ...tileset, img: await loadImage(tileset.image.replace('../', '../assets/')) })
+    const loadTileSet = async (tileset) => ({ ...tileset, img: await loadImage(tileset.image.replace(/..\/..\/|..\//, '../assets/')) })
     const assignTilesets = (tilesets) => (map) => ({ ...map, tilesets: map.tilesets.map(tileset => ({ ...tileset, ...tilesets[getFileName(tileset.source)] })) })
     const tilesets = await mapToFileName(sourceTilesets, loadTileSet)
     const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
     const images = await mapToFileName(sourceImages)
-    const templates = await mapToFileName(sourceTemplates)
+    const templates: any = await mapToFileName(sourceTemplates)
 
 
     return {
@@ -36,5 +36,4 @@ const AssetManager = await (async () => {
         }
     }
 })();
-window.AssetManager = AssetManager
 export default AssetManager

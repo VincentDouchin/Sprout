@@ -1,5 +1,7 @@
 import * as THREE from 'three'
-const getPlane = ({ buffer, texture }, width = null, height = null, normalMap = null) => {
+
+const getPlane = (planeImage: planeImage, width = null, height = null, normalMap = null) => {
+    const { buffer, texture } = planeImage
     let text
     if (buffer) {
         const canvasTexture = new THREE.CanvasTexture(buffer.canvas)

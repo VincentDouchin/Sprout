@@ -1,6 +1,6 @@
 const Engine = function () {
 
-	let raf_handle
+	let raf_handle: number
 	let accumulated_time = 0
 	let current_time = 0
 	let time_step = 1000 / 60
@@ -8,7 +8,7 @@ const Engine = function () {
 
 	let state
 	let states
-	const cycle = (time_stamp) => {
+	const cycle = (time_stamp: number) => {
 		raf_handle = window.requestAnimationFrame(cycle)
 
 		accumulated_time += time_stamp - current_time
@@ -43,7 +43,7 @@ const Engine = function () {
 			raf_handle = window.requestAnimationFrame(cycle)
 		},
 		stop() {
-			window.cancelAnimationFrame()
+			window.cancelAnimationFrame(raf_handle)
 		}
 	}
 }

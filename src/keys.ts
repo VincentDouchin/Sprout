@@ -1,3 +1,4 @@
+
 const keys = {
 	actions: ['up', 'down', 'left', 'right', 'switchCamera'],
 	keyboard: {

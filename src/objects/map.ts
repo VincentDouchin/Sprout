@@ -1,10 +1,10 @@
 import AssetManager from "../AssetManager";
-import Buffer from "../utils/buffer";
-import getPlane from "../utils/plane";
+import Buffer from "../utils/Buffer";
+import getPlane from "../utils/Plane";
 import * as planck from 'planck'
 import * as THREE from 'three'
 import { world, scene, } from '../Initialize'
-import { indexToCoord } from './../utils/functions'
+import { indexToCoord } from '../utils/Functions'
 //! Types
 interface collision {
 	width: number;
@@ -87,10 +87,11 @@ const getMap = (name: string) => {
 	collisions.forEach(({ width, height, x, y }) => {
 		const newX = x - map.width * map.tilewidth / 2
 		const newY = map.height * map.tileheight / 2 - y
-		collisionBody.createFixture({
+		const collisionFixture = collisionBody.createFixture({
 			shape: planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0),
 			density: 0.0
 		})
+		collisionFixture.setUserData({ collision: true })
 
 	})
 

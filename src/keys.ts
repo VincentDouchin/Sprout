@@ -1,12 +1,14 @@
 
 const keys = {
-	actions: ['up', 'down', 'left', 'right', 'switchCamera'],
+	actions: ['up', 'down', 'left', 'right', 'interact'],
 	keyboard: {
 		KeyW: 'up',
 		KeyA: 'left',
 		KeyD: 'right',
 		KeyS: 'down',
-		KeyP: 'switchCamera',
+	},
+	mouse: {
+		0: 'interact'
 	}
 }
 export default keys

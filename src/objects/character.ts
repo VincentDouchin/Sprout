@@ -1,6 +1,6 @@
-import getPlane from "../utils/plane";
+import getPlane from "../utils/Plane";
 import AssetManager from "../AssetManager";
-import Buffer from "../utils/buffer";
+import Buffer from "../utils/Buffer";
 import * as planck from 'planck'
 import { world, scene } from '../Initialize'
 import { Box, Vec2 } from "planck";
@@ -12,8 +12,8 @@ for (const name of ['', 'Amélie', 'Clémentine', 'Hughie', 'Jack']) {
 }
 
 
-const Character = (_name: string, position: Vec2 = Vec2(0, 0)) => {
-	const name = _name
+const Character = ({ name, position = Vec2(0, 0), player = true }) => {
+
 	const img = AssetManager.images[`${name} - Premium Charakter Spritesheet`]
 	const tileSize = 48
 	const tilesNb = { vertical: img.height / tileSize, horizontal: img.width / tileSize }
@@ -41,10 +41,12 @@ const Character = (_name: string, position: Vec2 = Vec2(0, 0)) => {
 		allowSleep: true,
 		position: position
 	})
-	body.createFixture({
+	const playerFixture = body.createFixture({
 		shape: planck.Box(8, 8, planck.Vec2(0, 0), 0.0),
 		density: 0.0
 	})
+	playerFixture.setUserData({ type: player ? 'player' : 'NPC' })
+
 	const velocity = planck.Vec2(0, 0)
 	let direction = 'down'
 
@@ -91,6 +93,7 @@ const Character = (_name: string, position: Vec2 = Vec2(0, 0)) => {
 		isSensor: true,
 
 	})
+	frontFixture.setUserData({ type: (player ? 'player' : 'NPC') + 'Sensor' })
 
 	const update = () => {
 		animationCounter++
@@ -120,6 +123,6 @@ const Character = (_name: string, position: Vec2 = Vec2(0, 0)) => {
 		body.setPosition(position)
 	}
 
-	return { mesh, move, update, velocity, body, canTeleport, teleport, items }
+	return { position: mesh.position, move, update, canTeleport, teleport, items }
 }
 export default Character

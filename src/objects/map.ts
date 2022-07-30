@@ -1,10 +1,10 @@
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
-import getPlane from "./plane";
+import getPlane from "../utils/plane";
 import * as planck from 'planck'
 import * as THREE from 'three'
 import { world, scene, } from '../Initialize'
-
+import { indexToCoord } from './../utils/functions'
 //! Types
 interface collision {
 	width: number;
@@ -14,10 +14,7 @@ interface collision {
 	properties: any;
 }
 
-const indexToCoord = (index: number, columns: number, width: number, height: number) => {
-	height = height ?? width
-	return [index % columns * width, Math.floor(index / columns) * height]
-}
+
 const assignObjectProps = (tileObject: any) => tileObject.properties?.reduce((acc: any, v: any) => ({ ...acc, [v.name]: v.value }), {}) ?? {}
 const getMap = (name: string) => {
 
@@ -45,7 +42,7 @@ const getMap = (name: string) => {
 				//! Collisions
 				const tileObjects = tileset.tiles?.find(t => t.id == tile - tileset.firstgid)?.objectgroup?.objects
 				if (tileObjects) {
-					tileObjects.forEach(tileObject => {
+					tileObjects.forEach((tileObject: any) => {
 
 						const collision: collision = {
 							width: tileObject.width,
@@ -67,8 +64,8 @@ const getMap = (name: string) => {
 	})
 	//! Teleports
 	const teleports = map.layers.find((x: any) => x.name == 'teleports').objects.map((object: any) => ({
-		...object,
 		...AssetManager.templates.teleport.default.object,
+		...object,
 		properties: { ...assignObjectProps(object), type: 'teleport' }
 	}))
 	//! Meshes
@@ -90,7 +87,10 @@ const getMap = (name: string) => {
 	collisions.forEach(({ width, height, x, y }) => {
 		const newX = x - map.width * map.tilewidth / 2
 		const newY = map.height * map.tileheight / 2 - y
-		collisionBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0), 0.0)
+		collisionBody.createFixture({
+			shape: planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0),
+			density: 0.0
+		})
 
 	})
 
@@ -100,35 +100,41 @@ const getMap = (name: string) => {
 
 
 	const mapTeleports = []
+
 	teleports.forEach(({ width, height, x, y, properties }) => {
-		const newX = x - map.width * map.tilewidth / 2
-		const newY = map.height * map.tileheight / 2 - y
+
+		const newX = x - map.width * map.tilewidth / 2 + width / 2
+		const newY = map.height * map.tileheight / 2 - y - height / 2
 		const position = planck.Vec2(newX, newY)
 		const teleportBody = world.createBody({
 			type: 'static',
 			position
 		})
 		bodies.push(teleportBody)
-		// const geometry = new THREE.PlaneGeometry(width, height)
-		// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+		const geometry = new THREE.PlaneGeometry(width, height)
+		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
 
-		// const plane = new THREE.Mesh(geometry, material)
+		const plane = new THREE.Mesh(geometry, material)
 
 
-		// scene.add(plane)
-		// plane.renderOrder = -1
-		// plane.position.x = newX
-		// plane.position.y = newY
-		// plane.position.z = 1
-		const teleport = teleportBody.createFixture(planck.Box(width / 2, height / 2, planck.Vec2(0, 0), 0), 0)
+		scene.add(plane)
+		plane.renderOrder = -1
+		plane.position.x = newX
+		plane.position.y = newY
+		const teleport = teleportBody.createFixture({
+			shape: planck.Box(width / 2, height / 2, planck.Vec2(0, 0), 0),
+			density: 0,
+			isSensor: true
+		})
 		teleport.setUserData({ ...properties, position })
 		mapTeleports.push(teleport)
+
 	})
 
 	let loaded = true
-	const getTeleport = (name: string) => {
-		debugger
-		return mapTeleports.find(fixture => fixture.getUserData().name == name)?.getUserData()
+	const getTeleport = (teleportName: string) => {
+
+		return mapTeleports.find(fixture => fixture.getUserData().name == teleportName)?.getUserData()
 	}
 	const unLoad = () => {
 		bodies.forEach(body => world.destroyBody(body))

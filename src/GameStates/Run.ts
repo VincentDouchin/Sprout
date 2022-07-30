@@ -7,6 +7,7 @@ import keys from '../keys'
 import * as planck from 'planck';
 import Inventory from '../UI modules/Inventory'
 import UIManager from '../UIManager'
+import { Vec2 } from 'planck'
 const Run = () => {
 	//! Lights
 	const light = new THREE.AmbientLight(0xffffff)
@@ -15,16 +16,14 @@ const Run = () => {
 
 	//! Objects
 	let map = getMap('map')
+	const NPC = Character('Jack')
 
-
-
-	const character = Character('Amélie')
+	const character = Character('Amélie', Vec2(-50, 0))
 	//! UI
 	const inventory = Inventory(character)
 
 	UIManager.addModule(inventory)
 
-	scene.add(character.mesh)
 
 	const clock = new THREE.Clock()
 	const controller = Controller(keys)
@@ -84,7 +83,7 @@ const Run = () => {
 
 			//! Colisions
 			character.update()
-
+			NPC.update()
 
 
 		},

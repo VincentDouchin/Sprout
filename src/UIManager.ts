@@ -19,7 +19,7 @@ const UIManager = (function () {
 			case 'bottom': module.mesh.position.y = UICamera.bottom + height / 2
 		}
 	}
-	window.addEventListener("click", e => {
+	window.addEventListener("pointerdown", e => {
 		const raycaster = new Raycaster()
 		var mouse = new Vector2()
 		mouse.x = (e.clientX / window.innerWidth) * 2 - 1;

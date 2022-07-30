@@ -2,7 +2,9 @@ import getPlane from "../utils/plane";
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
 import * as planck from 'planck'
-import { world } from '../Initialize'
+import { world, scene } from '../Initialize'
+import { Box, Vec2 } from "planck";
+import { Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 const friction = 0.50
 
 for (const name of ['', 'Amélie', 'Clémentine', 'Hughie', 'Jack']) {
@@ -10,13 +12,12 @@ for (const name of ['', 'Amélie', 'Clémentine', 'Hughie', 'Jack']) {
 }
 
 
-const Character = (_name: string) => {
+const Character = (_name: string, position: Vec2 = Vec2(0, 0)) => {
 	const name = _name
 	const img = AssetManager.images[`${name} - Premium Charakter Spritesheet`]
 	const tileSize = 48
 	const tilesNb = { vertical: img.height / tileSize, horizontal: img.width / tileSize }
 	const buffer = Buffer(img.width, img.height)
-	// const bufferNormal = Buffer(normal.width, normal.height)
 	buffer.drawImage(img, 0, 0)
 	const mesh = getPlane({ buffer }, tileSize, tileSize,)
 	let selectedSprite = 0
@@ -26,7 +27,7 @@ const Character = (_name: string) => {
 	mesh.material.map.offset.set(1 / tilesNb.horizontal, 1 / tilesNb.vertical)
 
 	mesh.renderOrder = 1
-
+	scene.add(mesh)
 	const moveForce = 0.25
 	const animations = {
 		idle: { down: 0, up: 1, left: 2, right: 3 },
@@ -38,10 +39,12 @@ const Character = (_name: string) => {
 		fixedRotation: true,
 		bullet: true,
 		allowSleep: true,
-		// position: planck.Vec2(1000, - 200)
-		position: planck.Vec2(0, 0)
+		position: position
 	})
-	body.createFixture(planck.Box(8, 8, planck.Vec2(0, 0), 0.0), 0.0)
+	body.createFixture({
+		shape: planck.Box(8, 8, planck.Vec2(0, 0), 0.0),
+		density: 0.0
+	})
 	const velocity = planck.Vec2(0, 0)
 	let direction = 'down'
 
@@ -67,6 +70,28 @@ const Character = (_name: string) => {
 		}
 	}
 	let canTeleport = true
+
+	const frontSensor = new Mesh(
+		new PlaneGeometry(16, 16),
+		new MeshBasicMaterial({ color: 0xFF0000 })
+	)
+	frontSensor.position.z = 1
+
+	scene.add(frontSensor)
+	const frontBody = world.createBody({
+		type: 'dynamic',
+		fixedRotation: true,
+		bullet: true,
+		allowSleep: true,
+		position: position
+	})
+	const frontFixture = frontBody.createFixture({
+		shape: Box(8, 8, Vec2(0, 0), 0),
+		density: 0,
+		isSensor: true,
+
+	})
+
 	const update = () => {
 		animationCounter++
 		if (animationCounter > 4) {
@@ -85,8 +110,11 @@ const Character = (_name: string) => {
 		const bodyPosition = body.getPosition()
 		mesh.position.x = bodyPosition.x
 		mesh.position.y = bodyPosition.y
+		const frontOffset = Vec2({ left: -16, right: 16 }[direction] ?? 0, { up: 16, down: -16 }[direction] ?? 0)
 
-
+		frontBody.setPosition(frontOffset.add(bodyPosition))
+		frontSensor.position.x = frontBody.getPosition().x
+		frontSensor.position.y = frontBody.getPosition().y
 	}
 	const teleport = (position: planck.Vec2) => {
 		body.setPosition(position)

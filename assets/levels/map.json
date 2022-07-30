@@ -12728,6 +12728,28 @@
                  "template":"..\/object templates\/teleport.json",
                  "x":2608,
                  "y":1552
+                }, 
+                {
+                 "id":56,
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"down"
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"file",
+                         "value":"house2.json"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"house2"
+                        }],
+                 "template":"..\/object templates\/teleport.json",
+                 "x":2608,
+                 "y":1696
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -12780,7 +12802,7 @@
          "y":0
         }],
  "nextlayerid":24,
- "nextobjectid":54,
+ "nextobjectid":57,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.0",

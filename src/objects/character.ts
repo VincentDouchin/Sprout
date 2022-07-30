@@ -2,7 +2,7 @@ import getPlane from "./plane";
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/buffer";
 import * as planck from 'planck'
-import { world } from '../../src/Initialize'
+import { world } from '../Initialize'
 import { Box3, BoxHelper, Vector3, Mesh, PlaneGeometry, MeshBasicMaterial } from "three";
 const friction = 0.50
 
@@ -36,10 +36,10 @@ const Character = async (_name) => {
 		fixedRotation: true,
 		bullet: true,
 		allowSleep: true,
-		position: { x: 1000, y: -200 }
+		position: planck.Vec2(1000, - 200)
 	})
 	body.createFixture(planck.Box(8, 8, planck.Vec2(0, 0), 0.0), 0.0)
-	const velocity = { x: 0, y: 0 }
+	const velocity = planck.Vec2(0, 0)
 	let direction = 'down'
 
 
@@ -61,7 +61,7 @@ const Character = async (_name) => {
 			}; break
 		}
 	}
-
+	let canTeleport = true
 	const update = () => {
 		animationCounter++
 		if (animationCounter > 4) {
@@ -83,6 +83,10 @@ const Character = async (_name) => {
 
 
 	}
-	return { mesh, move, update, velocity, body }
+	const teleport = (position: planck.Vec2) => {
+		body.setPosition(position)
+	}
+
+	return { mesh, move, update, velocity, body, canTeleport, teleport }
 }
 export default Character

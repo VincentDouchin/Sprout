@@ -1,4 +1,4 @@
-const Buffer = (width, height) => {
+const Buffer = (width: number, height: number) => {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d', { alpha: true })
     ctx.canvas.height = height

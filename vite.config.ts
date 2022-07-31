@@ -1,6 +1,7 @@
 import { VitePWA } from 'vite-plugin-pwa'
 
-export default {
+import { defineConfig } from "vite";
+export default defineConfig({
 	plugins: [
 		VitePWA()
 	],
@@ -8,4 +9,4 @@ export default {
 	build: {
 		target: 'esnext'
 	}
-}
+})

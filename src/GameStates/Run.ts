@@ -9,7 +9,22 @@ import Inventory from '../UI modules/Inventory'
 import UIManager from '../UIManager'
 import { Vec2 } from 'planck'
 import NPC from '../objects/NPC'
+import SpriteAnimation from '../utils/SpriteAnimation'
+import AssetManager from '../AssetManager'
+import { sleep } from '../utils/Functions'
 const Run = () => {
+	const door = SpriteAnimation({
+		img: AssetManager.images['door animation sprites'],
+		tileSize: 16,
+		animations: ['smallDoor'],
+		animationsLength: { smallDoor: 6 },
+		repeat: false,
+		backwards: true,
+		once: true,
+		autoStart: false
+
+
+	})
 	//! Lights
 	const light = new THREE.AmbientLight(0xffffff)
 	scene.add(light)
@@ -17,9 +32,10 @@ const Run = () => {
 
 	//! Objects
 	let map = getMap('map')
-	const jack = NPC({ name: 'Jack' })
+	const jack = NPC({ name: 'Jack', position: Vec2(-150, -50) })
 
-	const character = Character({ name: 'Amélie', position: Vec2(-50, 0) })
+	// const character = Character({ name: 'Amélie', position: Vec2(1300, -300) })
+	const character = Character({ name: 'Amélie', position: Vec2(0, -50) })
 	//! UI
 	const inventory = Inventory(character)
 
@@ -29,7 +45,9 @@ const Run = () => {
 	const clock = new THREE.Clock()
 	const controller = Controller(keys)
 	let lastTeleport = null
-
+	sleep(2000).then(() => door.start())
+	sleep(4000).then(() => door.reset())
+	// sleep(6000).then(() => door.start())
 	return {
 		//+ Update
 		update() {
@@ -41,28 +59,28 @@ const Run = () => {
 				}
 			})
 			beginContacts.set(['playerSensor', 'NPC'], (c: any) => {
-
 				if (controller.interact.active) {
-
 					console.log('hello!')
 				}
 			})
-			world.on('begin-contact', (c: planck.Contact) => {
-				beginContacts.forEach((val, key) => {
-					const fixturesData = ['A', 'B'].map(letter => c['getFixture' + letter]().getUserData())
-					if (fixturesData.every(data => key.includes(data.type))) {
-						val(fixturesData.reduce((acc, v) => ({ ...acc, [v.type]: v }), {}))
-					}
-				})
+			const endContact = new Map()
+			endContact.set(['teleport', 'player'], (c: any) => {
+				character.canTeleport = true
 			})
-			// world.on('begin-contact', checkContactType(['teleport', 'player'], (contact: planck.Contact) => {
-			// 	if (character.canTeleport) {
-			// 		lastTeleport = contact
-			// 	}
-			// }))
-			// world.on('end-contact', checkContactType(['teleport', 'player'], () => {
-			// 	character.canTeleport = true
-			// }))
+
+			const evaluateContact = (contactType: 'begin-contact' | 'end-contact' | 'remove-fixture', contactMap: any) => {
+				//@ts-ignore there is a problem in the type definition of the world event listeners?
+				world.on(contactType, (c: planck.Contact) => {
+					contactMap.forEach((val: Function, key: string[]) => {
+						const fixturesData = ['A', 'B'].map(letter => c['getFixture' + letter]().getUserData())
+						if (fixturesData.every(data => key.includes(data.type))) {
+							val(fixturesData.reduce((acc, v) => ({ ...acc, [v.type]: v }), {}))
+						}
+					})
+				})
+			}
+			evaluateContact('begin-contact', beginContacts)
+			evaluateContact('end-contact', endContact)
 
 
 			if (lastTeleport && character.canTeleport) {
@@ -100,7 +118,7 @@ const Run = () => {
 
 			character.update()
 			jack.update()
-
+			door.update()
 
 		},
 		//+ Render

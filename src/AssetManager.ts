@@ -31,7 +31,7 @@ const AssetManager = await (async () => {
     const tilesets = await mapToFileName(sourceTilesets, loadTileSet)
     const items = await mapToFileName(sourceItems, loadTileSet)
     const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
-    const images = await mapToFileName(sourceImages)
+    const images: any = await mapToFileName(sourceImages)
     const templates: any = await mapToFileName(sourceTemplates)
 
     return {
@@ -46,4 +46,5 @@ const AssetManager = await (async () => {
         }
     }
 })();
+AssetManager.load('door animation sprites')
 export default AssetManager

@@ -15,16 +15,16 @@ const loadImage = (path: string) => new Promise((resolve, reject) => {
 
 const AssetManager = await (async () => {
     //! Source
-    const sourceLevels = import.meta.globEager('../Sprout/assets/levels/*.json')
-    const sourceTilesets = import.meta.globEager('../Sprout/assets/tilesets/**/*.*')
-    const sourceImages = import.meta.globEager('../Sprout/assets/images/**/*.png')
-    const sourceTemplates = import.meta.globEager('../Sprout/assets/object templates/**/*.json')
-    const sourceItems = import.meta.globEager('../Sprout/assets/items/*.json')
+    const sourceLevels = import.meta.globEager('../assets/levels/*.json')
+    const sourceTilesets = import.meta.globEager('../assets/tilesets/**/*.*')
+    const sourceImages = import.meta.globEager('../assets/images/**/*.png')
+    const sourceTemplates = import.meta.globEager('../assets/object templates/**/*.json')
+    const sourceItems = import.meta.globEager('../assets/items/*.json')
 
     //! Loaders
     const loadTileSet = async (tileset) => ({
         ...tileset,
-        img: await loadImage(tileset.image.replace(/..\/..\/|..\//, '../Sprout/assets/')),
+        img: await loadImage(tileset.image.replace(/..\/..\/|..\//, '../assets/')),
         tiles: tileset?.tiles?.map(tile => ({ ...tile, ...assignObjectProps(tile) }))
     })
     const assignTemplateProps = (template: any) => ({ ...template.object, ...assignObjectProps(template.object) })

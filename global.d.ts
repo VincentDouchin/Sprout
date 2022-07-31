@@ -1,7 +1,7 @@
 interface planeImage {
 	buffer?: CanvasRenderingContext2D
 	texture?: THREE.Texture
-	material?: any
+	material?: typeof THREE.MeshBasicMaterial | typeof THREE.MeshStandardMaterial
 }
 interface teleport {
 	from: string

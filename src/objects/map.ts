@@ -6,6 +6,8 @@ import * as THREE from 'three'
 import { world, scene, } from '../Initialize'
 import { indexToCoord, assignObjectProps, getFileName } from '../utils/Functions'
 import Door from "./Door";
+import Cow from "./Cow";
+import { Vec2 } from "planck";
 //! Types
 interface collision {
 	width: number;
@@ -19,6 +21,7 @@ interface collision {
 const getMap = (name: string) => {
 	const bodies: planck.Body[] = []
 	const meshes: THREE.Mesh[] = []
+	const entities = []
 
 	const map = AssetManager.levels[name]
 	const collisions: collision[] = []
@@ -113,14 +116,23 @@ const getMap = (name: string) => {
 
 	})
 
+
+	//! Add entities
+	if ('entities' in mapObjects) {
+
+		mapObjects['entities'].filter(object => object.name == 'spawn').forEach(object => {
+			const newX = object.x - map.width * map.tilewidth / 2 + object.width / 2
+			const newY = map.height * map.tileheight / 2 - object.y - object.height / 2
+			const cow = Cow(Vec2(newX, newY), 'Light')
+			entities.push(cow)
+
+		})
+	}
+
 	//! Add teleports
-
-
-
-
 	const mapTeleports = []
 
-	mapObjects['teleports'].forEach((teleport) => {
+	mapObjects['teleports'].forEach((teleport: any) => {
 
 		const newX = teleport.x - map.width * map.tilewidth / 2 + teleport.width / 2
 		const newY = map.height * map.tileheight / 2 - teleport.y - teleport.height / 2
@@ -148,7 +160,7 @@ const getMap = (name: string) => {
 			Object.assign(userData, { object: door })
 
 		}
-		debugger
+
 		teleportFixture.setUserData(userData)
 		mapTeleports.push(teleportFixture)
 
@@ -167,6 +179,7 @@ const getMap = (name: string) => {
 	}
 	const update = () => {
 		mapTeleports.forEach(teleport => teleport.getUserData()?.object && teleport.getUserData().object.update())
+		entities.forEach(entity => entity.update())
 	}
 	return { meshTop: meshTop, meshBottom: meshBottom, collisions, getTeleport, unLoad, loaded, update }
 }

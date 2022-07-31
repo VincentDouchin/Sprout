@@ -19,6 +19,7 @@ const SpriteAnimation = ({ repeat = true, autoStart = true, defaultAnimation, im
 
 	let state = defaultAnimation ?? animations[0]
 	const image: HTMLImageElement = AssetManager.images[img]
+
 	const tilesNb = { vertical: image.height / tileSize, horizontal: image.width / tileSize }
 
 	const buffer = Buffer(image.width, image.height)

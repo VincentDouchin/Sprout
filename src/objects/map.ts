@@ -145,9 +145,10 @@ const getMap = (name: string) => {
 			door.mesh.position.x = newX
 			door.mesh.position.y = newY
 			meshes.push(door.mesh)
-			Object.assign(userData, { door })
+			Object.assign(userData, { object: door })
 
 		}
+		debugger
 		teleportFixture.setUserData(userData)
 		mapTeleports.push(teleportFixture)
 
@@ -165,7 +166,7 @@ const getMap = (name: string) => {
 		loaded = false
 	}
 	const update = () => {
-		mapTeleports.forEach(teleport => teleport.getUserData().door.update())
+		mapTeleports.forEach(teleport => teleport.getUserData()?.object && teleport.getUserData().object.update())
 	}
 	return { meshTop: meshTop, meshBottom: meshBottom, collisions, getTeleport, unLoad, loaded, update }
 }

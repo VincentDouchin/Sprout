@@ -10,21 +10,9 @@ import UIManager from '../UIManager'
 import { Vec2 } from 'planck'
 import NPC from '../objects/NPC'
 import SpriteAnimation from '../utils/SpriteAnimation'
-import AssetManager from '../AssetManager'
 import { sleep } from '../utils/Functions'
 const Run = () => {
-	const door = SpriteAnimation({
-		img: AssetManager.images['door animation sprites'],
-		tileSize: 16,
-		animations: ['smallDoor'],
-		animationsLength: { smallDoor: 6 },
-		repeat: false,
-		backwards: true,
-		once: true,
-		autoStart: false
 
-
-	})
 	//! Lights
 	const light = new THREE.AmbientLight(0xffffff)
 	scene.add(light)
@@ -34,8 +22,8 @@ const Run = () => {
 	let map = getMap('map')
 	const jack = NPC({ name: 'Jack', position: Vec2(-150, -50) })
 
-	// const character = Character({ name: 'Amélie', position: Vec2(1300, -300) })
-	const character = Character({ name: 'Amélie', position: Vec2(0, -50) })
+	const character = Character({ name: 'Amélie', position: Vec2(1300, -300) })
+	// const character = Character({ name: 'Amélie', position: Vec2(0, -50) })
 	//! UI
 	const inventory = Inventory(character)
 
@@ -45,54 +33,64 @@ const Run = () => {
 	const clock = new THREE.Clock()
 	const controller = Controller(keys)
 	let lastTeleport = null
-	sleep(2000).then(() => door.start())
-	sleep(4000).then(() => door.reset())
 	// sleep(6000).then(() => door.start())
+	//! Contacts
+
+	const beginContacts = new Map()
+	beginContacts.set(['player', 'teleport'], (c: any) => {
+		if (character.canTeleport) {
+
+			lastTeleport = c.teleport
+		}
+	})
+	beginContacts.set(['playerSensor', 'NPC'], (c: any) => {
+		if (controller.interact.active) {
+			console.log('hello!')
+		}
+	})
+	const endContact = new Map()
+	endContact.set(['teleport', 'player'], (c: any) => {
+		character.canTeleport = true
+	})
+
+	const evaluateContact = (contactType: 'begin-contact' | 'end-contact' | 'remove-fixture', contactMap: any) => {
+		//@ts-ignore there is a problem in the type definition of the world event listeners?
+		world.on(contactType, (c: planck.Contact) => {
+			contactMap.forEach((val: Function, key: string[]) => {
+				const fixturesData = ['A', 'B'].map(letter => c['getFixture' + letter]().getUserData())
+				if (fixturesData.every(data => key.includes(data.type))) {
+					val(fixturesData.reduce((acc, v) => ({ ...acc, [v.type]: v }), {}))
+				}
+			})
+		})
+	}
+	evaluateContact('begin-contact', beginContacts)
+	evaluateContact('end-contact', endContact)
+
 	return {
 		//+ Update
 		update() {
 			world.step(clock.getDelta() * 1000 * 2)
-			const beginContacts = new Map()
-			beginContacts.set(['player', 'teleport'], (c: any) => {
-				if (character.canTeleport) {
-					lastTeleport = c.teleport
-				}
-			})
-			beginContacts.set(['playerSensor', 'NPC'], (c: any) => {
-				if (controller.interact.active) {
-					console.log('hello!')
-				}
-			})
-			const endContact = new Map()
-			endContact.set(['teleport', 'player'], (c: any) => {
-				character.canTeleport = true
-			})
 
-			const evaluateContact = (contactType: 'begin-contact' | 'end-contact' | 'remove-fixture', contactMap: any) => {
-				//@ts-ignore there is a problem in the type definition of the world event listeners?
-				world.on(contactType, (c: planck.Contact) => {
-					contactMap.forEach((val: Function, key: string[]) => {
-						const fixturesData = ['A', 'B'].map(letter => c['getFixture' + letter]().getUserData())
-						if (fixturesData.every(data => key.includes(data.type))) {
-							val(fixturesData.reduce((acc, v) => ({ ...acc, [v.type]: v }), {}))
-						}
-					})
-				})
-			}
-			evaluateContact('begin-contact', beginContacts)
-			evaluateContact('end-contact', endContact)
-
+			map.update()
 
 			if (lastTeleport && character.canTeleport) {
-				if (map.loaded) map.unLoad()
+				character.setStop(true)
+				lastTeleport.door.setOnAnimationFinished(() => {
 
-				const from = lastTeleport?.from?.split('.').at(-2)
-				map = getMap(from)
-				const newTeleport = map.getTeleport(lastTeleport.name)
-				character.move(newTeleport.direction)
-				character.teleport(newTeleport.position)
-				character.canTeleport = false
-				lastTeleport = null
+					if (map.loaded) map.unLoad()
+
+					const from = lastTeleport?.from?.split('.').at(-2)
+					map = getMap(from)
+					const newTeleport = map.getTeleport(lastTeleport.name)
+					character.move(newTeleport.direction)
+					character.teleport(newTeleport.position)
+					character.canTeleport = false
+					lastTeleport = null
+					character.setStop(false)
+				})
+				lastTeleport.door.start()
+
 
 			}
 			camera.position.x = character.position.x
@@ -118,7 +116,6 @@ const Run = () => {
 
 			character.update()
 			jack.update()
-			door.update()
 
 		},
 		//+ Render

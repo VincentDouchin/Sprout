@@ -56814,11 +56814,18 @@
          "name": "building",
          "objects": [
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 64,
                "id": 1,
                "name": "House",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 80,
                "x": 1089,
@@ -140930,6 +140937,11 @@
          "height": 64,
          "id": 12,
          "name": "house roof",
+<<<<<<< HEAD
+=======
+         "offsetx": 0,
+         "offsety": 1,
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
          "opacity": 0.89,
          "startx": 128,
          "starty": 80,
@@ -144967,24 +144979,38 @@
                   }
                ],
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 626,
                "x": 222,
                "y": 922
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 23,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2544,
                "y": 1712
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 390.727272727273,
                "id": 24,
                "name": "spawn",
@@ -145001,13 +145027,20 @@
                   }
                ],
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 674.484848484848,
                "x": 1832.45454545455,
                "y": 297.060606060606
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 284.666666666667,
                "id": 25,
                "name": "spawn",
@@ -145024,17 +145057,28 @@
                   }
                ],
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 286.606060606061,
                "x": 387,
                "y": 209.181818181818
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 30,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2624,
@@ -145046,138 +145090,226 @@
                "id": 35,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2304,
                "y": 2240
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 36,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2240,
                "y": 1984
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 37,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2256,
                "y": 1872
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 16,
                "id": 38,
                "name": "door",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2320,
                "y": 2240
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 39,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2624,
                "y": 1552
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 40,
                "name": "cow",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 32,
                "x": 2592,
                "y": 2271
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 41,
                "name": "cow",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 32,
                "x": 2607,
                "y": 2272
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 16,
                "id": 42,
                "name": "door",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2496,
                "y": 2288
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 43,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2464,
                "y": 2272
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 44,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2560,
                "y": 2208
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 32,
                "id": 45,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2640,
                "y": 2224
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 16,
                "id": 46,
                "name": "door",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2528,
                "y": 2208
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 16,
                "id": 47,
                "name": "door",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2608,
@@ -145189,6 +145321,10 @@
                "id": 49,
                "name": "mailbox",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2304,
@@ -145408,28 +145544,46 @@
                "id": 6,
                "name": "farming",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 16,
                "x": 2512,
                "y": 1296
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 64,
                "id": 26,
                "name": "farming",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 112,
                "x": 2512,
                "y": 1840
             },
             {
+<<<<<<< HEAD
                "class": "",
+=======
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "height": 96,
                "id": 27,
                "name": "farming",
                "rotation": 0,
+<<<<<<< HEAD
+=======
+               "type": "",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
                "visible": true,
                "width": 48,
                "x": 2592,
@@ -145766,7 +145920,11 @@
    "nextobjectid": 93,
    "orientation": "orthogonal",
    "renderorder": "right-down",
+<<<<<<< HEAD
    "tiledversion": "1.9.0",
+=======
+   "tiledversion": "1.8.5",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
    "tileheight": 16,
    "tilesets": [
       {
@@ -145840,10 +145998,21 @@
       {
          "firstgid": 1157,
          "source": "..\/tilesets\/wood bridge.json"
+<<<<<<< HEAD
+=======
+      },
+      {
+         "firstgid": 2620,
+         "source": "wallpapers.json"
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
       }
    ],
    "tilewidth": 16,
    "type": "map",
+<<<<<<< HEAD
    "version": "1.9",
+=======
+   "version": "1.8",
+>>>>>>> fbaf91069c3f2771a71f5d528a84bb7978a15d62
    "width": 170
 }

@@ -1,8 +1,9 @@
 import Buffer from './Buffer'
 import getPlane from './Plane'
 import { scene } from '../Initialize'
+import AssetManager from '../AssetManager'
 interface SpriteAnimationOptions {
-	img: HTMLImageElement
+	img: string
 	animations: string[]
 	tileSize: number
 	repeat?: boolean
@@ -17,11 +18,11 @@ interface SpriteAnimationOptions {
 const SpriteAnimation = ({ repeat = true, autoStart = true, defaultAnimation, img, animations, tileSize, onAnimationFinished, animationsLength = {}, backwards = false, speed = 4, once = false }: SpriteAnimationOptions) => {
 
 	let state = defaultAnimation ?? animations[0]
+	const image: HTMLImageElement = AssetManager.images[img]
+	const tilesNb = { vertical: image.height / tileSize, horizontal: image.width / tileSize }
 
-	const tilesNb = { vertical: img.height / tileSize, horizontal: img.width / tileSize }
-
-	const buffer = Buffer(img.width, img.height)
-	buffer.drawImage(img, 0, 0)
+	const buffer = Buffer(image.width, image.height)
+	buffer.drawImage(image, 0, 0)
 	const mesh: THREE.Mesh = getPlane({ buffer }, tileSize, tileSize,)
 
 	let selectedSprite = 0
@@ -42,19 +43,11 @@ const SpriteAnimation = ({ repeat = true, autoStart = true, defaultAnimation, im
 	mesh.material['map'].repeat.set(1 / tilesNb.horizontal, 1 / tilesNb.vertical)
 	mesh.material['map'].offset.set(x, y)
 
-	mesh.renderOrder = 1
+	// mesh.renderOrder = 0
 	scene.add(mesh)
 
-
-
-
-
-
 	const update = () => {
-
-
 		if ((repeat || !isFinished) && startAnimation) {
-			console.log('open')
 			const spriteNb = animationsLength[state] ?? tilesNb.horizontal
 			animationCounter++
 			if (animationCounter > speed) {
@@ -64,11 +57,12 @@ const SpriteAnimation = ({ repeat = true, autoStart = true, defaultAnimation, im
 
 			const { x, y } = getOffset(state)
 			mesh.material['map'].offset.set(x, y)
-			if (selectedSprite == spriteNb - 1) isFinished = true
+			if (selectedSprite == spriteNb - 1) {
+				isFinished = true
+				if (onAnimationFinished) onAnimationFinished()
+
+			}
 		}
-
-
-
 
 	}
 	const reverse = () => {
@@ -80,7 +74,15 @@ const SpriteAnimation = ({ repeat = true, autoStart = true, defaultAnimation, im
 	const reset = () => {
 		isFinished = false
 	}
-	return { mesh, update, reverse, start, reset }
+	const setState = (_state: string) => {
+		state = _state
+	}
+	const setOnAnimationFinished = (fn: Function) => {
+		onAnimationFinished = fn
+	}
+
+
+	return { mesh, update, reverse, start, reset, setState, setOnAnimationFinished }
 }
 
 export default SpriteAnimation

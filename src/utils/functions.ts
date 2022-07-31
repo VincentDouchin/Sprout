@@ -4,7 +4,13 @@ const indexToCoord = (index: number, columns: number, width: number, height?: nu
 }
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+const assignObjectProps = (tileObject: any) => tileObject.properties?.reduce((acc: any, v: any) => ({ ...acc, [v.name]: v.value }), {}) ?? {}
+
+const getFileName = path => path.split(/[\/.]/).at(-2)
+
 export {
 	indexToCoord,
-	sleep
+	sleep,
+	assignObjectProps,
+	getFileName
 }

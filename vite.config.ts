@@ -8,5 +8,6 @@ export default defineConfig({
 	base: "/Sprout/",
 	build: {
 		target: 'esnext'
-	}
+	},
+
 })

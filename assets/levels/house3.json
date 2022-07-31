@@ -1,5 +1,5 @@
 { "compressionlevel":-1,
- "height":4148,
+ "height":32,
  "infinite":true,
  "layers":[
         {
@@ -678,8 +678,7 @@
          "objects":[
                 {
                  "height":16,
-                 "id":1,
-                 "name":"Teleport house3",
+                 "id":3,
                  "properties":[
                         {
                          "name":"direction",
@@ -713,7 +712,7 @@
          "y":0
         }],
  "nextlayerid":23,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.0",
@@ -782,5 +781,5 @@
  "tilewidth":16,
  "type":"map",
  "version":"1.9",
- "width":881
+ "width":16
 }

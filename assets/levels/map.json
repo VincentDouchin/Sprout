@@ -13223,10 +13223,6 @@
         {
          "firstgid":1157,
          "source":"..\/tilesets\/wood bridge.json"
-        }, 
-        {
-         "firstgid":2620,
-         "source":"wallpapers.json"
         }],
  "tilewidth":16,
  "type":"map",

@@ -5,4 +5,7 @@ export default {
 		VitePWA()
 	],
 	base: "/Sprout/",
+	build: {
+		target: 'esnext'
+	}
 }

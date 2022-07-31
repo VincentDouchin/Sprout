@@ -24,7 +24,7 @@ const AssetManager = await (async () => {
     //! Loaders
     const loadTileSet = async (tileset) => ({
         ...tileset,
-        img: await loadImage(tileset.image.replace(/..\/..\/|..\//, '../assets/')),
+        img: await loadImage(tileset.image.replace(/..\/..\/|..\//, '../Sprout/assets/')),
         tiles: tileset?.tiles?.map(tile => ({ ...tile, ...assignObjectProps(tile) }))
     })
     const assignTemplateProps = (template: any) => ({ ...template.object, ...assignObjectProps(template.object) })

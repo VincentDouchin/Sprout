@@ -11956,6 +11956,8 @@
          "height":64,
          "id":12,
          "name":"house roof",
+         "offsetx":0,
+         "offsety":1,
          "opacity":0.89,
          "startx":128,
          "starty":80,

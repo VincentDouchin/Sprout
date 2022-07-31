@@ -688,7 +688,7 @@
                         {
                          "name":"door",
                          "type":"bool",
-                         "value":true
+                         "value":false
                         }, 
                         {
                          "name":"from",

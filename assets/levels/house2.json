@@ -672,6 +672,11 @@
                          "value":"up"
                         }, 
                         {
+                         "name":"door",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"from",
                          "type":"file",
                          "value":"map.json"

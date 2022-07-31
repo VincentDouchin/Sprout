@@ -1,5 +1,7 @@
+import AssetManager from "../AssetManager"
 import SpriteAnimation from "../utils/SpriteAnimation"
 
+AssetManager.load('door animation sprites')
 const Door = () => {
 	const sprite = SpriteAnimation({
 		img: 'door animation sprites',

@@ -50,5 +50,4 @@ const AssetManager = await (async () => {
         }
     }
 })();
-AssetManager.load('door animation sprites')
 export default AssetManager

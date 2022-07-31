@@ -43,7 +43,6 @@ const Inventory = (character: any) => {
 			selectedItem = clickedItem
 			selectorMesh.position.x = getXPosition(clickedItem)
 		}
-		console.log(intersects, clickedItem, selectorMesh.position)
 	}
 
 

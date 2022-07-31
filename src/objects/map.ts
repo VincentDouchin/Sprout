@@ -51,8 +51,8 @@ const getMap = (name: string) => {
 						const collision: collision = {
 							width: tileObject.width,
 							height: tileObject.height,
-							x: dxCorrected + tileObject.x + tileObject.width / 2,
-							y: dyCorrected + tileObject.y + tileObject.height / 2,
+							x: dxCorrected + tileObject.x + tileObject.width / 2 - map.width * map.tilewidth / 2,
+							y: map.height * map.tileheight / 2 - dyCorrected + tileObject.y + tileObject.height / 2,
 							properties: assignObjectProps(tileObject)
 						}
 						collisions.push(collision)
@@ -66,6 +66,7 @@ const getMap = (name: string) => {
 		})
 
 	})
+
 	//! Objects
 	const mapObjects = {}
 	map.layers.filter((layer: any) => layer.type == 'objectgroup').forEach((layer: any) => {
@@ -77,17 +78,12 @@ const getMap = (name: string) => {
 
 			}
 			Object.assign(newObject, object)
+			Object.assign(newObject, { x: object.x - map.width * map.tilewidth / 2, y: map.height * map.tileheight / 2 - object.y })
 			Object.assign(newObject, assignObjectProps(object))
 			mapObjects[layer.name].push(newObject)
 		})
 	})
-	//! Teleports
 
-	// const teleports = map.layers.find((x: any) => x.name == 'teleports').objects.map((object: any) => ({
-	// 	...AssetManager.templates.teleport.default.object,
-	// 	...object,
-	// 	properties: { ...assignObjectProps(object), type: 'teleport' }
-	// }))
 	//! Meshes
 	const meshTop = getPlane({ buffer: bufferTop })
 	const meshBottom = getPlane({ buffer: bufferBottom })
@@ -99,17 +95,16 @@ const getMap = (name: string) => {
 	scene.add(meshBottom)
 
 	//! Add collisions
-
 	const collisionBody = world.createBody({
 		type: 'static',
 		position: planck.Vec2(0, 0)
 	})
+
 	bodies.push(collisionBody)
+
 	collisions.forEach(({ width, height, x, y }) => {
-		const newX = x - map.width * map.tilewidth / 2
-		const newY = map.height * map.tileheight / 2 - y
 		const collisionFixture = collisionBody.createFixture({
-			shape: planck.Box(width / 2, height / 2, planck.Vec2(newX, newY), 0.0),
+			shape: planck.Box(width / 2, height / 2, planck.Vec2(x, y), 0.0),
 			density: 0.0
 		})
 		collisionFixture.setUserData({ collision: true })
@@ -121,8 +116,8 @@ const getMap = (name: string) => {
 	if ('entities' in mapObjects) {
 
 		mapObjects['entities'].filter(object => object.name == 'spawn').forEach(object => {
-			const newX = object.x - map.width * map.tilewidth / 2 + object.width / 2
-			const newY = map.height * map.tileheight / 2 - object.y - object.height / 2
+			const newX = object.x + object.width / 2
+			const newY = object.y - object.height / 2
 			const cow = Cow(Vec2(newX, newY), 'Light')
 			entities.push(cow)
 
@@ -134,8 +129,8 @@ const getMap = (name: string) => {
 
 	mapObjects['teleports'].forEach((teleport: any) => {
 
-		const newX = teleport.x - map.width * map.tilewidth / 2 + teleport.width / 2
-		const newY = map.height * map.tileheight / 2 - teleport.y - teleport.height / 2
+		const newX = teleport.x + teleport.width / 2
+		const newY = teleport.y - teleport.height / 2
 
 		const position = planck.Vec2(newX, newY)
 

@@ -4,7 +4,7 @@ import SpriteAnimation from "../utils/SpriteAnimation";
 
 // await AssetManager.load('Brown cow animations')
 // await AssetManager.load('Green cow animations sprites')
-await AssetManager.load('Light cow animations')
+AssetManager.load('Light cow animations')
 // await AssetManager.load('Pink cow animations sprites')
 // await AssetManager.load('Purple cow animations sprites')
 const Cow = (position: planck.Vec2, color = 'Light') => {

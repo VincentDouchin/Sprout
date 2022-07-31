@@ -4,8 +4,8 @@ import Buffer from "../utils/Buffer"
 import { indexToCoord } from "../utils/Functions"
 import getPlane from "../utils/Plane"
 
+const tileset1 = AssetManager.items['items1']
 const Items = (function () {
-	const tileset1 = AssetManager.items['items1']
 	const items = tileset1.tiles.map((tile: any) => {
 		const buffer = Buffer(16, 16)
 		const [x, y] = indexToCoord(tile.id, tileset1.columns, tileset1.tilewidth, tileset1.tileheight)

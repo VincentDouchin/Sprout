@@ -6,7 +6,7 @@ const mapToFileName = async (obj, fn = x => x) => (await Promise.all(Object.entr
 )).reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {})
 
 const loadImage = (path: string) => new Promise((resolve, reject) => {
-    
+
     const image = new Image()
     image.src = path
     image.onload = () => resolve(image)
@@ -23,23 +23,19 @@ const AssetManager = await (async () => {
     const sourceItems = import.meta.globEager('../assets/items/*.json')
 
     //! Loaders
-    const loadTileSet = async (tileset) => {
-        if(!sourceImages?.[tileset.image.replace(/..\/..\/|..\//, '../assets/')]?.default){
-            debugger
-        }
-        return{
+    const loadTileSet = (images) => async (tileset) => ({
         ...tileset,
-        img: await loadImage(sourceImages[tileset.image.replace(/..\/..\/|..\//, '../assets/')].default).catch(e=>{debugger}),
+        img: await loadImage(images[getFileName(tileset.image)].default),
         tiles: tileset?.tiles?.map(tile => ({ ...tile, ...assignObjectProps(tile) }))
-    }}
+    })
     const assignTemplateProps = (template: any) => ({ ...template.object, ...assignObjectProps(template.object) })
     const assignTilesets = (tilesets) => (map) => ({ ...map, tilesets: map.tilesets.map(tileset => ({ ...tileset, ...tilesets[getFileName(tileset.source)] })) })
 
     //! Transforms
-    const tilesets = await mapToFileName(sourceTilesets, loadTileSet)
-    const items = await mapToFileName(sourceItems, loadTileSet)
-    const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
     const images: any = await mapToFileName(sourceImages)
+    const tilesets = await mapToFileName(sourceTilesets, loadTileSet(images))
+    const items = await mapToFileName(sourceItems, loadTileSet(images))
+    const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
     const templates: any = await mapToFileName(sourceTemplates, assignTemplateProps)
 
 

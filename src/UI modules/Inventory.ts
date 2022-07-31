@@ -4,7 +4,7 @@ import AssetManager from "../AssetManager"
 import { Group, MeshBasicMaterial, Raycaster, Vector2 } from "three"
 import Buffer from "../utils/Buffer"
 import getPlane from "../utils/Plane"
-AssetManager.load('selectors')
+await AssetManager.load('selectors')
 const getXPosition = (nb: number): number => (nb - 9) / 2 * 16 + 8 * (nb + 1)
 const Inventory = (character: any) => {
 	//! Frame

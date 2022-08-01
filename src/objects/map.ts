@@ -52,7 +52,7 @@ const getMap = (name: string) => {
 							width: tileObject.width,
 							height: tileObject.height,
 							x: dxCorrected + tileObject.x + tileObject.width / 2 - map.width * map.tilewidth / 2,
-							y: map.height * map.tileheight / 2 - dyCorrected + tileObject.y + tileObject.height / 2,
+							y: map.height * map.tileheight / 2 - dyCorrected + tileObject.y - tileObject.height / 2,
 							properties: assignObjectProps(tileObject)
 						}
 						collisions.push(collision)

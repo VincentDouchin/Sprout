@@ -1,13 +1,11 @@
 import AssetManager from "../AssetManager";
 import Buffer from "../utils/Buffer";
 import getPlane from "../utils/Plane";
-import * as planck from 'planck'
-import * as THREE from 'three'
 import { world, scene, } from '../Initialize'
 import { indexToCoord, assignObjectProps, getFileName } from '../utils/Functions'
 import Door from "./Door";
 import Cow from "./Cow";
-import { Vec2 } from "planck";
+import { Vec2, Box } from "planck";
 //! Types
 interface collision {
 	width: number;
@@ -30,7 +28,8 @@ const getMap = (name: string) => {
 	const bufferTop = getMapBuffer()
 
 	map.layers.filter((layer: any) => layer.type == 'tilelayer').forEach(layer => {
-		const selectedBuffer = layer.offsetx == 0 ? bufferTop : bufferBottom
+
+		const selectedBuffer = layer.properties?.some(prop => prop.name == 'top' && prop.value == true) ? bufferTop : bufferBottom
 
 		layer.chunks.forEach((chunk: any) => {
 
@@ -97,14 +96,14 @@ const getMap = (name: string) => {
 	//! Add collisions
 	const collisionBody = world.createBody({
 		type: 'static',
-		position: planck.Vec2(0, 0)
+		position: Vec2(0, 0)
 	})
 
 	bodies.push(collisionBody)
 
 	collisions.forEach(({ width, height, x, y }) => {
 		const collisionFixture = collisionBody.createFixture({
-			shape: planck.Box(width / 2, height / 2, planck.Vec2(x, y), 0.0),
+			shape: Box(width / 2, height / 2, Vec2(x, y), 0.0),
 			density: 0.0
 		})
 		collisionFixture.setUserData({ collision: true })
@@ -132,7 +131,7 @@ const getMap = (name: string) => {
 		const newX = teleport.x + teleport.width / 2
 		const newY = teleport.y - teleport.height / 2
 
-		const position = planck.Vec2(newX, newY)
+		const position = Vec2(newX, newY)
 
 		const teleportBody = world.createBody({
 			type: 'static',
@@ -142,7 +141,7 @@ const getMap = (name: string) => {
 
 
 		const teleportFixture = teleportBody.createFixture({
-			shape: planck.Box(teleport.width / 2, teleport.height / 2, planck.Vec2(0, 0), 0),
+			shape: Box(teleport.width / 2, teleport.height / 2, Vec2(0, 0), 0),
 			density: 0,
 			isSensor: true
 		})

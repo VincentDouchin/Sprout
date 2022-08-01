@@ -2,7 +2,7 @@ import Engine from './src/Engine'
 import Run from './src/GameStates/Run'
 
 const engine = Engine()
-const run = await Run()
+const run = Run()
 
 
 engine.setStates({ run })

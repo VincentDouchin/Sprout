@@ -76,8 +76,7 @@ const Run = () => {
 
 			if (lastTeleport && character.canTeleport) {
 				character.setStop(true)
-				lastTeleport.door.setOnAnimationFinished(() => {
-
+				const teleportCharacter = () => {
 					if (map.loaded) map.unLoad()
 
 					const from = lastTeleport?.from?.split('.').at(-2)
@@ -88,8 +87,13 @@ const Run = () => {
 					character.canTeleport = false
 					lastTeleport = null
 					character.setStop(false)
-				})
-				lastTeleport.door.start()
+				}
+				if (lastTeleport.object) {
+					lastTeleport.object.setOnAnimationFinished(teleportCharacter)
+					lastTeleport.object.start()
+				} else {
+					teleportCharacter()
+				}
 
 
 			}

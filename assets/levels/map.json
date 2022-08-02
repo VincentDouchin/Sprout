@@ -5960,11 +5960,11 @@
                  "type":"bool",
                  "value":false
                 }],
-         "startx":16,
+         "startx":32,
          "starty":16,
          "type":"tilelayer",
          "visible":true,
-         "width":160,
+         "width":144,
          "x":0,
          "y":0
         }, 
@@ -6475,11 +6475,11 @@
                  "type":"bool",
                  "value":false
                 }],
-         "startx":112,
+         "startx":128,
          "starty":96,
          "type":"tilelayer",
          "visible":true,
-         "width":64,
+         "width":48,
          "x":0,
          "y":0
         }, 
@@ -12503,6 +12503,34 @@
                  "template":"..\/object templates\/teleport.json",
                  "x":2528,
                  "y":1712
+                }, 
+                {
+                 "id":138,
+                 "name":"Teleport house4",
+                 "properties":[
+                        {
+                         "name":"direction",
+                         "type":"string",
+                         "value":"down"
+                        }, 
+                        {
+                         "name":"door",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"from",
+                         "type":"file",
+                         "value":"house4.json"
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"house4"
+                        }],
+                 "template":"..\/object templates\/teleport.json",
+                 "x":2272,
+                 "y":1872
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -13274,7 +13302,7 @@
          "y":0
         }],
  "nextlayerid":26,
- "nextobjectid":138,
+ "nextobjectid":139,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.5",

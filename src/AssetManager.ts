@@ -13,32 +13,30 @@ const loadImage = (path: string) => new Promise((resolve, reject) => {
     image.onerror = (e) => reject(e)
 })
 
+//! Source
+const sourceLevels = import.meta.globEager('../assets/levels/*.json')
+const sourceTilesets = import.meta.globEager('../assets/tilesets/**/*.*')
+const sourceImages = import.meta.globEager('../assets/images/**/*.png')
+const sourceTemplates = import.meta.globEager('../assets/object templates/**/*.json')
+const sourceItems = import.meta.globEager('../assets/items/*.json')
 
-const AssetManager = await (async () => {
-    //! Source
-    const sourceLevels = import.meta.globEager('../assets/levels/*.json')
-    const sourceTilesets = import.meta.globEager('../assets/tilesets/**/*.*')
-    const sourceImages = import.meta.globEager('../assets/images/**/*.png')
-    const sourceTemplates = import.meta.globEager('../assets/object templates/**/*.json')
-    const sourceItems = import.meta.globEager('../assets/items/*.json')
+//! Loaders
+const loadTileSet = (images) => async (tileset) => ({
+    ...tileset,
+    img: await loadImage(images[getFileName(tileset.image)].default),
+    tiles: tileset?.tiles?.map(tile => ({ ...tile, ...assignObjectProps(tile) }))
+})
+const assignTemplateProps = (template: any) => ({ ...template.object, ...assignObjectProps(template.object) })
+const assignTilesets = (tilesets) => (map) => ({ ...map, tilesets: map.tilesets.map(tileset => ({ ...tileset, ...tilesets[getFileName(tileset.source)] })) })
 
-    //! Loaders
-    const loadTileSet = (images) => async (tileset) => ({
-        ...tileset,
-        img: await loadImage(images[getFileName(tileset.image)].default),
-        tiles: tileset?.tiles?.map(tile => ({ ...tile, ...assignObjectProps(tile) }))
-    })
-    const assignTemplateProps = (template: any) => ({ ...template.object, ...assignObjectProps(template.object) })
-    const assignTilesets = (tilesets) => (map) => ({ ...map, tilesets: map.tilesets.map(tileset => ({ ...tileset, ...tilesets[getFileName(tileset.source)] })) })
+//! Transforms
+const images = await mapToFileName(sourceImages)
+const tilesets = await mapToFileName(sourceTilesets, loadTileSet(images))
+const items = await mapToFileName(sourceItems, loadTileSet(images))
+const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
+const templates = await mapToFileName(sourceTemplates, assignTemplateProps)
 
-    //! Transforms
-    const images: any = await mapToFileName(sourceImages)
-    const tilesets = await mapToFileName(sourceTilesets, loadTileSet(images))
-    const items = await mapToFileName(sourceItems, loadTileSet(images))
-    const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
-    const templates: any = await mapToFileName(sourceTemplates, assignTemplateProps)
-
-
+const AssetManager = (() => {
     return {
         levels,
         tilesets,

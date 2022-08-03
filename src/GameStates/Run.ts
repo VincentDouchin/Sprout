@@ -22,7 +22,7 @@ const Run = () => {
 	let map = getMap('map')
 	const jack = NPC({ name: 'Jack', position: Vec2(-150, -50) })
 
-	const character = Character({ name: 'Amélie', position: Vec2(1300, -300) })
+	const character = Character({ name: 'Amélie', position: Vec2(930, -700) })
 	// const character = Character({ name: 'Amélie', position: Vec2(0, -50) })
 	//! UI
 	const inventory = Inventory(character)

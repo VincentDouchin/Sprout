@@ -6,12 +6,7 @@ import { world, scene } from '../Initialize'
 import { Box, Vec2 } from "planck";
 import { Mesh, MeshBasicMaterial, PlaneGeometry, Sprite } from "three";
 import SpriteAnimation from "../utils/SpriteAnimation";
-const friction = 0.50
-
-for (const name of ['', 'Amélie', 'Clémentine', 'Hughie', 'Jack']) {
-	await AssetManager.load(`${name ? name + ' - ' : ''}Premium Charakter Spritesheet`)
-}
-
+const friction = 0.50;
 
 const Character = ({ name, position = Vec2(0, 0), player = true }) => {
 	const sprite = SpriteAnimation({

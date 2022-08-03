@@ -6,6 +6,7 @@ import { indexToCoord, assignObjectProps, getFileName } from '../utils/Functions
 import Door from "./Door";
 import Cow from "./Cow";
 import { Vec2, Box } from "planck";
+
 //! Types
 interface collision {
 	width: number;
@@ -15,6 +16,8 @@ interface collision {
 	properties: any;
 }
 
+const flags = [0xc0000000, 0xb0000000, 0xa0000000, 0x80000000, 0x40000000, 0x20000000]
+const getRadianAngle = (degreeValue: number) => degreeValue * Math.PI / 180
 
 const getMap = (name: string) => {
 	const bodies: planck.Body[] = []
@@ -31,36 +34,92 @@ const getMap = (name: string) => {
 
 		const selectedBuffer = layer.properties?.some(prop => prop.name == 'top' && prop.value == true) ? bufferTop : bufferBottom
 
+
 		layer.chunks.forEach((chunk: any) => {
 
-			chunk.data.forEach((tile: any, tileIndex: number) => {
-				if (tile == 0) return
-				const tileset = map.tilesets.find(tileset => tileset.firstgid <= tile && tile <= tileset.firstgid + tileset.tilecount - 1)
+			chunk.data.forEach((tile: number, tileIndex: number) => {
+				if (tile === 0) return
+
+
+				let idOffset: number = flags.find(flag => tile > flag) ?? 0
+				const realTileNb: number = tile - idOffset
+				const tileset = map.tilesets.find(tileset => tileset.firstgid <= realTileNb && realTileNb <= tileset.firstgid + tileset.tilecount - 1)
 				if (!tileset) return
 
-				const [sx, sy] = indexToCoord(tile - tileset.firstgid, tileset.columns, tileset.tilewidth, tileset.tileheight)
-				const [dx, dy] = indexToCoord(tileIndex, chunk.width, map.tilewidth, map.tileheight)
-				const dxCorrected = dx + chunk.x * map.tilewidth
-				const dyCorrected = dy + chunk.y * map.tileheight
+
+				const [sx, sy] = indexToCoord(realTileNb - tileset.firstgid, tileset.columns, tileset.tilewidth, tileset.tileheight)
+				const [chunkX, chunkY] = indexToCoord(tileIndex, chunk.width, map.tilewidth, map.tileheight)
+				const dx = chunkX + chunk.x * map.tilewidth
+				const dy = chunkY + chunk.y * map.tileheight
+
 				//! Collisions
-				const tileObjects = tileset.tiles?.find((_tile: any) => _tile.id == tile - tileset.firstgid)?.objectgroup?.objects
+				const tileObjects = tileset.tiles?.find((_tile: any) => _tile.id == realTileNb - tileset.firstgid)?.objectgroup?.objects
 				if (tileObjects) {
 					tileObjects.forEach((tileObject: any) => {
 
 						const collision: collision = {
 							width: tileObject.width,
 							height: tileObject.height,
-							x: dxCorrected + tileObject.x + tileObject.width / 2 - map.width * map.tilewidth / 2,
-							y: map.height * map.tileheight / 2 - dyCorrected + tileObject.y - tileObject.height / 2,
+							x: dx + tileObject.x + tileObject.width / 2 - map.width * map.tilewidth / 2,
+							y: - dy + tileObject.y - tileObject.height / 2 + map.height * map.tileheight / 2,
 							properties: assignObjectProps(tileObject)
 						}
 						collisions.push(collision)
 					})
 				}
-				selectedBuffer!.drawImage(tileset.img,
-					sx, sy, map.tilewidth, map.tileheight,
-					dxCorrected, dyCorrected, tileset.tilewidth, tileset.tileheight
-				)
+
+				if (!idOffset) {
+
+					selectedBuffer!.drawImage(tileset.img,
+						sx, sy, map.tilewidth, map.tileheight,
+						dx, dy, tileset.tilewidth, tileset.tileheight
+					)
+				} else {
+
+					const selectedFlag = idOffset / flags.at(-1)
+					const tempBuffer = Buffer(tileset.tilewidth, tileset.tileheight)
+					tempBuffer.drawImage(tileset.img,
+						sx, sy, map.tilewidth, map.tileheight,
+						0, 0, tileset.tilewidth, tileset.tileheight)
+					selectedBuffer.save()
+
+					switch (selectedFlag) {
+						case 1: {
+							selectedBuffer.translate(map.width * map.tilewidth - tileset.tilewidth, map.height * map.tileheight - tileset.tileheight)
+							selectedBuffer.scale(-1, -1)
+						} break
+						case 2: {
+							selectedBuffer.translate(0, map.height * map.tileheight - tileset.tileheight)
+							selectedBuffer.scale(1, -1)
+						} break
+						case 4: {
+							selectedBuffer.scale(-1, 1)
+							selectedBuffer.translate(map.width * map.tilewidth - tileset.tilewidth, 0)
+						} break
+
+						case 5: {
+							selectedBuffer.translate(dx + tileset.tilewidth, dy)
+							selectedBuffer.rotate(getRadianAngle(90))
+						} break
+						case 5.5: {
+							selectedBuffer.translate(dx, dy + tileset.tileheight)
+							selectedBuffer.rotate(getRadianAngle(270))
+						} break
+						case 6: {
+							selectedBuffer.translate(dx + tileset.tilewidth, dy + tileset.tileheight)
+							selectedBuffer.rotate(getRadianAngle(180))
+						} break
+					}
+
+
+
+					selectedBuffer!.drawImage(tempBuffer.canvas,
+						0, 0, tileset.tilewidth, tileset.tileheight,
+						0, 0, tileset.tilewidth, tileset.tileheight
+					)
+					selectedBuffer.restore()
+
+				}
 			})
 		})
 

@@ -11,6 +11,8 @@ import { Vec2 } from 'planck'
 import NPC from '../objects/NPC'
 import SpriteAnimation from '../utils/SpriteAnimation'
 import { sleep } from '../utils/Functions'
+import Entity from '../Entity'
+import Health from '../Components/Health'
 const Run = () => {
 
 	//! Lights
@@ -39,7 +41,7 @@ const Run = () => {
 	const beginContacts = new Map()
 	beginContacts.set(['player', 'teleport'], (c: any) => {
 		if (character.canTeleport) {
-
+			debugger
 			lastTeleport = c.teleport
 		}
 	})
@@ -75,6 +77,7 @@ const Run = () => {
 			map.update()
 
 			if (lastTeleport && character.canTeleport) {
+
 				character.setStop(true)
 				const teleportCharacter = () => {
 					if (map.loaded) map.unLoad()
@@ -88,9 +91,10 @@ const Run = () => {
 					lastTeleport = null
 					character.setStop(false)
 				}
-				if (lastTeleport.object) {
-					lastTeleport.object.setOnAnimationFinished(teleportCharacter)
-					lastTeleport.object.start()
+				debugger
+				if (lastTeleport.sprite) {
+					lastTeleport.sprite.setOnAnimationFinished(teleportCharacter)
+					lastTeleport.sprite.start()
 				} else {
 					teleportCharacter()
 				}

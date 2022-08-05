@@ -6,6 +6,9 @@ import { indexToCoord, assignObjectProps, getFileName } from '../utils/Functions
 import Door from "./Door";
 import Cow from "./Cow";
 import { Vec2, Box } from "planck";
+import Entity from "../Entity";
+import sprite from "../Components/Sprite";
+import teleport from "./teleport";
 
 //! Types
 interface collision {
@@ -183,46 +186,40 @@ const getMap = (name: string) => {
 	}
 
 	//! Add teleports
-	const mapTeleports = []
+	const mapTeleports = mapObjects['teleports'].map(teleport)
 
-	mapObjects['teleports'].forEach((teleport: any) => {
+	// const newX = teleport.x + teleport.width / 2
+	// const newY = teleport.y - teleport.height / 2
 
-		const newX = teleport.x + teleport.width / 2
-		const newY = teleport.y - teleport.height / 2
+	// const position = Vec2(newX, newY)
 
-		const position = Vec2(newX, newY)
-
-		const teleportBody = world.createBody({
-			type: 'static',
-			position
-		})
-		bodies.push(teleportBody)
+	// const teleportBody = world.createBody({
+	// 	type: 'static',
+	// 	position
+	// })
+	// bodies.push(teleportBody)
 
 
-		const teleportFixture = teleportBody.createFixture({
-			shape: Box(teleport.width / 2, teleport.height / 2, Vec2(0, 0), 0),
-			density: 0,
-			isSensor: true
-		})
-		const userData = { ...teleport, type: 'teleport', position, }
-		if (teleport.door) {
-			const door = Door()
-			door.mesh.position.x = newX
-			door.mesh.position.y = newY
-			meshes.push(door.mesh)
-			Object.assign(userData, { object: door })
+	// const teleportFixture = teleportBody.createFixture({
+	// 	shape: Box(teleport.width / 2, teleport.height / 2, Vec2(0, 0), 0),
+	// 	density: 0,
+	// 	isSensor: true
+	// })
+	// const userData = { ...teleport, type: 'teleport', position, }
 
-		}
+	// 	meshes.push(door.sprite.mesh)
+	// 	Object.assign(userData, { object: door })
+	// 	console.log(door)
+	// }
 
-		teleportFixture.setUserData(userData)
-		mapTeleports.push(teleportFixture)
+	// teleportFixture.setUserData(userData)
+	// mapTeleports.push(teleportFixture)
 
-	})
+
 
 	let loaded = true
 	const getTeleport = (teleportName: string) => {
-
-		return mapTeleports.find(fixture => fixture.getUserData().name == teleportName)?.getUserData()
+		return mapTeleports.find(teleport => teleport.name == teleportName)
 	}
 	const unLoad = () => {
 		bodies.forEach(body => world.destroyBody(body))
@@ -231,8 +228,8 @@ const getMap = (name: string) => {
 		loaded = false
 	}
 	const update = () => {
-		mapTeleports.forEach(teleport => teleport.getUserData()?.object && teleport.getUserData().object.update())
-		entities.forEach(entity => entity.update())
+		// mapTeleports.forEach(teleport => teleport.getUserData()?.object && teleport.getUserData().object.update())
+		// entities.forEach(entity => entity.update())
 	}
 	return { meshTop: meshTop, meshBottom: meshBottom, collisions, getTeleport, unLoad, loaded, update }
 }

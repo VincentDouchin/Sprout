@@ -1,12 +1,22 @@
 import Engine from './src/Engine'
 import Run from './src/GameStates/Run'
+import AssetManager from './src/AssetManager'
+(async function () {
+	const engine = Engine()
 
-const engine = Engine()
-const run = Run()
+	for (const name of ['', 'Amélie', 'Clémentine', 'Hughie', 'Jack']) {
+		await AssetManager.load(`${name ? name + ' - ' : ''}Premium Charakter Spritesheet`)
+	}
+	await AssetManager.load('Light cow animations')
+	await AssetManager.load('door animation sprites')
+	await AssetManager.load('selectors')
+	await AssetManager.load('containers')
+
+	const run = Run()
 
 
-engine.setStates({ run })
-engine.setState('run')
-engine.start()
+	engine.setStates({ run })
+	engine.setState('run')
+	engine.start()
 
-
+}())

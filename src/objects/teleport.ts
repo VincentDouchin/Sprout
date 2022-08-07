@@ -32,7 +32,7 @@ const Teleport = {
 				repeat: false,
 				backwards: true,
 				once: true,
-				autoStart: false
+				startAnimation: false
 			})
 			teleport.sprite.mesh.position.x = newX
 			teleport.sprite.mesh.position.y = newY

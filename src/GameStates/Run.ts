@@ -3,13 +3,12 @@ import { world, scene, render, camera, renderer } from '../Initialize'
 import Character from '../objects/Character'
 import Controller from '../Controller'
 import keys from '../Keys'
-import * as planck from 'planck';
 import UIManager from '../UIManager'
 import { Vec2 } from 'planck'
 import { AmbientLight, Clock } from 'three'
 import Level from '../objects/Level';
-import teleport from '../objects/Teleport';
-import Teleport from '../objects/Teleport';
+import Inventory from '../UI modules/Inventory'
+import Player from '../objects/Player'
 
 const Run = () => {
 
@@ -20,36 +19,36 @@ const Run = () => {
 
 	//! Objects
 	let map = Level.create('map')
-	// const jack = NPC({ name: 'Jack', position: Vec2(-150, -50) })
+	const player = Player.create({ name: 'Amélie', position: Vec2(1200, -170), moveForce: 0.5 })
 
-	const player = Character.create({ name: 'Amélie', position: Vec2(930, -700), moveForce: 0.5 })
 
-	// const character = Character({ name: 'Amélie', position: Vec2(0, -50) })
 	//! UI
-	// const inventory = Inventory(character)
+	const inventory = Inventory(player)
 
-	// UIManager.addModule(inventory)
+	UIManager.addModule(inventory)
 
 
 	const clock = new Clock()
 	const controller = Controller(keys)
 	let lastTeleport = null
-	// sleep(6000).then(() => door.start())
 	//! Contacts
 
 	const beginContacts = new Map()
 	beginContacts.set(['player', 'teleport'], (c: any) => {
 		if (player.canTeleport) {
-			lastTeleport = c.teleport
+			lastTeleport = Level.getTeleport(map, c.teleport.name)
 		}
 	})
-	beginContacts.set(['playerSensor', 'NPC'], (c: any) => {
-		if (controller.interact.active) {
-			console.log('hello!')
-		}
+	beginContacts.set(['playerSensor', 'plant'], (c: any) => {
+		console.log('plant')
+
 	})
-	const endContact = new Map()
-	endContact.set(['teleport', 'player'], (c: any) => {
+
+	const endContacts = new Map()
+	// endContacts.set(['playerSensor', 'plant'], c => {
+	// 	console.log('plant leave')
+	// })
+	endContacts.set(['teleport', 'player'], (c: any) => {
 		player.canTeleport = true
 	})
 
@@ -66,27 +65,34 @@ const Run = () => {
 		})
 	}
 	evaluateContact('begin-contact', beginContacts)
-	evaluateContact('end-contact', endContact)
+	evaluateContact('end-contact', endContacts)
 
 	return {
 		//+ Update
 		update() {
-
-			// character.sprite.update()
-			// map.update()
+			Level.update(map)
 
 			if (lastTeleport && player.canTeleport) {
-				// Teleport.teleportPlayer(lastTeleport, map, player)
-				Level.unLoad(map)
-				const from = lastTeleport?.from?.split('.').at(-2)
-				map = Level.create(from)
-				const newTeleport = Level.getTeleport(map, lastTeleport.name)
-				console.log(newTeleport)
-				// Character.move(player, newTeleport.data.direction)
-				Character.teleport(player, newTeleport.body.getPosition())
-				player.canTeleport = false
-				lastTeleport = null
-				player.stopped = false
+				const teleportPlayer = () => {
+					player.stopped = true
+					Level.unLoad(map)
+					const from = lastTeleport.data.from.split('.').at(-2)
+					map = Level.create(from)
+					const newTeleport = Level.getTeleport(map, lastTeleport.data.name)
+
+					Character.teleport(player, newTeleport.body.getPosition())
+					player.canTeleport = false
+
+					player.stopped = false
+					lastTeleport = null
+				}
+				if (lastTeleport.sprite) {
+					lastTeleport.sprite.onAnimationFinished = teleportPlayer
+					lastTeleport.sprite.startAnimation = true
+				} else {
+					teleportPlayer()
+				}
+
 
 			}
 
@@ -110,19 +116,16 @@ const Run = () => {
 			Character.update(player)
 			camera.position.x = Character.getPosition(player).x
 			camera.position.y = Character.getPosition(player).y
-			// debugger
+
 			camera.lookAt(player.sprite.mesh.position)
-			// character.update()
-			// jack.update()
+
 			world.step(clock.getDelta() * 1000)
 
 		},
 		//+ Render
 		render() {
 			render()
-			// renderer.autoClear = false
-			// UIManager.render()
-			// renderer.autoClear = true
+			UIManager.render()
 
 		},
 		//+Set

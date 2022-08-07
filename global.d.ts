@@ -10,3 +10,8 @@ interface UIModule {
 	name: string
 	click: Function
 }
+
+interface position {
+	x: number
+	y: number
+}

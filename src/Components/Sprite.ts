@@ -81,7 +81,6 @@ import getPlane from "../utils/Plane"
 // }
 interface Sprite {
 	repeat: boolean
-	autoStart: boolean
 	animationsLength: object
 	backwards: boolean
 	speed: number
@@ -102,7 +101,6 @@ const Sprite = {
 	create(options): Sprite {
 		const sprite = {
 			repeat: true,
-			autoStart: true,
 			animationsLength: {},
 			backwards: false,
 			speed: 4,
@@ -112,7 +110,7 @@ const Sprite = {
 			startAnimation: true,
 			...options
 		}
-		sprite.state = options?.defaultAnimation ?? options.animations[0]
+		sprite.state = options?.state ?? options.animations[0]
 		sprite.image = AssetManager.images[options.img]
 		sprite.tilesNb = { vertical: sprite.image.height / options.tileSize, horizontal: sprite.image.width / options.tileSize }
 
@@ -135,7 +133,7 @@ const Sprite = {
 		}
 	},
 	update(sprite: Sprite) {
-		if ((sprite.repeat || !sprite.once) && sprite.startAnimation) {
+		if ((sprite.repeat || sprite.once) && sprite.startAnimation) {
 			const spriteNb = sprite.animationsLength[sprite.state] ?? sprite.tilesNb.horizontal
 			sprite.animationCounter++
 			if (sprite.animationCounter > sprite.speed) {
@@ -147,13 +145,17 @@ const Sprite = {
 			sprite.mesh.material['map'].offset.set(x, y)
 			if (sprite.selectedSprite == spriteNb - 1) {
 				sprite.once = true
-				if (sprite.onAnimationFinished) sprite.onAnimationFinished()
+
+				if (sprite.onAnimationFinished) {
+					console.log('ok')
+					sprite.onAnimationFinished()
+				}
 
 			}
 		}
 
 	},
-	setPosition(sprite: Sprite, position: planck.Vec2) {
+	setPosition(sprite: Sprite, position: position) {
 
 		sprite.mesh.position.x = position.x
 		sprite.mesh.position.y = position.y

@@ -9,6 +9,9 @@ import { Vec2, Box } from "planck";
 import Teleport from "./Teleport";
 import Body from "../Components/Body";
 import { Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
+import Sprite from "../Components/Sprite";
+import Plant from "./Plant";
+import Entity from "../Components/Entity";
 
 //! Types
 interface collision {
@@ -172,7 +175,13 @@ const Level = {
 		const entities = mapObjects?.['entities']?.filter(object => object.name == 'spawn').map(object => {
 			const newX = object.x + object.width / 2
 			const newY = object.y - object.height / 2
-			return Cow.create(Vec2(newX, newY), 'Light')
+			return Cow.create({ x: newX, y: newY }, 'Light')
+		})
+		//! Add farming
+		const farming = mapObjects?.['farming']?.map(object => {
+			const newX = object.x + object.width / 2
+			const newY = object.y - object.height / 2
+			return Plant.create({ x: newX, y: newY }, 'carrot')
 		})
 
 
@@ -183,7 +192,8 @@ const Level = {
 			meshes,
 			teleports,
 			bodies,
-			entities
+			entities,
+			farming
 
 		}
 	},
@@ -196,6 +206,12 @@ const Level = {
 	getTeleport(map, teleportName) {
 		return map.teleports.find((teleport) => teleport.data.name == teleportName)
 
+	},
+	update(map) {
+		map.teleports.forEach(teleport => {
+			if (teleport.sprite) Sprite.update(teleport.sprite)
+		})
+		map?.farming?.forEach(plant => Entity.update(plant))
 	}
 }
 

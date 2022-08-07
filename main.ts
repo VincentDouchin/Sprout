@@ -11,6 +11,7 @@ import AssetManager from './src/AssetManager'
 	await AssetManager.load('door animation sprites')
 	await AssetManager.load('selectors')
 	await AssetManager.load('containers')
+	await AssetManager.load('Farming Plants')
 
 	const run = Run()
 

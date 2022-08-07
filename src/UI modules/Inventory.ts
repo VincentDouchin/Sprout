@@ -26,8 +26,9 @@ const Inventory = (character: any) => {
 
 	//!Items
 	const characterItems = []
-	for (let i = 0; i < character.items.length; i++) {
-		const itemMesh = Items.getItem(character.items[i]).mesh
+	for (let i = 0; i < character.inventory.length; i++) {
+
+		const itemMesh = Items.create(character.inventory[i]).mesh
 		itemMesh.position.x = getXPosition(i)
 		const clonedMesh = itemMesh.clone()
 

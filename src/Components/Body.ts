@@ -9,8 +9,9 @@ const Body = {
 	destroy(body: planck.Body) {
 		world.destroyBody(body)
 	},
-	setPosition(body, position) {
+	setPosition(body, position: position) {
 		body.setPosition(position)
 	}
+
 }
 export default Body

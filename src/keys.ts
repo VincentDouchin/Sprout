@@ -6,6 +6,7 @@ const keys = {
 		KeyA: 'left',
 		KeyD: 'right',
 		KeyS: 'down',
+		KeyE: 'interact',
 	},
 	mouse: {
 		0: 'interact'

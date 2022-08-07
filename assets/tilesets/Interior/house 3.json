@@ -1,0 +1,14 @@
+{ "columns":120,
+ "image":"..\/..\/images\/Interior\/furniture\/house3 furniture.png",
+ "imageheight":784,
+ "imagewidth":1920,
+ "margin":0,
+ "name":"house 3 ",
+ "spacing":0,
+ "tilecount":5880,
+ "tiledversion":"1.9.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.8"
+}

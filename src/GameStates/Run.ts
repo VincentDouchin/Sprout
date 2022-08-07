@@ -1,38 +1,37 @@
 import { world, scene, render, camera, renderer } from '../Initialize'
-import * as THREE from 'three'
-import getMap from '../objects/Map'
+
 import Character from '../objects/Character'
 import Controller from '../Controller'
 import keys from '../Keys'
 import * as planck from 'planck';
-import Inventory from '../UI modules/Inventory'
 import UIManager from '../UIManager'
 import { Vec2 } from 'planck'
-import NPC from '../objects/NPC'
-import SpriteAnimation from '../utils/SpriteAnimation'
-import { sleep } from '../utils/Functions'
-import Entity from '../Entity'
-import Health from '../Components/Health'
+import { AmbientLight, Clock } from 'three'
+import Level from '../objects/Level';
+import teleport from '../objects/Teleport';
+import Teleport from '../objects/Teleport';
+
 const Run = () => {
 
 	//! Lights
-	const light = new THREE.AmbientLight(0xffffff)
+	const light = new AmbientLight(0xffffff)
 	scene.add(light)
 	light.position.set(0, 0, 200)
 
 	//! Objects
-	let map = getMap('map')
-	const jack = NPC({ name: 'Jack', position: Vec2(-150, -50) })
+	let map = Level.create('map')
+	// const jack = NPC({ name: 'Jack', position: Vec2(-150, -50) })
 
-	const character = Character({ name: 'Amélie', position: Vec2(930, -700) })
+	const player = Character.create({ name: 'Amélie', position: Vec2(930, -700), moveForce: 0.5 })
+
 	// const character = Character({ name: 'Amélie', position: Vec2(0, -50) })
 	//! UI
-	const inventory = Inventory(character)
+	// const inventory = Inventory(character)
 
-	UIManager.addModule(inventory)
+	// UIManager.addModule(inventory)
 
 
-	const clock = new THREE.Clock()
+	const clock = new Clock()
 	const controller = Controller(keys)
 	let lastTeleport = null
 	// sleep(6000).then(() => door.start())
@@ -40,8 +39,7 @@ const Run = () => {
 
 	const beginContacts = new Map()
 	beginContacts.set(['player', 'teleport'], (c: any) => {
-		if (character.canTeleport) {
-			debugger
+		if (player.canTeleport) {
 			lastTeleport = c.teleport
 		}
 	})
@@ -52,15 +50,16 @@ const Run = () => {
 	})
 	const endContact = new Map()
 	endContact.set(['teleport', 'player'], (c: any) => {
-		character.canTeleport = true
+		player.canTeleport = true
 	})
 
 	const evaluateContact = (contactType: 'begin-contact' | 'end-contact' | 'remove-fixture', contactMap: any) => {
-		//@ts-ignore there is a problem in the type definition of the world event listeners?
+		// @ts-ignore there is a problem in the type definition of the world event listeners?
 		world.on(contactType, (c: planck.Contact) => {
 			contactMap.forEach((val: Function, key: string[]) => {
 				const fixturesData = ['A', 'B'].map(letter => c['getFixture' + letter]().getUserData())
-				if (fixturesData.every(data => key.includes(data.type))) {
+
+				if (fixturesData.every(data => data && key.includes(data.type))) {
 					val(fixturesData.reduce((acc, v) => ({ ...acc, [v.type]: v }), {}))
 				}
 			})
@@ -72,66 +71,58 @@ const Run = () => {
 	return {
 		//+ Update
 		update() {
-			world.step(clock.getDelta() * 1000 * 2)
 
-			map.update()
+			// character.sprite.update()
+			// map.update()
 
-			if (lastTeleport && character.canTeleport) {
-
-				character.setStop(true)
-				const teleportCharacter = () => {
-					if (map.loaded) map.unLoad()
-
-					const from = lastTeleport?.from?.split('.').at(-2)
-					map = getMap(from)
-					const newTeleport = map.getTeleport(lastTeleport.name)
-					character.move(newTeleport.direction)
-					character.teleport(newTeleport.position)
-					character.canTeleport = false
-					lastTeleport = null
-					character.setStop(false)
-				}
-				debugger
-				if (lastTeleport.sprite) {
-					lastTeleport.sprite.setOnAnimationFinished(teleportCharacter)
-					lastTeleport.sprite.start()
-				} else {
-					teleportCharacter()
-				}
-
+			if (lastTeleport && player.canTeleport) {
+				// Teleport.teleportPlayer(lastTeleport, map, player)
+				Level.unLoad(map)
+				const from = lastTeleport?.from?.split('.').at(-2)
+				map = Level.create(from)
+				const newTeleport = Level.getTeleport(map, lastTeleport.name)
+				console.log(newTeleport)
+				// Character.move(player, newTeleport.data.direction)
+				Character.teleport(player, newTeleport.body.getPosition())
+				player.canTeleport = false
+				lastTeleport = null
+				player.stopped = false
 
 			}
-			camera.position.x = character.position.x
-			camera.position.y = character.position.y
-			camera.lookAt(character.position)
+
 
 
 
 
 
 			if (controller.left.active) {
-				character.move('left')
+				Character.move(player, 'left')
 			}
 			if (controller.right.active) {
-				character.move('right')
+				Character.move(player, 'right')
 			}
 			if (controller.up.active) {
-				character.move('up')
+				Character.move(player, 'up')
 			}
 			if (controller.down.active) {
-				character.move('down')
+				Character.move(player, 'down')
 			}
-
-			character.update()
-			jack.update()
+			Character.update(player)
+			camera.position.x = Character.getPosition(player).x
+			camera.position.y = Character.getPosition(player).y
+			// debugger
+			camera.lookAt(player.sprite.mesh.position)
+			// character.update()
+			// jack.update()
+			world.step(clock.getDelta() * 1000)
 
 		},
 		//+ Render
 		render() {
 			render()
-			renderer.autoClear = false
-			UIManager.render()
-			renderer.autoClear = true
+			// renderer.autoClear = false
+			// UIManager.render()
+			// renderer.autoClear = true
 
 		},
 		//+Set

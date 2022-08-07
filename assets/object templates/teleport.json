@@ -1,6 +1,5 @@
 { "object":
     {
-     "class":"",
      "height":16,
      "id":1,
      "name":"",
@@ -24,8 +23,14 @@
              "name":"name",
              "type":"string",
              "value":"house1"
+            }, 
+            {
+             "name":"type",
+             "type":"string",
+             "value":"teleport"
             }],
      "rotation":0,
+     "type":"",
      "visible":true,
      "width":16
     },

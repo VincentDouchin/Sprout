@@ -1,34 +1,49 @@
 import { Box, Vec2 } from "planck"
-import body from "../Components/Body"
-import sprite from "../Components/Sprite"
-import Entity from "../Entity"
+import Body from "../Components/Body"
+import Sprite from "../Components/Sprite"
 
-const teleport = (_teleport) => {
-	const newX = _teleport.x + _teleport.width / 2
-	const newY = _teleport.y - _teleport.height / 2
+import { assignObjectProps } from '../utils/Functions'
+import Character from "./Character"
+import Level from "./Level"
 
-	const entity = new Entity()
-	entity.position = Vec2(newX, newY)
-	Object.assign(entity, _teleport)
-	entity.add(new body(
-		{ position: entity.position, type: 'static', },
+const Teleport = {
+	create(_teleport) {
 
-	)
-	if (_teleport.door) {
-		entity.add(new sprite({
-			img: 'door animation sprites',
-			tileSize: 16,
-			animations: ['smallDoor'],
-			animationsLength: { smallDoor: 6 },
-			repeat: false,
-			backwards: true,
-			once: true,
-			autoStart: false
-		}))
-		entity.sprite.mesh.position.x = newX
-		entity.sprite.mesh.position.y = newY
-	}
+		const teleport: any = { data: _teleport }
+		const newX = _teleport.x + _teleport.width / 2
+		const newY = _teleport.y - _teleport.height / 2
 
-	return entity
+
+		const position = Vec2(newX, newY)
+		teleport.body = Body.create({ position: position, type: 'static', })
+		teleport.body.createFixture({
+			shape: Box(_teleport.width / 2, _teleport.height / 2, Vec2(0, 0), 0),
+			density: 0,
+			isSensor: true,
+			userData: _teleport
+		})
+
+		if (_teleport.door) {
+			teleport.sprite = Sprite.create({
+				img: 'door animation sprites',
+				tileSize: 16,
+				animations: ['smallDoor'],
+				animationsLength: { smallDoor: 6 },
+				repeat: false,
+				backwards: true,
+				once: true,
+				autoStart: false
+			})
+			teleport.sprite.mesh.position.x = newX
+			teleport.sprite.mesh.position.y = newY
+		}
+		return teleport
+	},
+	destroy(teleport) {
+		if (teleport.sprite) Sprite.destroy(teleport.sprite)
+		Body.destroy(teleport.body)
+	},
+
+
 }
-export default teleport
+export default Teleport

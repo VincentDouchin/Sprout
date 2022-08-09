@@ -1,4 +1,4 @@
-import Sprite from "../Components/Sprite"
+
 import Entity from "../Components/Entity"
 import { Box, Vec2 } from "planck"
 

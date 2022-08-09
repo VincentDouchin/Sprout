@@ -1,7 +1,7 @@
 import Frame from "../utils/Frame"
 import Items from "../objects/Items"
 import AssetManager from "../AssetManager"
-import { Group, MeshBasicMaterial, Raycaster, Vector2 } from "three"
+import { Group, MeshBasicMaterial, } from "three"
 import Buffer from "../utils/Buffer"
 import getPlane from "../utils/Plane"
 

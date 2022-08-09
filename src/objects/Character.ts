@@ -1,8 +1,6 @@
 import { Box, Vec2 } from "planck"
-import { Mesh, MeshBasicMaterial, PlaneGeometry } from "three"
 import Body from "../Components/Body"
 import Sprite from "../Components/Sprite"
-import { scene } from "../Initialize"
 
 const friction = 0.50
 
@@ -16,7 +14,6 @@ interface Character {
 	stopped: boolean
 	canTeleport: boolean
 	frontBody: planck.Body
-	frontMesh: THREE.Mesh
 }
 
 const Character = {
@@ -76,7 +73,7 @@ const Character = {
 			}; break
 		}
 	},
-	update({ sprite, velocity, stopped, moveForce, direction, body, frontBody, frontMesh }: Character) {
+	update({ sprite, velocity, stopped, moveForce, direction, body, frontBody }: Character) {
 		sprite.state = (Math.abs(velocity.x) > moveForce || Math.abs(velocity.y) > moveForce ? 'moving' : 'idle') + '-' + direction
 		Sprite.update(sprite)
 		if (stopped) {

@@ -8,7 +8,6 @@ import Cow from "./Cow";
 import { Vec2, Box } from "planck";
 import Teleport from "./Teleport";
 import Body from "../Components/Body";
-import { Mesh, MeshBasicMaterial, PlaneGeometry } from "three";
 import Sprite from "../Components/Sprite";
 import Plant from "./Plant";
 import Entity from "../Components/Entity";

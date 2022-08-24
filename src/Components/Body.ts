@@ -3,7 +3,6 @@ import { world } from "../Initialize"
 const Body = {
 	create(options) {
 		const body = world.createBody(options)
-
 		return body
 	},
 	destroy(body: planck.Body) {

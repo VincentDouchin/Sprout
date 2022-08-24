@@ -9,13 +9,14 @@ import { AmbientLight, Clock } from 'three'
 import Level from '../objects/Level';
 import Inventory from '../UI modules/Inventory'
 import Player from '../objects/Player'
-
+import Entity from '../Components/Entity'
+import Plant from '../objects/Plant'
 const Run = () => {
 
 	//! Lights
 	const light = new AmbientLight(0xffffff)
 	scene.add(light)
-	light.position.set(0, 0, 200)
+	// light.position.set(0, 0, 200)
 
 	//! Objects
 	let map = Level.create('map')
@@ -23,7 +24,7 @@ const Run = () => {
 
 
 	//! UI
-	const inventory = Inventory(player)
+	const inventory = Inventory(player.data)
 
 	UIManager.addModule(inventory)
 
@@ -31,25 +32,28 @@ const Run = () => {
 	const clock = new Clock()
 	const controller = Controller(keys)
 	let lastTeleport = null
-	//! Contacts
+	let lastInteraction = null
 
+	//! Contacts
 	const beginContacts = new Map()
 	beginContacts.set(['player', 'teleport'], (c: any) => {
-		if (player.canTeleport) {
-			lastTeleport = Level.getTeleport(map, c.teleport.name)
+		if (player.data.canTeleport) {
+			lastTeleport = c.teleport
 		}
 	})
-	beginContacts.set(['playerSensor', 'plant'], (c: any) => {
-		console.log('plant')
-
+	beginContacts.set(['player', 'plant'], (c: any) => {
+		lastInteraction = c.plant
 	})
 
 	const endContacts = new Map()
-	// endContacts.set(['playerSensor', 'plant'], c => {
-	// 	console.log('plant leave')
-	// })
+
 	endContacts.set(['teleport', 'player'], (c: any) => {
-		player.canTeleport = true
+		player.data.canTeleport = true
+	})
+	endContacts.set(['player', 'plant'], (c: any) => {
+		if (lastInteraction && c.plant.id === lastInteraction.id) {
+			lastInteraction = null
+		}
 	})
 
 	const evaluateContact = (contactType: 'begin-contact' | 'end-contact' | 'remove-fixture', contactMap: any) => {
@@ -57,9 +61,11 @@ const Run = () => {
 		world.on(contactType, (c: planck.Contact) => {
 			contactMap.forEach((val: Function, key: string[]) => {
 				const fixturesData = ['A', 'B'].map(letter => c['getFixture' + letter]().getUserData())
-
-				if (fixturesData.every(data => data && key.includes(data.type))) {
-					val(fixturesData.reduce((acc, v) => ({ ...acc, [v.type]: v }), {}))
+				if (fixturesData.every(data => data?.id && key.includes(Entity.getEntityById(data.id)?.type))) {
+					val(fixturesData.reduce((acc, v) => {
+						const entity = Entity.getEntityById(v.id)
+						return { ...acc, [entity.type]: entity }
+					}, {}))
 				}
 			})
 		})
@@ -71,19 +77,27 @@ const Run = () => {
 		//+ Update
 		update() {
 			Level.update(map)
+			if (controller.interact.once && lastInteraction) {
+				switch (lastInteraction.type) {
+					case 'plant': {
 
-			if (lastTeleport && player.canTeleport) {
+						Plant.interact(lastInteraction)
+					}
+						break
+				}
+			}
+			if (lastTeleport && player.data.canTeleport) {
+				player.data.stopped = true
 				const teleportPlayer = () => {
-					player.stopped = true
 					Level.unLoad(map)
 					const from = lastTeleport.data.from.split('.').at(-2)
 					map = Level.create(from)
 					const newTeleport = Level.getTeleport(map, lastTeleport.data.name)
 
 					Character.teleport(player, newTeleport.body.getPosition())
-					player.canTeleport = false
+					player.data.canTeleport = false
 
-					player.stopped = false
+					player.data.stopped = false
 					lastTeleport = null
 				}
 				if (lastTeleport.sprite) {

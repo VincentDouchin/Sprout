@@ -186,6 +186,7 @@ const Level = {
 
 		//! Add teleports
 		const teleports = mapObjects['teleports'].map(Teleport.create)
+
 		teleports.forEach(teleport => bodies.push(teleport.body))
 		return {
 			meshes,
@@ -198,9 +199,12 @@ const Level = {
 	},
 	unLoad(map) {
 		map.meshes.forEach((mesh: THREE.Mesh) => scene.remove(mesh))
-		map.teleports.forEach(teleport => Teleport.destroy(teleport))
+		// map.teleports.forEach(teleport => Teleport.destroy(teleport))
 		map.bodies.forEach((body: planck.Body) => world.destroyBody(body))
-		// map.entities.forEach((entity) => Cow.destroy(entity))
+		if (map?.entities) {
+			map.entities.forEach((entity) => Entity.destroy(entity))
+
+		}
 	},
 	getTeleport(map, teleportName) {
 		return map.teleports.find((teleport) => teleport.data.name == teleportName)

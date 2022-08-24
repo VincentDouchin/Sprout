@@ -1,5 +1,6 @@
 import { Box, Vec2 } from "planck"
 import Body from "../Components/Body"
+import Entity from "../Components/Entity"
 import Sprite from "../Components/Sprite"
 
 import { assignObjectProps } from '../utils/Functions'
@@ -8,23 +9,22 @@ import Level from "./Level"
 
 const Teleport = {
 	create(_teleport) {
-
-		const teleport: any = { data: _teleport }
 		const newX = _teleport.x + _teleport.width / 2
 		const newY = _teleport.y - _teleport.height / 2
-
-
 		const position = Vec2(newX, newY)
-		teleport.body = Body.create({ position: position, type: 'static', })
-		teleport.body.createFixture({
-			shape: Box(_teleport.width / 2, _teleport.height / 2, Vec2(0, 0), 0),
-			density: 0,
-			isSensor: true,
-			userData: _teleport
-		})
-
+		const entityOptions = {
+			body: { type: 'static', },
+			fixture: {
+				shape: Box(_teleport.width / 2, _teleport.height / 2, Vec2(0, 0), 0),
+				density: 0,
+				isSensor: true,
+			},
+			position,
+			data: _teleport,
+			type: 'teleport'
+		}
 		if (_teleport.door) {
-			teleport.sprite = Sprite.create({
+			entityOptions['sprite'] = {
 				img: 'door animation sprites',
 				tileSize: 16,
 				animations: ['smallDoor'],
@@ -33,17 +33,11 @@ const Teleport = {
 				backwards: true,
 				once: true,
 				startAnimation: false
-			})
-			teleport.sprite.mesh.position.x = newX
-			teleport.sprite.mesh.position.y = newY
+			}
+
 		}
+		const teleport = Entity.create(entityOptions)
 		return teleport
 	},
-	destroy(teleport) {
-		if (teleport.sprite) Sprite.destroy(teleport.sprite)
-		Body.destroy(teleport.body)
-	},
-
-
 }
 export default Teleport

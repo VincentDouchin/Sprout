@@ -1,41 +1,57 @@
 import { Box, Vec2 } from "planck"
 import Body from "../Components/Body"
+import Entity from "../Components/Entity"
 import Sprite from "../Components/Sprite"
 
 const friction = 0.50
 
 
-interface Character {
-	sprite: Sprite
-	body: planck.Body,
-	direction: string
-	velocity: { x: number, y: number }
-	moveForce: number
-	stopped: boolean
-	canTeleport: boolean
-	frontBody: planck.Body
+interface Character extends Entity {
+	data: {
+		direction: string
+		velocity: { x: number, y: number }
+		moveForce: number
+		stopped: boolean
+		canTeleport: boolean
+	}
+	type: string
 }
 
 const Character = {
-	create({ name, position = Vec2(0, 0), direction = 'down', velocity = { x: 0, y: 0 }, moveForce = 0.25, stopped = false, canTeleport = true }): Character {
+	create({ name, position = Vec2(0, 0), direction = 'down', velocity = { x: 0, y: 0 }, moveForce = 0.25, stopped = false, canTeleport = true }): Entity {
+		const character = Entity.create({
+			sprite: {
+				img: `${name} - Premium Charakter Spritesheet`,
+				tileSize: 48,
+				animations: ['idle-down', 'idle-up', 'idle-left', 'idle-right', 'moving-down', 'moving-up', 'moving-right', 'moving-left']
+			},
+			body: {
+				type: 'dynamic',
+				fixedRotation: true,
+				bullet: true,
+				position: position
+			},
+			fixture: {
+				shape: Box(7, 8, Vec2(0, 0), 0),
+				density: 0,
+				userData: { type: 'player' }
+			},
+			position,
+			data: {
 
-		const sprite = Sprite.create({
-			img: `${name} - Premium Charakter Spritesheet`,
-			tileSize: 48,
-			animations: ['idle-down', 'idle-up', 'idle-left', 'idle-right', 'moving-down', 'moving-up', 'moving-right', 'moving-left']
+				direction,
+				velocity,
+				moveForce,
+				stopped,
+				canTeleport
+			},
+			type: 'character',
 		})
-		sprite.mesh.renderOrder = 1
-		const body = Body.create({
-			type: 'dynamic',
-			fixedRotation: true,
-			bullet: true,
-			position: position
-		})
-		body.createFixture({
-			shape: Box(7, 8, Vec2(0, 0), 0),
-			density: 0,
-			userData: { type: 'player' }
-		})
+
+		// const sprite = Sprite.create()
+		// sprite.mesh.renderOrder = 1
+		// const body = Body.create()
+		// body.createFixture()
 		const frontBody = Body.create({
 			type: 'dynamic',
 			fixedRotation: true,
@@ -43,7 +59,7 @@ const Character = {
 			position: position,
 		})
 		const frontFixture = frontBody.createFixture({
-			shape: Box(8, 8, Vec2(0, 0), 0),
+			shape: Box(0, 0, Vec2(0, 0), 0),
 			density: 0,
 			isSensor: true,
 			userData: { type: 'playerSensor' }
@@ -54,44 +70,46 @@ const Character = {
 		// )
 		// scene.add(frontMesh)
 		// frontMesh.position.z = 2
-		return { sprite, body, direction, velocity, moveForce, stopped, canTeleport, frontBody, }
+		// return { sprite, body, direction, velocity, moveForce, stopped, canTeleport, frontBody, }
+		return character
 	},
 	move(character: Character, _direction: string) {
-		character.direction = _direction
+		character.data.direction = _direction
 		switch (_direction) {
 			case 'up': {
-				character.velocity.y += character.moveForce
+				character.data.velocity.y += character.data.moveForce
 			}; break
 			case 'down': {
-				character.velocity.y -= character.moveForce
+				character.data.velocity.y -= character.data.moveForce
 			}; break
 			case 'right': {
-				character.velocity.x += character.moveForce
+				character.data.velocity.x += character.data.moveForce
 			}; break
 			case 'left': {
-				character.velocity.x -= character.moveForce
+				character.data.velocity.x -= character.data.moveForce
 			}; break
 		}
 	},
-	update({ sprite, velocity, stopped, moveForce, direction, body, frontBody }: Character) {
-		sprite.state = (Math.abs(velocity.x) > moveForce || Math.abs(velocity.y) > moveForce ? 'moving' : 'idle') + '-' + direction
-		Sprite.update(sprite)
-		if (stopped) {
-			velocity.x = 0
-			velocity.y = 0
+	update(character: Character) {
+		character.sprite.state = (Math.abs(character.data.velocity.x) > character.data.moveForce || Math.abs(character.data.velocity.y) > character.data.moveForce ? 'moving' : 'idle') + '-' + character.data.direction
+		Sprite.update(character.sprite)
+		if (character.data.stopped) {
+			character.data.velocity.x = 0
+			character.data.velocity.y = 0
+			character.body.setLinearVelocity(new Vec2(0, 0))
 		} else {
-			velocity.x *= friction
-			velocity.y *= friction
+			character.data.velocity.x *= friction
+			character.data.velocity.y *= friction
 
+			character.body.setLinearVelocity(new Vec2(character.data.velocity.x, character.data.velocity.y))
 		}
-		body.setLinearVelocity(new Vec2(velocity.x, velocity.y))
 
-		const bodyPosition = body.getPosition()
-		sprite.mesh.position.x = bodyPosition.x
-		sprite.mesh.position.y = bodyPosition.y
-		const frontOffset = Vec2({ left: -16, right: 16 }[direction] ?? 0, { up: 16, down: -16 }[direction] ?? 0)
+		const bodyPosition = character.body.getPosition()
+		character.sprite.mesh.position.x = bodyPosition.x
+		character.sprite.mesh.position.y = bodyPosition.y
+		// const frontOffset = Vec2({ left: -16, right: 16 }[character.data.direction] ?? 0, { up: 16, down: -16 }[character.data.direction] ?? 0)
 
-		frontBody.setPosition(frontOffset.add(bodyPosition))
+		// frontBody.setPosition(frontOffset.add(bodyPosition))
 		// frontMesh.position.x = frontBody.getPosition().x - frontBody.getPosition().x % 16
 		// frontMesh.position.y = frontBody.getPosition().y - frontBody.getPosition().y % 16
 

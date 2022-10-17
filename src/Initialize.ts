@@ -5,7 +5,7 @@ import Camera from './utils/Camera';
 
 
 //! Camera
-const camera: THREE.Camera = Camera()
+const camera: THREE.OrthographicCamera = Camera.create()
 // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 200)
 
@@ -42,7 +42,7 @@ animate()
 const world = new planck.World({ gravity: planck.Vec2(0, 0) })
 
 const render = () => renderer.render(scene, camera)
-window['world'] = world
+
 
 
 

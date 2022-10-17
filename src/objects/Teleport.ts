@@ -1,12 +1,8 @@
 import { Box, Vec2 } from "planck"
-import Body from "../Components/Body"
 import Entity from "../Components/Entity"
-import Sprite from "../Components/Sprite"
-
-import { assignObjectProps } from '../utils/Functions'
-import Character from "./Character"
 import Level from "./Level"
-
+import Character from "./Character"
+import Contacts from "../utils/Contacts"
 const Teleport = {
 	create(_teleport) {
 		const newX = _teleport.x + _teleport.width / 2
@@ -21,7 +17,8 @@ const Teleport = {
 			},
 			position,
 			data: _teleport,
-			type: 'teleport'
+			type: 'teleport',
+			interactable: true,
 		}
 		if (_teleport.door) {
 			entityOptions['sprite'] = {
@@ -37,7 +34,9 @@ const Teleport = {
 
 		}
 		const teleport = Entity.create(entityOptions)
+
 		return teleport
-	},
+	}
+
 }
 export default Teleport

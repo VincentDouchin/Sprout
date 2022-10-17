@@ -1,3 +1,5 @@
+
+
 const indexToCoord = (index: number, columns: number, width: number, height?: number) => {
 	height = height ?? width
 	return [index % columns * width, Math.floor(index / columns) * height]
@@ -8,9 +10,11 @@ const assignObjectProps = (tileObject: any) => tileObject.properties?.reduce((ac
 
 const getFileName = path => path.split(/[\/.]/).at(-2)
 
+
+
 export {
 	indexToCoord,
 	sleep,
 	assignObjectProps,
-	getFileName
+	getFileName,
 }

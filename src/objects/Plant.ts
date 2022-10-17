@@ -26,7 +26,8 @@ const Plant = {
 			},
 			position: { x: position.x, y: position.y },
 			data: {},
-			type: 'plant'
+			type: 'plant',
+			interactable: true,
 		})
 		return plant
 

@@ -24,6 +24,7 @@ interface Entity {
 	data: any
 	type: string
 	position: position
+	interactable: boolean
 }
 interface Sprite {
 	repeat: boolean

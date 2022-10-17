@@ -48,22 +48,18 @@ const Character = {
 			type: 'character',
 		})
 
-		// const sprite = Sprite.create()
-		// sprite.mesh.renderOrder = 1
-		// const body = Body.create()
-		// body.createFixture()
-		const frontBody = Body.create({
-			type: 'dynamic',
-			fixedRotation: true,
-			allowSleep: false,
-			position: position,
-		})
-		const frontFixture = frontBody.createFixture({
-			shape: Box(0, 0, Vec2(0, 0), 0),
-			density: 0,
-			isSensor: true,
-			userData: { type: 'playerSensor' }
-		})
+		// const frontBody = Body.create({
+		// 	type: 'dynamic',
+		// 	fixedRotation: true,
+		// 	allowSleep: false,
+		// 	position: position,
+		// })
+		// const frontFixture = frontBody.createFixture({
+		// 	shape: Box(0, 0, Vec2(0, 0), 0),
+		// 	density: 0,
+		// 	isSensor: true,
+		// 	userData: { type: 'playerSensor' }
+		// })
 		// const frontMesh = new Mesh(
 		// 	new PlaneGeometry(14, 14),
 		// 	new MeshBasicMaterial({ color: 0x00FFFF })
@@ -92,7 +88,7 @@ const Character = {
 	},
 	update(character: Character) {
 		character.sprite.state = (Math.abs(character.data.velocity.x) > character.data.moveForce || Math.abs(character.data.velocity.y) > character.data.moveForce ? 'moving' : 'idle') + '-' + character.data.direction
-		Sprite.update(character.sprite)
+		// Sprite.update(character.sprite)
 		if (character.data.stopped) {
 			character.data.velocity.x = 0
 			character.data.velocity.y = 0

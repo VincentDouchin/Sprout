@@ -5,7 +5,7 @@ import Camera from './utils/Camera'
 
 const UIManager = (function () {
 	//! Camera
-	const UICamera = Camera(200)
+	const UICamera = Camera.create(200)
 	UICamera.position.set(0, 0, 200)
 	//! Scene
 	const UIScene = new THREE.Scene()

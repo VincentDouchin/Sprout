@@ -199,7 +199,7 @@ const Level = {
 	},
 	unLoad(map) {
 		map.meshes.forEach((mesh: THREE.Mesh) => scene.remove(mesh))
-		// map.teleports.forEach(teleport => Teleport.destroy(teleport))
+		map.teleports.forEach(teleport => Entity.destroy(teleport))
 		map.bodies.forEach((body: planck.Body) => world.destroyBody(body))
 		if (map?.entities) {
 			map.entities.forEach((entity) => Entity.destroy(entity))
@@ -209,13 +209,8 @@ const Level = {
 	getTeleport(map, teleportName) {
 		return map.teleports.find((teleport) => teleport.data.name == teleportName)
 
-	},
-	update(map) {
-		map.teleports.forEach(teleport => {
-			if (teleport.sprite) Sprite.update(teleport.sprite)
-		})
-		map?.farming?.forEach(plant => Entity.update(plant))
 	}
+
 }
 
 export default Level

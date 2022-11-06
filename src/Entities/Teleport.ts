@@ -18,8 +18,8 @@ class Teleporter extends Component {
 }
 const Teleport = (options: any) => {
 
-	const newX = options.x + options.width / 2
-	const newY = options.y + options.height / 2
+	const newX = options.x
+	const newY = options.y
 	const entity = new Entity(
 		new Position(newX, newY),
 		new Body({

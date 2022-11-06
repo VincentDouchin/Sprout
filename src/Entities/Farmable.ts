@@ -12,9 +12,11 @@ const Farmable = (options) => {
 			animationsLength: { 'maizeTop': 5, 'maizeBottom': 5, 'carrot': 4, 'cauliflower': 4, 'tomato': 4, 'eggplant': 4, 'blue tulip': 4, 'lettuce': 4, 'wheat': 4, 'pumpkin': 4, 'raddish': 4, 'red flower': 4, 'beet': 4, 'star': 4, 'cucumber': 4 },
 			tileSize: 16,
 			startAnimation: false,
+			repeat: false,
 			img: 'Farming Plants',
-			state: options.plant,
+			state: 'carrot',
 			speed: 1,
+			renderOrder: 1
 		}),
 		new Body(
 			{ type: 'static', },
@@ -25,7 +27,7 @@ const Farmable = (options) => {
 			}]
 		),
 		new Position(options.x, options.y),
-		new FarmableComponent(options.wet, options.plant)
+		new FarmableComponent(options.wet, 'carrot', options.growth)
 
 	)
 }

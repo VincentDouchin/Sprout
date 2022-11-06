@@ -8,7 +8,9 @@ const Movement = new System(
 	(entity: Entity, position) => {
 		const [sprite, controller, body, cameraTarget] = entity.getComponents('Sprite', 'Controller', 'Body', 'CameraTarget')
 
-		body.idle = Math.abs(body.velocity.x) > body.moveForce || Math.abs(body.velocity.y) > body.moveForce
+		if (body) {
+			body.idle = Math.abs(body.velocity.x) > body.moveForce || Math.abs(body.velocity.y) > body.moveForce
+		}
 
 		if (controller && body) {
 

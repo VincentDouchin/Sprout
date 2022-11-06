@@ -6,6 +6,7 @@ import Controller from "../Components/Controller";
 import Body from "../Components/Body";
 import CameraTarget from '../Components/CameraTarget'
 import Teleportable from "../Components/Teleportable";
+import Interactable from "../Components/Interactable";
 const Player = (name: string, x: number, y: number) => new Entity(
 	new Sprite({
 		img: `${name} - Premium Charakter Spritesheet`,
@@ -25,7 +26,8 @@ const Player = (name: string, x: number, y: number) => new Entity(
 		density: 1,
 	}]),
 	new CameraTarget(),
-	new Teleportable()
+	new Teleportable(),
+	new Interactable('player')
 )
 
 export default Player

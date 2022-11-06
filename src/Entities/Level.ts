@@ -3,22 +3,22 @@ import { Entity } from "../ECS"
 import Body from "../Components/Body"
 import Buffer from "../utils/Buffer";
 
-import { indexToCoord, assignObjectProps, getFileName } from '../utils/Functions'
+import { indexToCoord, assignObjectProps, getFileName, getRadianAngle } from '../utils/Functions'
 
 // import Cow from "./Cow";
 import { Vec2, Box } from "planck";
 import Plane from "../Components/Plane";
 import EntityCollection from "../Components/EntityCollection";
-import Teleport from "./Teleport";
 import Data from "../Components/Data";
 import Collection from "../Components/Collection";
+import Teleport from "./Teleport";
 import Farmable from "./Farmable";
 
 
 // //! Types
 
 const flags = [0xc0000000, 0xb0000000, 0xa0000000, 0x80000000, 0x40000000, 0x20000000]
-const getRadianAngle = (degreeValue: number) => degreeValue * Math.PI / 180
+
 
 const Level = (name: string) => {
 	const map = AssetManager.levels[name]
@@ -45,7 +45,7 @@ const Level = (name: string) => {
 				Object.assign(newObject, AssetManager.templates[getFileName(object.template)])
 			}
 			Object.assign(newObject, object)
-			Object.assign(newObject, { x: object.x - map.width * map.tilewidth / 2, y: map.height * map.tileheight / 2 - object.y })
+			Object.assign(newObject, { x: object.x - map.width * map.tilewidth / 2 + object.width / 2, y: map.height * map.tileheight / 2 - object.y + object.height / 2 })
 			Object.assign(newObject, assignObjectProps(object))
 			return newObject
 		})

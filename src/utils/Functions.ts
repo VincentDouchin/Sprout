@@ -16,11 +16,12 @@ const waitFor = function* (nb: number) {
 	}
 	return nb
 }
-
+const getRadianAngle = (degreeValue: number) => degreeValue * Math.PI / 180
 export {
 	indexToCoord,
 	sleep,
 	assignObjectProps,
 	getFileName,
-	waitFor
+	waitFor,
+	getRadianAngle
 }

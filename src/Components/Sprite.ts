@@ -2,7 +2,7 @@
 import AssetManager from "../AssetManager"
 import Coroutines from "../Coroutines"
 import Buffer from "../utils/Buffer"
-import { waitFor } from "../utils/Functions"
+import { getRadianAngle, waitFor } from "../utils/Functions"
 import Plane from "./Plane"
 
 type SpriteOptions = {

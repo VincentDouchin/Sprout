@@ -1,3 +1,4 @@
+import Coroutines from "./Coroutines"
 const Engine = function () {
 
 	let raf_handle: number
@@ -20,6 +21,7 @@ const Engine = function () {
 
 		while (accumulated_time >= time_step) {
 			state.update()
+			Coroutines.run()
 			updated = true
 			accumulated_time -= time_step
 		}

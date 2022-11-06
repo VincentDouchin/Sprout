@@ -1,6 +1,7 @@
 import Engine from './src/Engine'
 import Run from './src/GameStates/Run'
 import AssetManager from './src/AssetManager'
+import { ECS } from './src/ECS'
 (async function () {
 	const engine = Engine()
 
@@ -14,7 +15,6 @@ import AssetManager from './src/AssetManager'
 	await AssetManager.load('Farming Plants')
 
 	const run = Run()
-
 
 	engine.setStates({ run })
 	engine.setState('run')

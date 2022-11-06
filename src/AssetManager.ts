@@ -23,7 +23,7 @@ const sourceItems = import.meta.globEager('../assets/items/*.json')
 //! Loaders
 const loadTileSet = (images) => async (tileset) => ({
     ...tileset,
-    img: await loadImage(images[getFileName(tileset.image)].default),
+    img: tileset?.image ? await loadImage(images[getFileName(tileset.image)].default) : null,
     tiles: tileset?.tiles?.map(tile => ({ ...tile, ...assignObjectProps(tile) }))
 })
 const assignTemplateProps = (template: any) => ({ ...template.object, ...assignObjectProps(template.object) })
@@ -36,17 +36,28 @@ const items = await mapToFileName(sourceItems, loadTileSet(images))
 const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
 const templates = await mapToFileName(sourceTemplates, assignTemplateProps)
 
-const AssetManager = (() => {
-    return {
-        levels,
-        tilesets,
-        items,
-        images,
-        templates,
-        async load(name: string) {
-            this.images[name] = await loadImage(images[name].default)
-            return this.images[name]
-        }
+const AssetManager = new class {
+    levels = levels
+    tilesets = tilesets
+    items = items
+    images = images
+    templates = templates
+    async load(name: string) {
+        this.images[name] = await loadImage(images[name].default)
+        return this.images[name]
     }
-})();
+}
+// const AssetManager = (() => {
+//     return {
+//         levels,
+//         tilesets,
+//         items,
+//         images,
+//         templates,
+//         async load(name: string) {
+//             this.images[name] = await loadImage(images[name].default)
+//             return this.images[name]
+//         }
+//     }
+// })();
 export default AssetManager

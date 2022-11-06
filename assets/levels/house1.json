@@ -823,37 +823,36 @@
     
         {
          "draworder":"topdown",
-         "id":2,
-         "name":"teleports",
+         "id":22,
+         "name":"entities",
          "objects":[
                 {
+                 "class":"",
+                 "gid":42754,
                  "height":16,
-                 "id":1,
+                 "id":2,
+                 "name":"",
                  "properties":[
-                        {
-                         "name":"direction",
-                         "type":"string",
-                         "value":"up"
-                        }, 
                         {
                          "name":"door",
                          "type":"bool",
                          "value":false
                         }, 
                         {
-                         "name":"from",
-                         "type":"file",
-                         "value":"map.json"
-                        }, 
-                        {
                          "name":"name",
                          "type":"string",
                          "value":"house1"
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"file",
+                         "value":"map.json"
                         }],
-                 "template":"..\/object templates\/teleport.json",
+                 "rotation":0,
+                 "visible":true,
                  "width":32,
                  "x":144,
-                 "y":288
+                 "y":304
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -861,11 +860,11 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":22,
- "nextobjectid":2,
+ "nextlayerid":23,
+ "nextobjectid":3,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.9.0",
+ "tiledversion":"1.9.1",
  "tileheight":16,
  "tilesets":[
         {
@@ -936,6 +935,10 @@
         {
          "firstgid":36874,
          "source":"..\/tilesets\/Interior\/house 1 furniture.json"
+        }, 
+        {
+         "firstgid":42754,
+         "source":"..\/tilesets\/Entities.json"
         }],
  "tilewidth":16,
  "type":"map",

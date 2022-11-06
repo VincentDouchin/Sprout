@@ -10,11 +10,17 @@ const assignObjectProps = (tileObject: any) => tileObject.properties?.reduce((ac
 
 const getFileName = path => path.split(/[\/.]/).at(-2)
 
-
+const waitFor = function* (nb: number) {
+	for (let i = 0; i < nb; i++) {
+		yield i
+	}
+	return nb
+}
 
 export {
 	indexToCoord,
 	sleep,
 	assignObjectProps,
 	getFileName,
+	waitFor
 }

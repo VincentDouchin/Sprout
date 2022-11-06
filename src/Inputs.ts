@@ -1,4 +1,4 @@
-const Controller = (keys: any) => {
+const Inputs = (keys: any) => {
 	const Input = function () {
 		return {
 			active: false,
@@ -19,7 +19,7 @@ const Controller = (keys: any) => {
 	const inputs = keys.actions.reduce((acc: any, v: string) => ({ ...acc, [v]: Input() }), {})
 	const downUp = (type: string, callback: Function) => (e: KeyboardEvent) => {
 
-		e.preventDefault()
+		// e.preventDefault()
 		const state = e.type == type
 		const key = callback(e)
 		if (key) inputs[key].getInput(state)
@@ -34,4 +34,4 @@ const Controller = (keys: any) => {
 	document.addEventListener('keyup', keyDownUp)
 	return inputs
 }
-export default Controller
+export default Inputs

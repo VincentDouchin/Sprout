@@ -1,6 +1,6 @@
 import { Box, Vec2 } from "planck"
 import Entity from "../Components/Entity"
-import Level from "./Level"
+import Level from "../Entities/Level"
 import Character from "./Character"
 import Contacts from "../utils/Contacts"
 const Teleport = {

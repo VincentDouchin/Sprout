@@ -18,13 +18,8 @@ const Contacts = {
 					const target = entities.find(entity => entity?.id != id)
 					if (target && events[target.type]) {
 						targets.push(target.id)
-
-
 						const fn = events[target.type].bind(subject, target)
 						this.contacts[id].off[target.id] = fn()
-
-
-
 					}
 					if (contact.next) checkContact(contact.next)
 				}

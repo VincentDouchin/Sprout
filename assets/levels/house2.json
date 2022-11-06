@@ -262,7 +262,7 @@
         }, 
         {
          "chunks":[],
-         "height":16,
+         "height":0,
          "id":8,
          "name":"bathroom",
          "opacity":1,
@@ -270,7 +270,7 @@
          "starty":0,
          "type":"tilelayer",
          "visible":true,
-         "width":16,
+         "width":0,
          "x":0,
          "y":0
         }, 
@@ -362,7 +362,7 @@
         }, 
         {
          "chunks":[],
-         "height":16,
+         "height":0,
          "id":12,
          "name":"chair",
          "opacity":1,
@@ -370,7 +370,7 @@
          "starty":0,
          "type":"tilelayer",
          "visible":true,
-         "width":16,
+         "width":0,
          "x":0,
          "y":0
         }, 
@@ -444,33 +444,32 @@
          "name":"teleports",
          "objects":[
                 {
+                 "class":"",
+                 "gid":41595,
                  "height":16,
-                 "id":1,
+                 "id":3,
+                 "name":"",
                  "properties":[
-                        {
-                         "name":"direction",
-                         "type":"string",
-                         "value":"up"
-                        }, 
                         {
                          "name":"door",
                          "type":"bool",
                          "value":false
                         }, 
                         {
-                         "name":"from",
-                         "type":"file",
-                         "value":"map.json"
-                        }, 
-                        {
                          "name":"name",
                          "type":"string",
                          "value":"house2"
+                        }, 
+                        {
+                         "name":"to",
+                         "type":"file",
+                         "value":"map.json"
                         }],
-                 "template":"..\/object templates\/teleport.json",
+                 "rotation":0,
+                 "visible":true,
                  "width":32,
                  "x":80,
-                 "y":240
+                 "y":256
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -479,10 +478,10 @@
          "y":0
         }],
  "nextlayerid":24,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.9.0",
+ "tiledversion":"1.9.1",
  "tileheight":16,
  "tilesets":[
         {
@@ -557,6 +556,10 @@
         {
          "firstgid":35715,
          "source":"..\/tilesets\/Interior\/house 2.json"
+        }, 
+        {
+         "firstgid":41595,
+         "source":"..\/tilesets\/Entities.json"
         }],
  "tilewidth":16,
  "type":"map",

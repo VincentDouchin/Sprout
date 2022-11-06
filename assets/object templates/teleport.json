@@ -1,8 +1,26 @@
 { "object":
     {
+     "class":"",
      "height":16,
      "id":1,
      "name":"",
+     "polygon":[
+            {
+             "x":0,
+             "y":0
+            }, 
+            {
+             "x":16,
+             "y":0
+            }, 
+            {
+             "x":16,
+             "y":16
+            }, 
+            {
+             "x":0,
+             "y":16
+            }],
      "properties":[
             {
              "name":"direction",
@@ -13,6 +31,11 @@
              "name":"door",
              "type":"bool",
              "value":true
+            }, 
+            {
+             "name":"entity",
+             "type":"string",
+             "value":"teleport"
             }, 
             {
              "name":"from",
@@ -30,7 +53,6 @@
              "value":"teleport"
             }],
      "rotation":0,
-     "type":"",
      "visible":true,
      "width":16
     },

@@ -1,95 +1,96 @@
 
 import AssetManager from "../AssetManager"
-import { scene } from "../Initialize"
+import Coroutines from "../Coroutines"
 import Buffer from "../utils/Buffer"
-import getPlane from "../utils/Plane"
+import { waitFor } from "../utils/Functions"
+import Plane from "./Plane"
 
-const Sprite = {
-	sprites: [],
-	callbacks: {},
-	create(options): Sprite {
-		const sprite = {
-			repeat: true,
-			animationsLength: {},
-			backwards: false,
-			speed: 4,
-			once: false,
-			selectedSprite: 0,
-			animationCounter: 0,
-			startAnimation: true,
-			...options
+type SpriteOptions = {
+	animations: string[]
+	state?: string
+	img: string
+	tileSize: number
+	repeat?: boolean
+	backwards?: boolean
+	startAnimation?: boolean
+	speed?: number
+	selectedSprite?: number
+	animationCounter?: number
+	animationsLength?: any
+	spriteNb?: any
+	character?: boolean
+	renderOrder?: number
+}
+class Sprite extends Plane {
+	repeat: boolean
+	backwards: boolean
+	once: boolean
+	startAnimation: boolean
+	speed = 4
+	selectedSprite = 0
+	animationCounter = 0
+	animationsLength = {}
+	spriteNb = {}
+	direction = 'down'
+	character: boolean
+	state: string
+	animations: string[]
+	image: HTMLImageElement
+	tilesNb: { vertical: number, horizontal: number }
+
+	tileSize: number
+
+	constructor({ animations, state, img, tileSize, repeat = true, backwards = false, startAnimation = true, speed = 4, selectedSprite = 0, animationCounter = 0, animationsLength = {}, renderOrder = 0, character = false }: SpriteOptions) {
+
+		const image = AssetManager.images[img]
+		const buffer = Buffer(image.width, image.height)
+		buffer.drawImage(image, 0, 0)
+		super({ buffer }, tileSize, tileSize)
+		this.repeat = repeat
+		this.backwards = backwards
+		this.startAnimation = startAnimation
+		this.speed = speed
+		this.selectedSprite = selectedSprite
+		this.animationCounter = animationCounter
+		this.animationsLength = animationsLength
+		this.animations = animations
+		this.tileSize = tileSize
+		this.state = state ?? animations[0]
+
+		this.character = character
+		this.tilesNb = {
+			vertical: image.height / tileSize,
+			horizontal: image.width / tileSize
 		}
 
-		sprite.state = options?.state ?? options.animations[0]
-		sprite.image = AssetManager.images[options.img]
-		sprite.tilesNb = { vertical: sprite.image.height / options.tileSize, horizontal: sprite.image.width / options.tileSize }
 
-		const buffer = Buffer(sprite.image.width, sprite.image.height)
+		this.mesh.renderOrder = renderOrder
+		this.spriteNb = this.animations.reduce((acc, v) => ({ ...acc, [v]: this.animationsLength[state] ?? this.tilesNb.horizontal }), {})
 
-		buffer.drawImage(sprite.image, 0, 0)
-
-		sprite.mesh = getPlane({ buffer }, options.tileSize, options.tileSize,)
-
-		sprite.spriteNb = options.animations.reduce((acc, v) => ({ ...acc, [v]: sprite.animationsLength[sprite.state] ?? sprite.tilesNb.horizontal }), {})
-		const { x, y } = Sprite.getOffset(sprite)
-		sprite.mesh.material['map'].repeat.set(1 / sprite.tilesNb.horizontal, 1 / sprite.tilesNb.vertical)
-		sprite.mesh.material['map'].offset.set(x, y)
-		scene.add(sprite.mesh)
-		this.sprites.push(sprite)
-		return sprite
-
-	},
-	getOffset(sprite: Sprite) {
-		return {
-			x: (sprite.backwards ? sprite.spriteNb[sprite.state] - sprite.selectedSprite - 1 : sprite.selectedSprite) / sprite.tilesNb.horizontal,
-			y: 1 - ((sprite.animations.findIndex(animation => animation == sprite.state) + 1) / sprite.tilesNb.vertical),
-		}
-	},
-	update(sprite: Sprite) {
-		if ((sprite.repeat || sprite.once) && sprite.startAnimation) {
-			sprite.animationCounter++
-			if (sprite.animationCounter > sprite.speed) {
-				sprite.animationCounter = 0
-				sprite.selectedSprite = (sprite.selectedSprite + 1) % sprite.spriteNb[sprite.state]
-			}
-		}
-		const { x, y } = Sprite.getOffset(sprite)
-		sprite.mesh.material['map'].offset.set(x, y)
+		this.mesh.material['map'].repeat.set(1 / this.tilesNb.horizontal, 1 / this.tilesNb.vertical)
+		this.mesh.material['map'].offset.set(this.offsetX, this.offsetY)
 
 
-	},
-	setOnAnimationFinished(sprite: Sprite, callback: Function) {
-		this.callbacks[sprite.mesh.id] = callback
-	},
-	updateSprites() {
-		this.sprites.forEach((sprite: Sprite) => {
-			this.update(sprite)
-			if (this.callbacks[sprite.mesh.id] && sprite.selectedSprite == sprite.spriteNb[sprite.state] - 1) {
-				// sprite.once = true
-				this.callbacks[sprite.mesh.id]()
-				delete this.callbacks[sprite.mesh.id]
-			}
-		})
-
-	},
-	step(sprite: Sprite) {
-		sprite.selectedSprite = (sprite.selectedSprite + 1) % sprite.spriteNb[sprite.state]
-	},
-
-
-	setPosition(sprite: Sprite, position: position) {
-
-		sprite.mesh.position.x = position.x
-		sprite.mesh.position.y = position.y
-	},
-	destroy(sprite: Sprite) {
-		const id = sprite.mesh.id
-		const index = this.sprites.findIndex(sprite => sprite.mesh.id === id)
-		this.sprites.splice(index, 1)
-		sprite.mesh.geometry.dispose()
-
-		scene.remove(scene.getObjectById(id))
 	}
+	get offsetX() {
+		return (this.backwards ? this.spriteNb[this.state] - this.selectedSprite - 1 : this.selectedSprite) / this.tilesNb.horizontal
+	}
+	get offsetY() {
+		return 1 - ((this.animations.findIndex(animation => animation == this.state) + 1) / this.tilesNb.vertical)
+	}
+
+	playAnimation(animationName: string) {
+		this.startAnimation = true
+		const nb = this.animationsLength[animationName] * this.speed
+		return new Promise<void>(resolve => {
+			Coroutines.add(function* () {
+				yield* waitFor(nb)
+				resolve()
+				return
+			})
+		})
+	}
+
 }
 
 export default Sprite

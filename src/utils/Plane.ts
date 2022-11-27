@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-const getPlane = (planeImage: planeImage, width?: number, height?: number,) => {
+const getPlane = (planeImage: any, width?: number, height?: number,) => {
     const { buffer, texture, material = THREE.MeshStandardMaterial } = planeImage
     let text = null
 

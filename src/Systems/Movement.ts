@@ -1,17 +1,21 @@
 import { Entity, System } from "../ECS";
+import Animation from "../Components/Animation";
+import Controller from "../Components/Controller";
+import Body from "../Components/Body";
+import CameraTarget from "../Components/CameraTarget";
+import Position from "../Components/Position";
 import { camera, inputs } from "../Initialize";
 import { Vec2 } from "planck"
 import { FRICTION } from "../Constants";
 import { Vector3 } from "three";
 const Movement = new System(
-	'Position',
+	Position,
 	(entity: Entity, position) => {
-		const [sprite, controller, body, cameraTarget] = entity.getComponents('Sprite', 'Controller', 'Body', 'CameraTarget')
+		const [animation, controller, body, cameraTarget] = entity.getComponents(Animation, Controller, Body, CameraTarget)
 
 		if (body) {
-			body.idle = Math.abs(body.velocity.x) > body.moveForce || Math.abs(body.velocity.y) > body.moveForce
+			body.idle = Math.abs(body.velocity.x) + Math.abs(body.velocity.y) < body.moveForce
 		}
-
 		if (controller && body) {
 
 			if (controller.stopped) {
@@ -24,7 +28,7 @@ const Movement = new System(
 			}
 		}
 		if (body && !body.stopped) {
-			if (position.initialPosition) {
+			if (position.initialPosition || body.sensor) {
 				body.body.setPosition(new Vec2(position.x, position.y))
 				position.initialPosition = false
 			}
@@ -36,27 +40,24 @@ const Movement = new System(
 		}
 		if (controller && controller.player && body) {
 			if (inputs.left.active) {
-				sprite.direction = 'left'
+				animation.selectedDirection = 'left'
 				body.velocity.x -= body.moveForce
 			}
 			if (inputs.right.active) {
-				sprite.direction = 'right'
+				animation.selectedDirection = 'right'
 				body.velocity.x += body.moveForce
 			}
 			if (inputs.up.active) {
-				sprite.direction = 'up'
+				animation.selectedDirection = 'up'
 				body.velocity.y += body.moveForce
 			}
 			if (inputs.down.active) {
-				sprite.direction = 'down'
+				animation.selectedDirection = 'down'
 				body.velocity.y -= body.moveForce
 			}
 		}
 
-		if (sprite) {
-			sprite.mesh.position.x = position.x
-			sprite.mesh.position.y = position.y
-		}
+
 		if (cameraTarget) {
 			camera.position.x = position.x
 			camera.position.y = position.y

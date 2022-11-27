@@ -1,28 +1,34 @@
 import Coroutines from "../Coroutines";
 import { Entity, System } from "../ECS";
 import { map, world } from "../Initialize";
+import Teleporter from "../Components/Teleporter";
+import Teleportable from "../Components/Teleportable";
+import Body from "../Components/Body";
+import Animation from "../Components/Animation";
+import Position from "../Components/Position";
+import EntityCollection from "../Components/EntityCollection";
 
 const Teleport = new System(
-	'Teleporter',
+	Teleporter,
 	(entity: Entity, teleporter) => {
-		const [body, sprite] = entity.getComponents('Body', 'Sprite')
+		const [body, animation] = entity.getComponents(Body, Animation)
 
 
 		const contactList = body.getContactList()
 		contactList.forEach((target: Entity) => {
-			const [teleportable, targetPosition, targetBody] = target.getComponents('Teleportable', 'Position', 'Body')
+			const [teleportable, targetPosition, targetBody] = target.getComponents(Teleportable, Position, Body)
 
 			if (teleportable && teleportable.canTeleport) {
 				teleportable.canTeleport = false
 				targetBody.stopped = true
 				const teleporTarget = () => {
 					map.change(teleporter.to)
-					const targetTeleport = map.map.getComponent('EntityCollection').entities
+					const targetTeleport = map.map.getComponent(EntityCollection).entities
 						.find((entity: Entity) => {
-							const targetTeleporter = entity.getComponent('Teleporter')
+							const targetTeleporter = entity.getComponent(Teleporter)
 							return targetTeleporter.name == teleporter.name
 						})
-					const targetTeleportPosition = targetTeleport.getComponent('Position')
+					const targetTeleportPosition = targetTeleport.getComponent(Position)
 
 					targetPosition.setPosition(targetTeleportPosition.x, targetTeleportPosition.y)
 					targetBody.stopped = false
@@ -44,8 +50,8 @@ const Teleport = new System(
 
 					})
 				}
-				if (sprite) {
-					sprite.playAnimation('smallDoor').then(() => teleporTarget())
+				if (animation) {
+					animation.playAnimation('smallDoor').then(() => teleporTarget())
 				} else {
 					teleporTarget()
 				}

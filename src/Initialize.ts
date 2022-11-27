@@ -1,5 +1,5 @@
 import * as planck from 'planck';
-import * as THREE from 'three'
+import { Scene, Color, WebGLRenderer, Mesh, MeshBasicMaterial, BoxGeometry } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Camera from './utils/Camera';
 import Inputs from './Inputs';
@@ -12,12 +12,12 @@ const camera: THREE.OrthographicCamera = Camera.create()
 camera.position.set(0, 0, 200)
 
 //! Scene
-const scene = new THREE.Scene()
-scene.background = new THREE.Color(0x000000)
+const scene = new Scene()
+scene.background = new Color(0x000000)
 
 
 //! Renderer
-const renderer = new THREE.WebGLRenderer({ alpha: true, })
+const renderer = new WebGLRenderer({ alpha: true, })
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.autoClear = false
@@ -44,7 +44,17 @@ const inputs = Inputs(keys)
 //! World
 const world = new planck.World({ gravity: planck.Vec2(0, 0) })
 
-const render = () => renderer.render(scene, camera)
+//! UI
+//! Camera
+const UICamera = Camera.create(200)
+UICamera.position.set(0, 0, 200)
+//! Scene
+const UIScene = new Scene()
+
+const render = () => {
+	renderer.render(scene, camera)
+	renderer.render(UIScene, UICamera)
+}
 
 const map = new class {
 	map: Entity
@@ -59,10 +69,10 @@ const map = new class {
 		this.load(mapName)
 	}
 }
-// const geometry = new THREE.BoxGeometry(10, 10, 10);
-// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-// const cube = new THREE.Mesh(geometry, material);
-// scene.add(cube);
+// const geometry = new BoxGeometry(10, 10, 10);
+// const material = new MeshBasicMaterial({ color: 0x00ff00 });
+// const cube = new Mesh(geometry, material);
+// UIScene.add(cube);
 // const geometry2 = new THREE.BoxGeometry(10, 10, 10);
 // const material2 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 // const cube2 = new THREE.Mesh(geometry, material);
@@ -72,4 +82,4 @@ const map = new class {
 // camera.position.z = 5;
 
 
-export { render, world, scene, camera, renderer, inputs, map }
+export { render, world, scene, camera, renderer, inputs, map, UIScene, UICamera }

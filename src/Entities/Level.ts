@@ -7,12 +7,13 @@ import { indexToCoord, assignObjectProps, getFileName, getRadianAngle } from '..
 
 // import Cow from "./Cow";
 import { Vec2, Box } from "planck";
-import Plane from "../Components/Plane";
 import EntityCollection from "../Components/EntityCollection";
 import Data from "../Components/Data";
-import Collection from "../Components/Collection";
+import Sprite from "../Components/Sprite";
 import Teleport from "./Teleport";
-import Farmable from "./Farmable";
+import Plant from "./Plant";
+import Cow from "./Cow";
+import Position from "../Components/Position";
 
 
 // //! Types
@@ -56,7 +57,9 @@ const Level = (name: string) => {
 		.map((object: any) => {
 			switch (object.entity) {
 				case 'teleport': return Teleport(object)
-				case 'farmable': return Farmable(object)
+				case 'farmable': return Plant(object)
+				case 'cow': return Cow(object)
+
 			}
 		})
 		.filter(entity => entity)
@@ -64,6 +67,7 @@ const Level = (name: string) => {
 	const getMapBuffer = (): CanvasRenderingContext2D => Buffer(map.width * map.tilewidth, map.height * map.tileheight)
 	const finalTopBuffer = getMapBuffer()
 	const finalBottomBuffer = getMapBuffer()
+
 	map.layers.filter((layer: any) => layer.type == 'tilelayer').forEach((layer: any) => {
 		Object.assign(layer, assignObjectProps(layer))
 		const buffer = getMapBuffer()
@@ -96,16 +100,6 @@ const Level = (name: string) => {
 							shape: Box(tileObject.width / 2, tileObject.height / 2, Vec2(x, y), 0.0),
 							density: 0.0
 						})
-						// const mesh = new Mesh(
-						// 	new PlaneGeometry(tileObject.width, tileObject.height),
-						// 	new MeshBasicMaterial({ color: 0xFF0000 })
-						// )
-						// meshes.push(mesh)
-						// mesh.position.x = x
-						// mesh.position.y = y
-						// mesh.position.z = 1
-						// scene.add(mesh)
-
 					})
 				}
 
@@ -167,15 +161,20 @@ const Level = (name: string) => {
 		finalBuffer.drawImage(buffer.canvas, 0, 0)
 	})
 	// +Mesh
-	const meshTop = new Plane({ buffer: finalTopBuffer })
-	const meshBottom = new Plane({ buffer: finalBottomBuffer })
-	meshBottom.mesh.renderOrder = 0
-	meshTop.mesh.renderOrder = 1
 
+	collection.entities.push(
+		new Entity(
+			new Sprite(finalBottomBuffer, { renderOrder: 0 }),
+			new Position(0, 0)
+		),
+		new Entity(
+			new Sprite(finalTopBuffer, { renderOrder: 1 }),
+			new Position(0, 0)
+		)
+	)
 	return new Entity(
 		body,
 		collection,
-		new Collection(meshTop, meshBottom),
 		new Data({ name })
 
 	)

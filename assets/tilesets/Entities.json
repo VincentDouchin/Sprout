@@ -8,9 +8,9 @@
  "margin":0,
  "name":"Entities",
  "spacing":0,
- "tilecount":2,
+ "tilecount":3,
  "tiledversion":"1.9.1",
- "tileheight":16,
+ "tileheight":32,
  "tiles":[
         {
          "height":16,
@@ -73,8 +73,29 @@
          "width":16,
          "x":16,
          "y":80
+        }, 
+        {
+         "height":32,
+         "id":2,
+         "image":"..\/images\/characters\/Animal SpriteSheets\/cow\/Light cow animations.png",
+         "imageheight":256,
+         "imagewidth":256,
+         "properties":[
+                {
+                 "name":"color",
+                 "type":"string",
+                 "value":"Light"
+                }, 
+                {
+                 "name":"entity",
+                 "type":"string",
+                 "value":"cow"
+                }],
+         "width":32,
+         "x":0,
+         "y":0
         }],
- "tilewidth":16,
+ "tilewidth":32,
  "type":"tileset",
  "version":"1.8"
 }

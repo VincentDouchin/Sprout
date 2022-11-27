@@ -1,5 +1,5 @@
 import { assignObjectProps, getFileName } from "./utils/Functions"
-
+import Buffer from "./utils/Buffer";
 
 const mapToFileName = async (obj, fn = x => x) => (await Promise.all(Object.entries(obj)
     .map(async ([key, val]) => [getFileName(key), await fn(val)])
@@ -46,18 +46,12 @@ const AssetManager = new class {
         this.images[name] = await loadImage(images[name].default)
         return this.images[name]
     }
+    fromString(imageName: string) {
+        const img = this.images[imageName]
+        const buffer = Buffer(img.width, img.height)
+        buffer.drawImage(img, 0, 0)
+        return buffer
+    }
 }
-// const AssetManager = (() => {
-//     return {
-//         levels,
-//         tilesets,
-//         items,
-//         images,
-//         templates,
-//         async load(name: string) {
-//             this.images[name] = await loadImage(images[name].default)
-//             return this.images[name]
-//         }
-//     }
-// })();
+
 export default AssetManager

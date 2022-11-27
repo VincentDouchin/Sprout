@@ -43,3 +43,4 @@ interface position {
 // 	tilesNb: { vertical: number, horizontal: number }
 // 	spriteNb: any
 // }
+type Constructor<T> = new (...args: any[]) => T;

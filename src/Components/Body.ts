@@ -9,6 +9,7 @@ class Body extends Component {
 	stopped = false
 	idle = false
 	initialPosition = true
+	sensor = false
 	constructor(bodyOptions: any, fixturesOptions: any[] = []) {
 		super()
 		this.body = world.createBody(bodyOptions)

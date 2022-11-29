@@ -4,6 +4,7 @@ const ECS = new class {
 	entities = new Map()
 	systems: System[] = []
 	components = new Map()
+
 	getComponents(Component: Constructor<Component>): Map<string, Component> {
 		return this.components.get(Component.name)
 	}
@@ -35,6 +36,7 @@ const ECS = new class {
 	getEntityById(id: string) {
 		return this.entities.get(id)
 	}
+
 }
 
 class Entity {
@@ -49,7 +51,7 @@ class Entity {
 		return components.map((component) => this.getComponent(component))
 	}
 	getComponent(component: Constructor<Component>) {
-		return ECS.components.get(component.name).get(this.id)
+		return ECS.components?.get(component.name)?.get(this.id)
 	}
 	addComponent(component: Component) {
 		ECS.components.get(component.constructor.name).set(this.id, component)
@@ -58,7 +60,8 @@ class Entity {
 		}
 	}
 	removeComponent(component: Constructor<Component>) {
-		ECS.components.get(component).delete(this.id)
+		ECS.getComponents(component).get(this.id)?.destroy()
+		ECS.getComponents(component).delete(this.id)
 	}
 	destroy() {
 		ECS.components.forEach((componentMap: Map<string, Component>) => {
@@ -94,6 +97,7 @@ class System {
 }
 interface Component {
 	bind(id: string): void
+	destroy(): void
 }
 class Component {
 	id: string
@@ -101,9 +105,7 @@ class Component {
 		ECS.registerComponent(this)
 		this.id = generateUUID()
 	}
-	destroy() {
 
-	}
 }
 
 export { ECS, Entity, System, Component }

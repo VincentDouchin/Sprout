@@ -162,7 +162,7 @@ const Level = (name: string) => {
 	})
 	// +Mesh
 
-	collection.entities.push(
+	collection.addEntities(
 		new Entity(
 			new Sprite(finalBottomBuffer, { renderOrder: 0 }),
 			new Position(0, 0)

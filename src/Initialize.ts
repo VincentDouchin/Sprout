@@ -1,5 +1,5 @@
 import * as planck from 'planck';
-import { Scene, Color, WebGLRenderer, Mesh, MeshBasicMaterial, BoxGeometry } from 'three';
+import { Scene, Color, WebGLRenderer, Mesh, MeshBasicMaterial, BoxGeometry, Clock } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Camera from './utils/Camera';
 import Inputs from './Inputs';
@@ -69,6 +69,7 @@ const map = new class {
 		this.load(mapName)
 	}
 }
+const clock = new Clock()
 // const geometry = new BoxGeometry(10, 10, 10);
 // const material = new MeshBasicMaterial({ color: 0x00ff00 });
 // const cube = new Mesh(geometry, material);
@@ -82,4 +83,4 @@ const map = new class {
 // camera.position.z = 5;
 
 
-export { render, world, scene, camera, renderer, inputs, map, UIScene, UICamera }
+export { render, world, scene, camera, renderer, inputs, map, UIScene, UICamera, clock }

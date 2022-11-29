@@ -10,6 +10,8 @@ const UIRenderer = new System(
 			const [inventorySprite, items] = entity.getComponents(Sprite, EntityCollection)
 			if (!inventorySprite.rendered) {
 				inventorySprite.mesh.position.y = UICamera.bottom + inventorySprite.height / 2
+				inventorySprite.mesh.renderOrder = 0
+
 				UIScene.add(inventorySprite.mesh)
 
 			}
@@ -17,9 +19,11 @@ const UIRenderer = new System(
 				const sprite = item.getComponent(Sprite)
 				if (!sprite.rendered) {
 
-
 					sprite.mesh.position.y = inventorySprite.mesh.position.y
 					UIScene.add(sprite.mesh)
+					sprite.mesh.renderOrder = inventorySprite.mesh.renderOrder + 1
+					sprite.scale = 1
+
 					sprite.rendered = true
 				}
 				sprite.mesh.position.x = inventorySprite.mesh.position.x - (9 / 2) * 16 + 8 + itemIndex * 16

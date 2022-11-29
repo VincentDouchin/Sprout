@@ -1,7 +1,6 @@
-import { world, scene, render, camera, renderer, map } from '../Initialize'
+import { world, scene, render, camera, renderer, map, clock } from '../Initialize'
 import Light from '../Components/Light'
 import { ECS, Entity } from '../ECS'
-import { Clock } from 'three'
 
 
 
@@ -29,7 +28,7 @@ const Run = () => {
 	// //! Objects
 	map.load('map')
 
-	const clock = new Clock()
+
 
 	return {
 		//+ Update

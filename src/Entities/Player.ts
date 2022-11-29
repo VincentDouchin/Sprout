@@ -14,6 +14,7 @@ import EntityCollection from "../Components/EntityCollection";
 import Inventory from "./Inventory";
 import Item from "./Item";
 import Selector from "./Selector";
+import Shadow from "../Components/Shadow";
 
 const Player = (name: string, x: number, y: number) => {
 	const entity = new Entity(
@@ -46,6 +47,7 @@ const Player = (name: string, x: number, y: number) => {
 		new CameraTarget(),
 		new Teleportable(),
 		new Interactable('player'),
+		new Shadow(14, 6, 8)
 
 
 	)

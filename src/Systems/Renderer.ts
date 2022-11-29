@@ -4,24 +4,32 @@ import Position from "../Components/Position";
 import Body from "../Components/Body";
 import { Entity, System } from "../ECS";
 import { scene } from "../Initialize";
+import Shadow from "../Components/Shadow";
 const checkList = new Set()
 const Renderer = new System(
 	Sprite,
 	(entity: Entity, sprite: Sprite) => {
-		const [animation, position, body] = entity.getComponents(Animation, Position, Body)
+		const [animation, position, body, shadow] = entity.getComponents(Animation, Position, Body, Shadow)
 
 		if (!sprite.rendered && position) {
 			scene.add(sprite.mesh)
 			sprite.rendered = true
-			checkList.add(sprite.mesh.id)
+			// sprite.destroy = () => 
 		}
+		if (shadow && position) {
+			if (!shadow.rendered) {
+				scene.add(shadow.mesh)
+				shadow.rendered = true
 
+				// shadow.destroy = () => scene.remove(scene.getObjectById(shadow.mesh.id))
+			}
+			shadow.mesh.renderOrder = sprite.renderOrder - 1
+			shadow.mesh.position.set(position.x, position.y - shadow.offset, 0)
+		}
 		sprite.mesh.renderOrder = sprite.renderOrder
-
+		sprite.mesh.scale.set(sprite.scale, sprite.scale, 1)
 		if (position) {
-			sprite.mesh.position.x = position.x
-			sprite.mesh.position.y = position.y
-			sprite.mesh.position.z = 0
+			sprite.mesh.position.set(position.x + sprite.offsetX, position.y + sprite.offsetY, 0)
 		}
 		if (animation) {
 
@@ -49,17 +57,18 @@ const Renderer = new System(
 
 	}, {
 
-	postUpdate(entities: Entity[]) {
-		const entitiesMeshIds = entities
-			.filter((entity: Entity) => entity.getComponent(Position))
-			.map((entity: Entity) => entity.getComponent(Sprite).mesh.id)
-		checkList.forEach((id: number) => {
-			if (!entitiesMeshIds.includes(id)) {
-				scene.remove(scene.getObjectById(id))
-				checkList.delete(id)
-			}
-		})
-	}
+	// postUpdate(entities: Entity[]) {
+	// 	const entitiesMeshIds = entities
+	// 		.filter((entity: Entity) => entity.getComponent(Position))
+	// 		.map((entity: Entity) => entity.getComponent(Sprite).mesh.id)
+
+	// 	checkList.forEach((id: number) => {
+	// 		if (!entitiesMeshIds.includes(id)) {
+	// 			scene.remove(scene.getObjectById(id))
+	// 			checkList.delete(id)
+	// 		}
+	// 	})
+	// }
 
 }
 

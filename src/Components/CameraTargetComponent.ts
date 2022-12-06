@@ -1,9 +1,9 @@
 import { Component } from "../ECS"
 
-class CameraTarget extends Component {
+class CameraTargetComponent extends Component {
 	isTarget = true
 	constructor() {
 		super()
 	}
 }
-export default CameraTarget
+export default CameraTargetComponent

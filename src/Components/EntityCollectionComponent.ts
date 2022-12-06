@@ -1,5 +1,5 @@
 import { Component, ECS, Entity } from "../ECS"
-class EntityCollection extends Component {
+class EntityCollectionComponent extends Component {
 	#entitiesIds: string[] = []
 	parentId: string
 	constructor(...entities: Entity[]) {
@@ -24,4 +24,4 @@ class EntityCollection extends Component {
 	}
 
 }
-export default EntityCollection
+export default EntityCollectionComponent

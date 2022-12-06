@@ -5,10 +5,11 @@ import { Entity } from "../ECS"
 import Buffer from "../utils/Buffer"
 import { indexToCoord } from '../utils/Functions'
 
-import Sprite from "../Components/Sprite"
+import SpriteComponent from "../Components/SpriteComponent"
 import { MeshBasicMaterial } from "three"
-import Pickable from "../Components/Pickable"
-const Item = (category: string, type: string) => {
+import PickableComponent from "../Components/PickableComponent"
+import Stackable from "../Components/Stackable"
+const ItemEntity = (category: string, type: string) => {
 
 	const itemSet: any = Object.values(AssetManager.items).find(itemSet => itemSet['tiles'].some(tile => tile.type == type && tile.category == category))
 	const tile = itemSet['tiles'].find(tile => tile.type == type && tile.category == category)
@@ -16,10 +17,10 @@ const Item = (category: string, type: string) => {
 	const [x, y] = indexToCoord(tile.id, itemSet.columns, itemSet.tilewidth, itemSet.tileheight)
 
 	buffer.drawImage(itemSet.img, x, y, 16, 16, 0, 0, 16, 16)
-
-	return new Entity(
-		new Sprite(buffer, { material: MeshBasicMaterial, renderOrder: 5 }),
-		new Pickable()
-	)
+	const entity = new Entity()
+	entity.addComponent(new SpriteComponent(buffer, { material: MeshBasicMaterial, renderOrder: 5 }))
+	entity.addComponent(new PickableComponent())
+	if (tile.stackable) entity.addComponent(new Stackable())
+	return entity
 }
-export default Item
+export default ItemEntity

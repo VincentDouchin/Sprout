@@ -1,20 +1,21 @@
 import { Entity } from '../ECS'
-import EntityCollection from '../Components/EntityCollection'
-import UIElement from '../Components/UIElement'
-import Sprite from '../Components/Sprite'
+import EntityCollectionComponent from '../Components/EntityCollectionComponent'
+
+import SpriteComponent from '../Components/SpriteComponent'
 import Buffer from '../utils/Buffer'
 import Frame from '../utils/Frame'
 import { MeshBasicMaterial } from 'three'
-const Inventory = (...items) => {
+const Inventory = (...items: Entity[]) => {
 	const buffer = Frame(9, 1)
 
 
 	return new Entity(
-		new EntityCollection(
-			...items = []
+		new EntityCollectionComponent(
+			...items
 		),
-		new UIElement('inventory'),
-		new Sprite(buffer, { material: MeshBasicMaterial })
+
+		new SpriteComponent(buffer, { material: MeshBasicMaterial }),
+
 	)
 }
 export default Inventory

@@ -1,7 +1,7 @@
 import { AmbientLight } from 'three'
 import { Component } from '../ECS'
-import { scene } from './../Initialize'
-class Light extends Component {
+import { scene } from '../Initialize'
+class LightComponent extends Component {
 	light: THREE.Light
 	constructor() {
 		super()
@@ -12,4 +12,4 @@ class Light extends Component {
 		scene.remove(this.light)
 	}
 }
-export default Light
+export default LightComponent

@@ -1,7 +1,7 @@
 import { Vec2 } from "planck"
 import { world } from "../Initialize"
 import { Component, ECS, Entity } from "../ECS"
-class Body extends Component {
+class BodyComponent extends Component {
 	body: planck.Body
 	fixtures: planck.Fixture[] = []
 	velocity = { x: 0, y: 0 }
@@ -59,4 +59,4 @@ class Body extends Component {
 // 	}
 
 // }
-export default Body
+export default BodyComponent

@@ -1,12 +1,12 @@
 import { Component, Entity, System, ECS } from "../ECS";
 import SelectorComponent from "../Components/SelectorComponent";
-import Position from "../Components/Position";
-import Animation from "../Components/Animation";
-const Selection = new System(
+import PositionComponent from "../Components/PositionComponent";
+import AnimationComponent from "../Components/AnimationComponent";
+const SelectionSystem = new System(
 	SelectorComponent,
 	(entity: Entity, selector) => {
-		const position = entity.getComponent(Position)
-		const [parentPosition, parentAnimation] = ECS.getEntityById(selector.parentId).getComponents(Position, Animation)
+		const position = entity.getComponent(PositionComponent)
+		const [parentPosition, parentAnimation] = ECS.getEntityById(selector.parentId).getComponents(PositionComponent, AnimationComponent)
 		position.x = parentPosition.x
 		position.y = parentPosition.y
 		if (parentAnimation.selectedDirection == 'up') {
@@ -23,4 +23,4 @@ const Selection = new System(
 		}
 	}
 )
-export default Selection
+export default SelectionSystem

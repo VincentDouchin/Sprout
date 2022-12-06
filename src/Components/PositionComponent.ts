@@ -1,6 +1,6 @@
 import { Component } from "../ECS"
 
-class Position extends Component {
+class PositionComponent extends Component {
 	x: number
 	y: number
 	initialPosition = true
@@ -18,4 +18,4 @@ class Position extends Component {
 
 	}
 }
-export default Position
+export default PositionComponent

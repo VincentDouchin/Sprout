@@ -1,6 +1,6 @@
 import { Component } from "../ECS"
 
-class Controller extends Component {
+class ControllerComponent extends Component {
 	player = false
 	constructor(player = false, options: any = {}) {
 		super()
@@ -9,4 +9,4 @@ class Controller extends Component {
 	}
 
 }
-export default Controller
+export default ControllerComponent

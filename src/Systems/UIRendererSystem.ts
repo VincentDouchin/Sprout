@@ -1,13 +1,13 @@
 import { UICamera, UIScene } from "../Initialize";
 import { Entity, System } from "../ECS";
-import UIElement from "../Components/UIElement";
-import Sprite from "../Components/Sprite";
-import EntityCollection from "../Components/EntityCollection";
-const UIRenderer = new System(
-	UIElement,
-	(entity: Entity, uiElement: UIElement) => {
+import UIElementComponent from "../Components/UIElementComponent";
+import SpriteComponent from "../Components/SpriteComponent";
+import EntityCollectionComponent from "../Components/EntityCollectionComponent";
+const UIRendererSystem = new System(
+	UIElementComponent,
+	(entity: Entity, uiElement: UIElementComponent) => {
 		if (uiElement.type == 'inventory') {
-			const [inventorySprite, items] = entity.getComponents(Sprite, EntityCollection)
+			const [inventorySprite, items] = entity.getComponents(SpriteComponent, EntityCollectionComponent)
 			if (!inventorySprite.rendered) {
 				inventorySprite.mesh.position.y = UICamera.bottom + inventorySprite.height / 2
 				inventorySprite.mesh.renderOrder = 0
@@ -16,7 +16,7 @@ const UIRenderer = new System(
 
 			}
 			items.entities.forEach((item: Entity, itemIndex: number) => {
-				const sprite = item.getComponent(Sprite)
+				const sprite = item.getComponent(SpriteComponent)
 				if (!sprite.rendered) {
 
 					sprite.mesh.position.y = inventorySprite.mesh.position.y
@@ -31,4 +31,4 @@ const UIRenderer = new System(
 		}
 	}
 )
-export default UIRenderer
+export default UIRendererSystem

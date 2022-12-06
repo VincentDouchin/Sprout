@@ -5,7 +5,7 @@ import Camera from './utils/Camera';
 import Inputs from './Inputs';
 import keys from './Keys';
 import { Entity } from './ECS';
-import Level from './Entities/Level';
+import LevelEntity from './Entities/LevelEntity';
 //! Camera
 const camera: THREE.OrthographicCamera = Camera.create()
 // const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -59,7 +59,7 @@ const render = () => {
 const map = new class {
 	map: Entity
 	load(mapName: string) {
-		this.map = Level(mapName)
+		this.map = LevelEntity(mapName)
 	}
 	unload() {
 		this.map.destroy()

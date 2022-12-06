@@ -1,6 +1,6 @@
 import { Component } from "../ECS"
 
-class Interactable extends Component {
+class InteractableComponent extends Component {
 	isInteractable = true
 	type: string
 	constructor(type: string) {
@@ -11,4 +11,4 @@ class Interactable extends Component {
 
 	}
 }
-export default Interactable
+export default InteractableComponent

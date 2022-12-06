@@ -1,34 +1,34 @@
 import Coroutines from "../Coroutines";
 import { Entity, System } from "../ECS";
 import { map, world } from "../Initialize";
-import Teleporter from "../Components/Teleporter";
-import Teleportable from "../Components/Teleportable";
-import Body from "../Components/Body";
-import Animation from "../Components/Animation";
-import Position from "../Components/Position";
-import EntityCollection from "../Components/EntityCollection";
+import TeleporterComponent from "../Components/TeleporterComponent";
+import TeleportableComponent from "../Components/TeleportableComponent";
+import BodyComponent from "../Components/BodyComponent";
+import AnimationComponent from "../Components/AnimationComponent";
+import PositionComponent from "../Components/PositionComponent";
+import EntityCollectionComponent from "../Components/EntityCollectionComponent";
 
-const Teleport = new System(
-	Teleporter,
+const TeleportSystem = new System(
+	TeleporterComponent,
 	(entity: Entity, teleporter) => {
-		const [body, animation] = entity.getComponents(Body, Animation)
+		const [body, animation] = entity.getComponents(BodyComponent, AnimationComponent)
 
 
 		const contactList = body.getContactList()
 		contactList.forEach((target: Entity) => {
-			const [teleportable, targetPosition, targetBody] = target.getComponents(Teleportable, Position, Body)
+			const [teleportable, targetPosition, targetBody] = target.getComponents(TeleportableComponent, PositionComponent, BodyComponent)
 
 			if (teleportable && teleportable.canTeleport) {
 				teleportable.canTeleport = false
 				targetBody.stopped = true
 				const teleporTarget = () => {
 					map.change(teleporter.to)
-					const targetTeleport = map.map.getComponent(EntityCollection).entities
+					const targetTeleport = map.map.getComponent(EntityCollectionComponent).entities
 						.find((entity: Entity) => {
-							const targetTeleporter = entity.getComponent(Teleporter)
+							const targetTeleporter = entity.getComponent(TeleporterComponent)
 							return targetTeleporter.name == teleporter.name
 						})
-					const targetTeleportPosition = targetTeleport.getComponent(Position)
+					const targetTeleportPosition = targetTeleport.getComponent(PositionComponent)
 
 					targetPosition.setPosition(targetTeleportPosition.x, targetTeleportPosition.y)
 					targetBody.stopped = false
@@ -61,4 +61,4 @@ const Teleport = new System(
 		})
 	}
 )
-export default Teleport
+export default TeleportSystem

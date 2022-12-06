@@ -1,17 +1,17 @@
 import { Entity, System } from "../ECS";
-import Animation from "../Components/Animation";
-import Controller from "../Components/Controller";
-import Body from "../Components/Body";
-import CameraTarget from "../Components/CameraTarget";
-import Position from "../Components/Position";
+import AnimationComponent from "../Components/AnimationComponent";
+import ControllerComponent from "../Components/ControllerComponent";
+import BodyComponent from "../Components/BodyComponent";
+import CameraTargetComponent from "../Components/CameraTargetComponent";
+import PositionComponent from "../Components/PositionComponent";
 import { camera, inputs } from "../Initialize";
 import { Vec2 } from "planck"
 import { FRICTION } from "../Constants";
 import { Vector3 } from "three";
-const Movement = new System(
-	Position,
+const MovementSystem = new System(
+	PositionComponent,
 	(entity: Entity, position) => {
-		const [animation, controller, body, cameraTarget] = entity.getComponents(Animation, Controller, Body, CameraTarget)
+		const [animation, controller, body, cameraTarget] = entity.getComponents(AnimationComponent, ControllerComponent, BodyComponent, CameraTargetComponent)
 
 		if (body) {
 			body.idle = Math.abs(body.velocity.x) + Math.abs(body.velocity.y) < body.moveForce
@@ -66,4 +66,4 @@ const Movement = new System(
 
 	}
 )
-export default Movement
+export default MovementSystem

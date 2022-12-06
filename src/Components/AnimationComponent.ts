@@ -16,7 +16,7 @@ interface animationOptions {
 
 }
 
-class Animation extends Component {
+class AnimationComponent extends Component {
 
 	backwards = false
 	animations = []
@@ -75,4 +75,4 @@ class Animation extends Component {
 
 
 }
-export default Animation
+export default AnimationComponent

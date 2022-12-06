@@ -1,30 +1,29 @@
-import FarmableComponent from "../Components/Farmable";
-import Position from "../Components/Position";
-import Body from "../Components/Body";
-import Animation from "../Components/Animation";
-import Interactable from "../Components/Interactable";
+import FarmableComponent from "../Components/FarmableComponent";
+import PositionComponent from "../Components/PositionComponent";
+import BodyComponent from "../Components/BodyComponent";
+import AnimationComponent from "../Components/AnimationComponent";
+import InteractableComponent from "../Components/InteractableComponent";
 import SelectorComponent from "../Components/SelectorComponent";
 import { Entity, System } from "../ECS";
-import Item from "../Entities/Item";
-import { clock, inputs } from "../Initialize";
-import Sprite from "../Components/Sprite";
-import Shadow from "../Components/Shadow";
+import ItemEntity from "../Entities/ItemEntity";
+import { inputs } from "../Initialize";
+import SpriteComponent from "../Components/SpriteComponent";
+import ShadowComponent from "../Components/ShadowComponent";
 import Coroutines from "../Coroutines";
-import { waitFor } from "../utils/Functions";
-import tweenGenerator from "../utils/tween";
+
 import { easeInOutCubic } from 'tween-functions'
-const Farming = new System(
+const FarmingSystem = new System(
 	FarmableComponent,
 	(entity: Entity, farmableComponent: FarmableComponent) => {
-		const [body, animation, position] = entity.getComponents(Body, Animation, Position)
+		const [body, animation, position] = entity.getComponents(BodyComponent, AnimationComponent, PositionComponent)
 		const contactList = body.getContactList()
 		const selector = contactList.find((contactEntity: Entity) => {
-			return contactEntity.getComponent(Interactable)?.type == 'playerSensor'
+			return contactEntity.getComponent(InteractableComponent)?.type == 'playerSensor'
 		})
 
 		if (selector && inputs.interact.once) {
 			const parent = selector.getComponent(SelectorComponent).getParent()
-			const parentAnimation = parent.getComponent(Animation)
+			const parentAnimation = parent.getComponent(AnimationComponent)
 
 			parentAnimation.playAnimation('watering', 8).then(() => {
 				farmableComponent.growth += 1
@@ -32,12 +31,12 @@ const Farming = new System(
 		}
 		animation.selectedSprite = farmableComponent.growth % (animation.animationsLength[farmableComponent.plant] + 1)
 		if (animation.selectedSprite == animation.animationsLength[farmableComponent.plant]) {
-			const item = Item('vegetable', 'carrot')
-			item.getComponent(Sprite).scale = 0.5
-			item.addComponent(new Position(position.x, position.y))
-			item.addComponent(new Shadow(8, 4, 8))
+			const item = ItemEntity('vegetable', 'carrot')
+			item.getComponent(SpriteComponent).scale = 0.5
+			item.addComponent(new PositionComponent(position.x, position.y))
+			item.addComponent(new ShadowComponent(8, 4, 8))
 			Coroutines.add(function* () {
-				const [position, sprite] = item.getComponents(Position, Sprite)
+				const [position, sprite] = item.getComponents(PositionComponent, SpriteComponent)
 
 				let direction = 1
 				while (position) {
@@ -68,4 +67,4 @@ const Farming = new System(
 		animation.state = farmableComponent.plant
 	}
 )
-export default Farming
+export default FarmingSystem

@@ -1,6 +1,6 @@
 import { Component } from "../ECS"
 
-class Teleportable extends Component {
+class TeleportableComponent extends Component {
 	canTeleport: boolean
 	lastTeleport: string | null = null
 	constructor(canTeleport = true) {
@@ -9,4 +9,4 @@ class Teleportable extends Component {
 	}
 	destroy() { }
 }
-export default Teleportable
+export default TeleportableComponent

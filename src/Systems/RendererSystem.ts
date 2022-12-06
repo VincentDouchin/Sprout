@@ -1,15 +1,15 @@
-import Sprite from "../Components/Sprite";
-import Animation from "../Components/Animation";
-import Position from "../Components/Position";
-import Body from "../Components/Body";
+import SpriteComponent from "../Components/SpriteComponent";
+import AnimationComponent from "../Components/AnimationComponent";
+import PositionComponent from "../Components/PositionComponent";
+import BodyComponent from "../Components/BodyComponent";
 import { Entity, System } from "../ECS";
 import { scene } from "../Initialize";
-import Shadow from "../Components/Shadow";
-const checkList = new Set()
-const Renderer = new System(
-	Sprite,
-	(entity: Entity, sprite: Sprite) => {
-		const [animation, position, body, shadow] = entity.getComponents(Animation, Position, Body, Shadow)
+import ShadowComponent from "../Components/ShadowComponent";
+
+const RendererSystem = new System(
+	SpriteComponent,
+	(entity: Entity, sprite: SpriteComponent) => {
+		const [animation, position, body, shadow] = entity.getComponents(AnimationComponent, PositionComponent, BodyComponent, ShadowComponent)
 
 		if (!sprite.rendered && position) {
 			scene.add(sprite.mesh)
@@ -73,4 +73,4 @@ const Renderer = new System(
 }
 
 )
-export default Renderer
+export default RendererSystem

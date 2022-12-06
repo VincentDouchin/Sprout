@@ -1,19 +1,19 @@
 import AssetManager from "../AssetManager"
 import { Entity } from "../ECS"
-import Body from "../Components/Body"
+import Body from "../Components/BodyComponent"
 import Buffer from "../utils/Buffer";
 
 import { indexToCoord, assignObjectProps, getFileName, getRadianAngle } from '../utils/Functions'
 
 // import Cow from "./Cow";
 import { Vec2, Box } from "planck";
-import EntityCollection from "../Components/EntityCollection";
-import Data from "../Components/Data";
-import Sprite from "../Components/Sprite";
-import Teleport from "./Teleport";
-import Plant from "./Plant";
-import Cow from "./Cow";
-import Position from "../Components/Position";
+import EntityCollectionComponent from "../Components/EntityCollectionComponent";
+import DataComponent from "../Components/DataComponent";
+import SpriteComponent from "../Components/SpriteComponent";
+import TeleportEntity from "./TeleportEntity";
+import PlantEntity from "./PlantEntity";
+import CowEntity from "./CowEntity";
+import PositionComponent from "../Components/PositionComponent";
 
 
 // //! Types
@@ -21,7 +21,7 @@ import Position from "../Components/Position";
 const flags = [0xc0000000, 0xb0000000, 0xa0000000, 0x80000000, 0x40000000, 0x20000000]
 
 
-const Level = (name: string) => {
+const LevelEntity = (name: string) => {
 	const map = AssetManager.levels[name]
 	// + Body
 	const body = new Body({
@@ -52,13 +52,13 @@ const Level = (name: string) => {
 		})
 	})
 
-	const collection = new EntityCollection(...mapEntities
+	const collection = new EntityCollectionComponent(...mapEntities
 		.filter((object: any) => object.entity)
 		.map((object: any) => {
 			switch (object.entity) {
-				case 'teleport': return Teleport(object)
-				case 'farmable': return Plant(object)
-				case 'cow': return Cow(object)
+				case 'teleport': return TeleportEntity(object)
+				case 'farmable': return PlantEntity(object)
+				case 'cow': return CowEntity(object)
 
 			}
 		})
@@ -164,18 +164,18 @@ const Level = (name: string) => {
 
 	collection.addEntities(
 		new Entity(
-			new Sprite(finalBottomBuffer, { renderOrder: 0 }),
-			new Position(0, 0)
+			new SpriteComponent(finalBottomBuffer, { renderOrder: 0 }),
+			new PositionComponent(0, 0)
 		),
 		new Entity(
-			new Sprite(finalTopBuffer, { renderOrder: 1 }),
-			new Position(0, 0)
+			new SpriteComponent(finalTopBuffer, { renderOrder: 1 }),
+			new PositionComponent(0, 0)
 		)
 	)
 	return new Entity(
 		body,
 		collection,
-		new Data({ name })
+		new DataComponent({ name })
 
 	)
 }
@@ -269,4 +269,4 @@ const Level = (name: string) => {
 
 // }
 
-export default Level
+export default LevelEntity

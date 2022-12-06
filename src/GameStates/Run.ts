@@ -1,29 +1,29 @@
 import { world, scene, render, camera, renderer, map, clock } from '../Initialize'
-import Light from '../Components/Light'
+import LightComponent from '../Components/LightComponent'
 import { ECS, Entity } from '../ECS'
 
 
 
-import Player from "../Entities/Player"
-import Movement from '../Systems/Movement'
-import Teleport from '../Systems/Teleport'
-import Farming from '../Systems/Farming'
-import Renderer from '../Systems/Renderer'
-import Selection from '../Systems/Selection'
-import UIRenderer from '../Systems/UIRenderer'
-import ItemPickUp from '../Systems/ItemPickUp'
+import PlayerEntity from "../Entities/PlayerEntity"
+import MovementSystem from '../Systems/MovementSystem'
+import TeleportSystem from '../Systems/TeleportSystem'
+import FarmingSystem from '../Systems/FarmingSystem'
+import RendererSystem from '../Systems/RendererSystem'
+import SelectionSystem from '../Systems/SelectionSystem'
+import UIRendererSystem from '../Systems/UIRendererSystem'
+import ItemPickUp from '../Systems/ItemPickUpSystem'
 
 const Run = () => {
-	ECS.registerSystem(Movement)
-	ECS.registerSystem(Teleport)
-	ECS.registerSystem(Farming)
-	ECS.registerSystem(Renderer)
-	ECS.registerSystem(Selection)
-	ECS.registerSystem(UIRenderer)
+	ECS.registerSystem(MovementSystem)
+	ECS.registerSystem(TeleportSystem)
+	ECS.registerSystem(FarmingSystem)
+	ECS.registerSystem(RendererSystem)
+	ECS.registerSystem(SelectionSystem)
+	ECS.registerSystem(UIRendererSystem)
 	ECS.registerSystem(ItemPickUp)
-	const player = Player('Amélie', 1200, -340)
+	const player = PlayerEntity('Amélie', 1200, -340)
 	// //! Lights
-	const light = new Entity(new Light())
+	const light = new Entity(new LightComponent())
 
 	// //! Objects
 	map.load('map')

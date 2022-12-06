@@ -1,7 +1,7 @@
 import { CanvasTexture, Mesh, MeshBasicMaterial, NearestFilter, PlaneGeometry } from "three";
 import { Component } from "../ECS";
 import Buffer from '../utils/Buffer'
-class Shadow extends Component {
+class ShadowComponent extends Component {
 	rendered = false
 	width: number
 	height: number
@@ -31,4 +31,4 @@ class Shadow extends Component {
 
 
 }
-export default Shadow
+export default ShadowComponent

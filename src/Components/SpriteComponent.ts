@@ -1,8 +1,8 @@
 import { Component } from "../ECS";
-import Renderer from "../Systems/Renderer";
+import RendererSystem from "../Systems/RendererSystem";
 
 import { CanvasTexture, NearestFilter, PlaneGeometry, Mesh, MeshStandardMaterial } from 'three'
-class Sprite extends Component {
+class SpriteComponent extends Component {
 	rendered = false
 	buffer: CanvasRenderingContext2D
 	width: number
@@ -29,4 +29,4 @@ class Sprite extends Component {
 		this.mesh.parent.remove(this.mesh.parent.getObjectById(this.mesh.id))
 	}
 }
-export default Sprite
+export default SpriteComponent

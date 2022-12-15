@@ -5,23 +5,21 @@ import BodyComponent from "../Components/BodyComponent";
 import { Entity, System } from "../ECS";
 import { scene } from "../Initialize";
 import ShadowComponent from "../Components/ShadowComponent";
+import DirectionComponent from "../Components/DirectionComponent";
 
 const RendererSystem = new System(
 	SpriteComponent,
 	(entity: Entity, sprite: SpriteComponent) => {
-		const [animation, position, body, shadow] = entity.getComponents(AnimationComponent, PositionComponent, BodyComponent, ShadowComponent)
+		const [animation, position, body, shadow, direction] = entity.getComponents(AnimationComponent, PositionComponent, BodyComponent, ShadowComponent, DirectionComponent)
 
 		if (!sprite.rendered && position) {
 			scene.add(sprite.mesh)
 			sprite.rendered = true
-			// sprite.destroy = () => 
 		}
 		if (shadow && position) {
 			if (!shadow.rendered) {
 				scene.add(shadow.mesh)
 				shadow.rendered = true
-
-				// shadow.destroy = () => scene.remove(scene.getObjectById(shadow.mesh.id))
 			}
 			shadow.mesh.renderOrder = sprite.renderOrder - 1
 			shadow.mesh.position.set(position.x, position.y - shadow.offset, 0)
@@ -51,26 +49,13 @@ const RendererSystem = new System(
 			animation.state = (body.idle ? 'idle' : 'moving')
 
 		}
+		if (direction) {
+			animation.selectedDirection = direction.direction
+		}
 
 
 
-
-	}, {
-
-	// postUpdate(entities: Entity[]) {
-	// 	const entitiesMeshIds = entities
-	// 		.filter((entity: Entity) => entity.getComponent(Position))
-	// 		.map((entity: Entity) => entity.getComponent(Sprite).mesh.id)
-
-	// 	checkList.forEach((id: number) => {
-	// 		if (!entitiesMeshIds.includes(id)) {
-	// 			scene.remove(scene.getObjectById(id))
-	// 			checkList.delete(id)
-	// 		}
-	// 	})
-	// }
-
-}
+	}
 
 )
 export default RendererSystem

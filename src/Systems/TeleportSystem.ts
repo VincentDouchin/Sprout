@@ -14,7 +14,7 @@ const TeleportSystem = new System(
 		const [body, animation] = entity.getComponents(BodyComponent, AnimationComponent)
 
 
-		const contactList = body.getContactList()
+		const contactList = body.getContactList('player')
 		contactList.forEach((target: Entity) => {
 			const [teleportable, targetPosition, targetBody] = target.getComponents(TeleportableComponent, PositionComponent, BodyComponent)
 

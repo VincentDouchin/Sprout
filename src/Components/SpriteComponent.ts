@@ -7,7 +7,7 @@ class SpriteComponent extends Component {
 	buffer: CanvasRenderingContext2D
 	width: number
 	height: number
-	scale = 1
+	scale: number
 	mesh: THREE.Mesh
 	offsetX = 0
 	offsetY = 0
@@ -15,6 +15,7 @@ class SpriteComponent extends Component {
 	constructor(image: CanvasRenderingContext2D, options?: any) {
 		super()
 		this.renderOrder = options?.renderOrder * 10 ?? 0
+		this.scale = options?.scale ?? 1
 		this.buffer = image
 		this.width = options?.width ?? this.buffer.canvas.width
 		this.height = options?.height ?? this.buffer.canvas.height
@@ -27,6 +28,10 @@ class SpriteComponent extends Component {
 	}
 	destroy(): void {
 		this.mesh.parent.remove(this.mesh.parent.getObjectById(this.mesh.id))
+	}
+	remove() {
+		this.destroy()
+		this.rendered = false
 	}
 }
 export default SpriteComponent

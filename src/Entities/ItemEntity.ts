@@ -8,8 +8,13 @@ import { indexToCoord } from '../utils/Functions'
 import SpriteComponent from "../Components/SpriteComponent"
 import { MeshBasicMaterial } from "three"
 import PickableComponent from "../Components/PickableComponent"
-import Stackable from "../Components/Stackable"
-const ItemEntity = (category: string, type: string) => {
+import StackableComponent from "../Components/StackableComponent"
+import DataComponent from "../Components/DataComponent"
+import ItemComponent from "../Components/ItemComponent"
+interface itemOptions {
+	amount?: number
+}
+const ItemEntity = (category: string, type: string, { amount = 0 }: itemOptions = {}) => {
 
 	const itemSet: any = Object.values(AssetManager.items).find(itemSet => itemSet['tiles'].some(tile => tile.type == type && tile.category == category))
 	const tile = itemSet['tiles'].find(tile => tile.type == type && tile.category == category)
@@ -20,7 +25,8 @@ const ItemEntity = (category: string, type: string) => {
 	const entity = new Entity()
 	entity.addComponent(new SpriteComponent(buffer, { material: MeshBasicMaterial, renderOrder: 5 }))
 	entity.addComponent(new PickableComponent())
-	if (tile.stackable) entity.addComponent(new Stackable())
+	entity.addComponent(new ItemComponent(category, type))
+	if (tile.stackable) entity.addComponent(new StackableComponent(amount))
 	return entity
 }
 export default ItemEntity

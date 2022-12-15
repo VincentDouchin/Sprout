@@ -1,10 +1,12 @@
-import { Component } from "../ECS";
+import { Component } from "../../ECS";
 
 class UIElementComponent extends Component {
 	type: string
 	constructor(type: string) {
 		super()
 		this.type = type
+
+
 	}
 }
 export default UIElementComponent

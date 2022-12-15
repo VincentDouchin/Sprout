@@ -36,12 +36,18 @@ const ECS = new class {
 	getEntityById(id: string) {
 		return this.entities.get(id)
 	}
+	getComponentById(id: string) {
+		return this.components.get(id)
+	}
 
 }
 
 class Entity {
 	id: string
-	parent: string
+	parentId: string
+	get parent() {
+		return ECS.getEntityById(this.parentId)
+	}
 	constructor(...components: Component[]) {
 		this.id = generateUUID()
 		ECS.entities.set(this.id, this)
@@ -54,10 +60,11 @@ class Entity {
 		return ECS.components?.get(component.name)?.get(this.id)
 	}
 	addComponent(component: Component) {
-		ECS.components.get(component.constructor.name).set(this.id, component)
+		component.parentId = this.id
 		if (component.bind) {
 			component.bind(this.id)
 		}
+		ECS.components.get(component.constructor.name).set(this.id, component)
 	}
 	removeComponent(component: Constructor<Component>) {
 		ECS.getComponents(component).get(this.id)?.destroy()
@@ -100,10 +107,15 @@ interface Component {
 	destroy(): void
 }
 class Component {
-	id: string
+	parentId: string
+	get parent() {
+		return ECS.getEntityById(this.parentId)
+	}
 	constructor() {
 		ECS.registerComponent(this)
-		this.id = generateUUID()
+	}
+	destroy() {
+
 	}
 
 }

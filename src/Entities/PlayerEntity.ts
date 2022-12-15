@@ -9,12 +9,10 @@ import InteractableComponent from "../Components/InteractableComponent";
 import SpriteComponent from "../Components/SpriteComponent";
 import AnimationComponent from "../Components/AnimationComponent";
 import AssetManager from "../AssetManager";
-import EntityCollectionComponent from "../Components/EntityCollectionComponent";
-
-import Inventory from "./Inventory";
 import ItemEntity from "./ItemEntity";
-import SelectorEntity from "./SelectorEntity";
 import ShadowComponent from "../Components/ShadowComponent";
+import InventoryComponent from "../Components/InventoryComponent";
+import DirectionComponent from "../Components/DirectionComponent";
 
 const PlayerEntity = (name: string, x: number, y: number) => {
 	const entity = new Entity(
@@ -33,30 +31,49 @@ const PlayerEntity = (name: string, x: number, y: number) => {
 			direction: true,
 			// character: true
 		}),
-
+		new DirectionComponent(),
 		new PositionComponent(x, y),
 		new ControllerComponent(true),
 		new BodyComponent({
 			type: 'dynamic',
 			fixedRotation: true,
 			bullet: true,
+			allowSleep: false
+
 		}, [{
-			shape: Box(7, 8, Vec2(0, 0), 0),
-			density: 1,
+			shape: Box(8, 8, Vec2(0, 0), 0),
+			density: 0,
+			userData: { type: 'player' },
+		},
+		{
+			shape: Box(1, 1, Vec2(-16, 0), 0),
+			density: 0,
+			isSensor: true,
+			userData: { type: 'playerSensor' },
 		}]),
 		new CameraTargetComponent(),
 		new TeleportableComponent(),
 		new InteractableComponent('player'),
-		new ShadowComponent(12, 5, 8)
+		new ShadowComponent(12, 5, 8),
 
 
 	)
-	entity.addComponent(
-		new EntityCollectionComponent(
-			SelectorEntity(entity.id),
-			Inventory()
-		)
-	)
+	const inventory = new InventoryComponent(true)
+	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
+	inventory.add(ItemEntity('vegetable', 'tomato', { amount: 4 }))
+	inventory.add(ItemEntity('vegetable', 'eggplant', { amount: 4 }))
+	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
+	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
+	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
+	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
+	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
+	entity.addComponent(inventory)
+	// entity.addComponent(
+	// 	new EntityCollectionComponent(
+	// 		SelectorEntity(entity.id),
+
+	// 	)
+	// )
 }
 
 export default PlayerEntity

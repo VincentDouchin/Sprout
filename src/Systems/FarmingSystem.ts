@@ -2,8 +2,6 @@ import FarmableComponent from "../Components/FarmableComponent";
 import PositionComponent from "../Components/PositionComponent";
 import BodyComponent from "../Components/BodyComponent";
 import AnimationComponent from "../Components/AnimationComponent";
-import InteractableComponent from "../Components/InteractableComponent";
-import SelectorComponent from "../Components/SelectorComponent";
 import { Entity, System } from "../ECS";
 import ItemEntity from "../Entities/ItemEntity";
 import { inputs } from "../Initialize";
@@ -16,16 +14,10 @@ const FarmingSystem = new System(
 	FarmableComponent,
 	(entity: Entity, farmableComponent: FarmableComponent) => {
 		const [body, animation, position] = entity.getComponents(BodyComponent, AnimationComponent, PositionComponent)
-		const contactList = body.getContactList()
-		const selector = contactList.find((contactEntity: Entity) => {
-			return contactEntity.getComponent(InteractableComponent)?.type == 'playerSensor'
-		})
+		const contactList = body.getContactList('playerSensor')
 
-		if (selector && inputs.interact.once) {
-			const parent = selector.getComponent(SelectorComponent).getParent()
-			const parentAnimation = parent.getComponent(AnimationComponent)
-
-			parentAnimation.playAnimation('watering', 8).then(() => {
+		if (contactList.length && inputs.interact.once) {
+			contactList[0].getComponent(AnimationComponent).playAnimation('watering', 8).then(() => {
 				farmableComponent.growth += 1
 			})
 		}

@@ -26,7 +26,9 @@ const LevelEntity = (name: string) => {
 	// + Body
 	const body = new Body({
 		type: 'static',
-		position: Vec2(0, 0)
+		position: Vec2(0, 0),
+		allowSleep: false,
+		buller: true
 	})
 	// + Canvas
 
@@ -157,6 +159,7 @@ const LevelEntity = (name: string) => {
 				}
 			})
 		})
+
 		const finalBuffer = layer.top ? finalTopBuffer : finalBottomBuffer
 		finalBuffer.drawImage(buffer.canvas, 0, 0)
 	})
@@ -168,7 +171,7 @@ const LevelEntity = (name: string) => {
 			new PositionComponent(0, 0)
 		),
 		new Entity(
-			new SpriteComponent(finalTopBuffer, { renderOrder: 1 }),
+			new SpriteComponent(finalTopBuffer, { renderOrder: 6 }),
 			new PositionComponent(0, 0)
 		)
 	)

@@ -8,10 +8,11 @@ import { camera, inputs } from "../Initialize";
 import { Vec2 } from "planck"
 import { FRICTION } from "../Constants";
 import { Vector3 } from "three";
+import DirectionComponent from "../Components/DirectionComponent";
 const MovementSystem = new System(
 	PositionComponent,
-	(entity: Entity, position) => {
-		const [animation, controller, body, cameraTarget] = entity.getComponents(AnimationComponent, ControllerComponent, BodyComponent, CameraTargetComponent)
+	(entity: Entity, position: PositionComponent) => {
+		const [animation, controller, body, cameraTarget, direction] = entity.getComponents(AnimationComponent, ControllerComponent, BodyComponent, CameraTargetComponent, DirectionComponent)
 
 		if (body) {
 			body.idle = Math.abs(body.velocity.x) + Math.abs(body.velocity.y) < body.moveForce
@@ -38,24 +39,35 @@ const MovementSystem = new System(
 			position.x = x
 			position.y = y
 		}
+		let selectedDirection = direction?.direction ?? 'down'
 		if (controller && controller.player && body) {
 			if (inputs.left.active) {
-				animation.selectedDirection = 'left'
+				selectedDirection = 'left'
 				body.velocity.x -= body.moveForce
 			}
 			if (inputs.right.active) {
-				animation.selectedDirection = 'right'
+				selectedDirection = 'right'
 				body.velocity.x += body.moveForce
 			}
 			if (inputs.up.active) {
-				animation.selectedDirection = 'up'
+				selectedDirection = 'up'
 				body.velocity.y += body.moveForce
 			}
 			if (inputs.down.active) {
-				animation.selectedDirection = 'down'
+				selectedDirection = 'down'
 				body.velocity.y -= body.moveForce
 			}
 		}
+		if (direction) {
+			direction.direction = selectedDirection
+			switch (selectedDirection) {
+				case 'up': body.body.setAngle(Math.PI * -0.5); break
+				case 'down': body.body.setAngle(Math.PI * 0.5); break
+				case 'left': body.body.setAngle(0); break
+				case 'right': body.body.setAngle(Math.PI); break
+			}
+		}
+
 
 
 		if (cameraTarget) {

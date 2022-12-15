@@ -6,11 +6,11 @@
  "name":"dirt",
  "spacing":0,
  "tilecount":64,
- "tiledversion":"1.8.5",
+ "tiledversion":"1.9.2",
  "tileheight":16,
  "tilewidth":16,
  "type":"tileset",
- "version":"1.8",
+ "version":"1.9",
  "wangsets":[
         {
          "colors":[
@@ -31,18 +31,6 @@
          "type":"mixed",
          "wangtiles":[
                 {
-                 "tileid":0,
-                 "wangid":[1, 1, 1, 1, 1, 1, 1, 1]
-                }, 
-                {
-                 "tileid":1,
-                 "wangid":[1, 1, 1, 1, 1, 1, 1, 1]
-                }, 
-                {
-                 "tileid":2,
-                 "wangid":[1, 1, 1, 1, 1, 1, 1, 1]
-                }, 
-                {
                  "tileid":3,
                  "wangid":[0, 1, 1, 1, 0, 0, 0, 0]
                 }, 
@@ -57,18 +45,6 @@
                 {
                  "tileid":6,
                  "wangid":[1, 1, 0, 0, 0, 0, 0, 1]
-                }, 
-                {
-                 "tileid":8,
-                 "wangid":[1, 1, 1, 1, 1, 1, 1, 1]
-                }, 
-                {
-                 "tileid":9,
-                 "wangid":[1, 1, 1, 1, 1, 1, 1, 1]
-                }, 
-                {
-                 "tileid":10,
-                 "wangid":[1, 1, 1, 1, 1, 1, 1, 1]
                 }, 
                 {
                  "tileid":11,

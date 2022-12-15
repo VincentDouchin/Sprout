@@ -1,12 +1,9 @@
 import { Component, ECS, Entity } from "../ECS"
 class EntityCollectionComponent extends Component {
 	#entitiesIds: string[] = []
-	parentId: string
 	constructor(...entities: Entity[]) {
 		super()
-		entities.forEach(entity => {
-			this.#entitiesIds.push(entity.id)
-		})
+		this.addEntities(...entities)
 	}
 	get entities() {
 		return this.#entitiesIds.map((id) => ECS.getEntityById(id))
@@ -14,6 +11,7 @@ class EntityCollectionComponent extends Component {
 	addEntities(...entities: Entity[]) {
 		entities.forEach((entity) => {
 			this.#entitiesIds.push(entity.id)
+			entity.parentId = this.parentId
 		})
 	}
 	removeEntity(entity: Entity) {
@@ -22,6 +20,7 @@ class EntityCollectionComponent extends Component {
 	destroy() {
 		this.entities.forEach(entity => entity.destroy())
 	}
+
 
 }
 export default EntityCollectionComponent

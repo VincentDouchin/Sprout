@@ -5,9 +5,11 @@ import BodyComponent from "../Components/BodyComponent";
 import PickableComponent from "../Components/PickableComponent";
 import PositionComponent from "../Components/PositionComponent";
 import EntityCollectionComponent from "../Components/EntityCollectionComponent";
-import UIElementComponent from "../Components/UIElementComponent"
+import UIElementComponent from "../UI/UIComponents/UIElementComponent"
 import Sprite from "../Components/SpriteComponent";
 import ShadowComponent from "../Components/ShadowComponent";
+import InventoryComponent from "../Components/InventoryComponent";
+import SpriteComponent from "../Components/SpriteComponent";
 
 const ItemPickUp = new System(
 	PickableComponent,
@@ -24,22 +26,18 @@ const ItemPickUp = new System(
 				isSensor: true,
 			}])
 			body.sensor = true
-			entity.addComponent(
-				body
-			)
+			entity.addComponent(body)
 		}
 		if (body) {
 			body.getContactList().forEach((contactEntity: Entity) => {
-				contactEntity.getComponent(EntityCollectionComponent)?.entities.forEach((entityInCollection: Entity) => {
-					if (entityInCollection.getComponent(UIElementComponent)?.type == 'inventory') {
-						entity.removeComponent(PositionComponent)
-						entity.removeComponent(BodyComponent)
-						entity.removeComponent(ShadowComponent)
-						entity.getComponent(Sprite).rendered = false
-						entityInCollection.getComponent(EntityCollectionComponent).addEntities(entity)
-					}
-
-				})
+				const inventory = contactEntity.getComponent(InventoryComponent)
+				if (inventory) {
+					entity.removeComponent(PositionComponent)
+					entity.removeComponent(BodyComponent)
+					entity.removeComponent(ShadowComponent)
+					entity.getComponent(SpriteComponent).remove()
+					inventory.add(entity)
+				}
 			})
 
 		}

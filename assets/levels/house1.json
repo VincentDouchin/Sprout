@@ -846,7 +846,7 @@
                         {
                          "name":"to",
                          "type":"file",
-                         "value":"map.json"
+                         "value":"zelaMap.json"
                         }],
                  "rotation":0,
                  "visible":true,
@@ -864,7 +864,7 @@
  "nextobjectid":3,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.9.1",
+ "tiledversion":"1.9.2",
  "tileheight":16,
  "tilesets":[
         {

@@ -9,10 +9,10 @@ import AnimationComponent from "../Components/AnimationComponent";
 import SelectorComponent from "../Components/SelectorComponent";
 
 const SelectorEntity = (parentId: string) => {
-	const buffer = Buffer(4, 4)
-	buffer.fillStyle = 'red'
-	buffer.fillRect(0, 0, 4, 4)
-	const [parentPosition] = ECS.getEntityById(parentId).getComponents(PositionComponent, AnimationComponent)
+	// const buffer = Buffer(4, 4)
+	// buffer.fillStyle = 'red'
+	// buffer.fillRect(0, 0, 4, 4)
+	const [parentPosition] = ECS.getEntityById(parentId).getComponents(PositionComponent)
 
 	const body = new BodyComponent({
 
@@ -23,7 +23,7 @@ const SelectorEntity = (parentId: string) => {
 		shape: Box(1, 1, Vec2(0, 0), 0),
 		density: 0,
 		isSensor: true,
-
+		userData: { type: 'player' }
 	}])
 	body.sensor = true
 
@@ -31,7 +31,7 @@ const SelectorEntity = (parentId: string) => {
 		body,
 		new InteractableComponent('playerSensor'),
 		new PositionComponent(parentPosition.x, parentPosition.y),
-		new SelectorComponent(parentId, 16),
+		// new SelectorComponent(parentId, /16),
 		// new Image(buffer, { renderOrder: 3 })
 	)
 

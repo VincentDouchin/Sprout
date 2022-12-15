@@ -21,7 +21,10 @@ const PlantEntity = (options) => {
 			horizontalTilesNb: 5
 		}),
 		new BodyComponent(
-			{ type: 'static', allowSleep: false },
+			{
+				type: 'static',
+				allowSleep: false
+			},
 			[{
 				shape: Box(8, 8, Vec2(0, 0), 0),
 				density: 0,

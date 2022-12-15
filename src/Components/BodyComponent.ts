@@ -13,29 +13,48 @@ class BodyComponent extends Component {
 	constructor(bodyOptions: any, fixturesOptions: any[] = []) {
 		super()
 		this.body = world.createBody(bodyOptions)
+
 		fixturesOptions.forEach((fixtureOption: any) => {
 			const fixture = this.body.createFixture(fixtureOption)
 			this.fixtures.push(fixture)
+
 		})
 	}
 	setInitialPosition(x: number, y: number) {
 		this.body.setPosition(new Vec2(x, y))
 		this.initialPosition = false
 	}
-	getContactList() {
+	getContactList(type?: string) {
 		const contactList = []
 		for (let ce: any = this.body.getContactList(); ce; ce = ce.next) {
-			const contactId = ce.other.getUserData()?.id
-			if (!contactId) break
+			if ([ce.contact.getFixtureB().getUserData(), ce.contact.getFixtureA().getUserData()].some((userData: any) => userData?.type == type)) {
 
-			const target = ECS.getEntityById(contactId)
-			contactList.push(target)
+				const contactId = ce.other.getUserData()?.id
+				const target = ECS.getEntityById(contactId)
+				contactList.push(target)
+
+			}
+			// 	if (!contactId) break
+			// 	const addToContactList = () => {
+			// 	}
+			// 	if (type) {
+			// 		for (let fixture: any = ce.other.getFixtureList(); fixture; fixture = fixture.getNext()) {
+			// 			if (fixture.getUserData()?.type == type) {
+			// 				debugger
+			// 				addToContactList()
+			// 			}
+			// 		}
+			// 	} else {
+			// 		addToContactList()
+			// 	}
+
 
 		}
 		return contactList
 	}
 	isColliding(entity: Entity) {
-		return this.getContactList().includes(entity.id)
+
+		// return this.getContactList().includes(entity.id)
 	}
 	bind(id: string) {
 		this.body.setUserData({ id })

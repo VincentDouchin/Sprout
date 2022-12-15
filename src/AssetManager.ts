@@ -36,6 +36,8 @@ const items = await mapToFileName(sourceItems, loadTileSet(images))
 const levels = await mapToFileName(sourceLevels, assignTilesets(tilesets))
 const templates = await mapToFileName(sourceTemplates, assignTemplateProps)
 
+
+
 const AssetManager = new class {
     levels = levels
     tilesets = tilesets

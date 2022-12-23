@@ -1,7 +1,6 @@
 import AssetManager from '../AssetManager'
 import Buffer from './Buffer'
-import { MeshBasicMaterial } from "three"
-import getPlane from './Plane'
+
 
 
 const getOffset = (offset: number, dimension: number) => offset === 0 ? 0 : offset === dimension - 1 ? 32 : 16

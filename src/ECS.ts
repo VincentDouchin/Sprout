@@ -1,10 +1,26 @@
 import { generateUUID } from "three/src/math/MathUtils"
-
+const serialize = obj => {
+	if (obj?._serialize) obj = obj._serialize()
+	switch (obj?.constructor.name) {
+		case 'Array': return obj.map(serialize)
+		case 'Map': return [...obj].map(([key, val]) => [key, serialize(val)])
+		case 'String': return obj
+		// case 'Object': return Object.entries(obj).reduce((acc, [key, val]) => ({ ...acc, [key]: serialize(val) }), {})
+		case 'Object': {
+			const serializedObj = {}
+			for (let [key, val] of Object.entries(obj)) {
+				serializedObj[key] = serialize(val)
+			}
+			return serializedObj
+		}
+		default: return typeof obj == 'object' ? serialize({ ...obj }) : obj
+	}
+}
 const ECS = new class {
 	entities = new Map()
 	systems: System[] = []
 	components = new Map()
-
+	componentClasses = {}
 	getComponents(Component: Constructor<Component>): Map<string, Component> {
 		return this.components.get(Component.name)
 	}
@@ -40,14 +56,12 @@ const ECS = new class {
 		return this.components.get(id)
 	}
 
+
 }
 
 class Entity {
 	id: string
-	parentId: string
-	get parent() {
-		return ECS.getEntityById(this.parentId)
-	}
+
 	constructor(...components: Component[]) {
 		this.id = generateUUID()
 		ECS.entities.set(this.id, this)
@@ -107,15 +121,26 @@ interface Component {
 	destroy(): void
 }
 class Component {
+	id: string
 	parentId: string
+	arguments: any[]
 	get parent() {
 		return ECS.getEntityById(this.parentId)
 	}
-	constructor() {
+	constructor(args) {
+		this.id = generateUUID()
 		ECS.registerComponent(this)
+		this.arguments = [...args]
+
 	}
 	destroy() {
 
+	}
+	save() {
+		return serialize(this)
+	}
+	load(serializedObj: any) {
+		Object.assign(this, serializedObj)
 	}
 
 }

@@ -5,7 +5,7 @@ class FarmableComponent extends Component {
 	plant: string
 	growth: number
 	constructor(wet = false, plant = '', growth = 0) {
-		super()
+		super(arguments)
 		this.wet = wet
 		this.plant = plant
 		this.growth = growth

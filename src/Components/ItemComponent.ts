@@ -4,7 +4,7 @@ class ItemComponent extends Component {
 	category: string
 	type: string
 	constructor(category: string, type: string) {
-		super()
+		super(arguments)
 		this.category = category
 		this.type = type
 	}

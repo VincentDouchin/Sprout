@@ -6,23 +6,25 @@ import { Entity, System } from "../ECS";
 import { scene } from "../Initialize";
 import ShadowComponent from "../Components/ShadowComponent";
 import DirectionComponent from "../Components/DirectionComponent";
+import UIText from "../Components/UIText";
 
 const RendererSystem = new System(
 	SpriteComponent,
 	(entity: Entity, sprite: SpriteComponent) => {
-		const [animation, position, body, shadow, direction] = entity.getComponents(AnimationComponent, PositionComponent, BodyComponent, ShadowComponent, DirectionComponent)
+		const [animation, position, body, shadow, direction, text] = entity.getComponents(AnimationComponent, PositionComponent, BodyComponent, ShadowComponent, DirectionComponent, UIText)
+		// if (!sprite.mesh?.renderOrder) debugger
 
-		if (!sprite.rendered && position) {
+		if (sprite && position) {
 			scene.add(sprite.mesh)
-			sprite.rendered = true
+
 		}
-		if (shadow && position) {
+		if (shadow && sprite) {
 			if (!shadow.rendered) {
-				scene.add(shadow.mesh)
-				shadow.rendered = true
+				shadow.addTo(sprite.mesh)
 			}
 			shadow.mesh.renderOrder = sprite.renderOrder - 1
-			shadow.mesh.position.set(position.x, position.y - shadow.offset, 0)
+			// debugger
+			// shadow.mesh.position.set(0, 16, 0)
 		}
 		sprite.mesh.renderOrder = sprite.renderOrder
 		sprite.mesh.scale.set(sprite.scale, sprite.scale, 1)
@@ -51,6 +53,12 @@ const RendererSystem = new System(
 		}
 		if (direction) {
 			animation.selectedDirection = direction.direction
+		}
+		if (text) {
+			sprite.mesh.add(text.mesh)
+			text.mesh.renderOrder = sprite.renderOrder + 1
+
+
 		}
 
 

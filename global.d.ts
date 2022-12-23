@@ -44,3 +44,7 @@ interface position {
 // 	spriteNb: any
 // }
 type Constructor<T> = new (...args: any[]) => T;
+interface Saver {
+	save: Function
+	load: Function
+}

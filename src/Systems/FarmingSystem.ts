@@ -21,6 +21,7 @@ const FarmingSystem = new System(
 				farmableComponent.growth += 1
 			})
 		}
+		if (!animation) return
 		animation.selectedSprite = farmableComponent.growth % (animation.animationsLength[farmableComponent.plant] + 1)
 		if (animation.selectedSprite == animation.animationsLength[farmableComponent.plant]) {
 			const item = ItemEntity('vegetable', 'carrot')
@@ -55,6 +56,7 @@ const FarmingSystem = new System(
 				}
 			})
 			farmableComponent.plant = ''
+
 		}
 		animation.state = farmableComponent.plant
 	}

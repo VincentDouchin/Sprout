@@ -1,12 +1,12 @@
 import EntityCollectionComponent from "../../Components/EntityCollectionComponent";
 import { Entity } from "../../ECS";
-import UIElementComponent from "../UIComponents/UIElementComponent";
-import InventoryUI from "../UIEntities/InventoryUI";
+import UIElementComponent from "../../Components/UIElementComponent";
+import UIInventory from "../UIEntities/UIInventory";
 
 const UIMain = () => new Entity(
 	new UIElementComponent('screen'),
 	new EntityCollectionComponent(
-		InventoryUI()
+		UIInventory()
 	)
 )
 export default UIMain

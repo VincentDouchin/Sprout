@@ -2,7 +2,7 @@ import { Component } from "../ECS"
 
 class DataComponent extends Component {
 	constructor(data: any) {
-		super()
+		super(arguments)
 		Object.assign(this, data)
 	}
 	destroy() { }

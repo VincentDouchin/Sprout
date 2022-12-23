@@ -4,7 +4,7 @@ class StackableComponent extends Component {
 	amount: number
 	stackSize = 99
 	constructor(amount: number = 1) {
-		super()
+		super(arguments)
 		this.amount = amount
 	}
 	canAddToStack() {

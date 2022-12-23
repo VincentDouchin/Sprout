@@ -14,7 +14,7 @@ import ItemComponent from "../Components/ItemComponent"
 interface itemOptions {
 	amount?: number
 }
-const ItemEntity = (category: string, type: string, { amount = 0 }: itemOptions = {}) => {
+const ItemEntity = (category: string, type: string, { amount = 1 }: itemOptions = {}) => {
 
 	const itemSet: any = Object.values(AssetManager.items).find(itemSet => itemSet['tiles'].some(tile => tile.type == type && tile.category == category))
 	const tile = itemSet['tiles'].find(tile => tile.type == type && tile.category == category)
@@ -23,7 +23,7 @@ const ItemEntity = (category: string, type: string, { amount = 0 }: itemOptions 
 
 	buffer.drawImage(itemSet.img, x, y, 16, 16, 0, 0, 16, 16)
 	const entity = new Entity()
-	entity.addComponent(new SpriteComponent(buffer, { material: MeshBasicMaterial, renderOrder: 5 }))
+	entity.addComponent(new SpriteComponent(buffer, { renderOrder: 5 }))
 	entity.addComponent(new PickableComponent())
 	entity.addComponent(new ItemComponent(category, type))
 	if (tile.stackable) entity.addComponent(new StackableComponent(amount))

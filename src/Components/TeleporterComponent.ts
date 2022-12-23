@@ -5,7 +5,7 @@ class TeleporterComponent extends Component {
 	to: string
 	name: string
 	constructor(to: string, name: string) {
-		super()
+		super(arguments)
 		this.to = to
 		this.name = name
 	}

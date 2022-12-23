@@ -1,9 +1,9 @@
-import { Component } from "../../ECS";
+import { Component } from "../ECS";
 
 class UIElementComponent extends Component {
 	type: string
 	constructor(type: string) {
-		super()
+		super(arguments)
 		this.type = type
 
 

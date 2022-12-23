@@ -1,5 +1,5 @@
-import SpriteComponent from "../../Components/SpriteComponent"
-import { Component } from "../../ECS"
+import SpriteComponent from "./SpriteComponent"
+import { Component } from "../ECS"
 
 
 class UITransform extends Component {
@@ -10,7 +10,7 @@ class UITransform extends Component {
 	x: number
 	y: number
 	constructor(parentx: number, parenty: number, selfx: number = 0.5, selfy: number = 0.5) {
-		super()
+		super(arguments)
 		this.parentx = parentx
 		this.parenty = parenty
 		this.selfx = selfx

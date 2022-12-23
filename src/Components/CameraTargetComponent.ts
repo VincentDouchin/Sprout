@@ -3,7 +3,7 @@ import { Component } from "../ECS"
 class CameraTargetComponent extends Component {
 	isTarget = true
 	constructor() {
-		super()
+		super(arguments)
 	}
 }
 export default CameraTargetComponent

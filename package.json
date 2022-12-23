@@ -18,6 +18,7 @@
     "mobx": "^6.7.0",
     "planck": "^1.0.0-alpha.4",
     "three": "^0.142.0",
+    "troika-three-text": "^0.47.1",
     "tween-functions": "^1.2.0"
   }
 }

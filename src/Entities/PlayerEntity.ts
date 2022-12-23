@@ -63,10 +63,6 @@ const PlayerEntity = (name: string, x: number, y: number) => {
 	inventory.add(ItemEntity('vegetable', 'tomato', { amount: 4 }))
 	inventory.add(ItemEntity('vegetable', 'eggplant', { amount: 4 }))
 	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
-	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
-	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
-	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
-	inventory.add(ItemEntity('vegetable', 'carrot', { amount: 4 }))
 	entity.addComponent(inventory)
 	// entity.addComponent(
 	// 	new EntityCollectionComponent(

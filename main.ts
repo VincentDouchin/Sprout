@@ -1,10 +1,13 @@
 import Engine from './src/Engine'
 import Run from './src/GameStates/Run'
 import AssetManager from './src/AssetManager'
-
+import PromisedIDBSaver from './src/utils/indexedDBSaver'
+import SaveManager from './src/SaveManager'
+import { preloadFont } from 'troika-three-text'
 (async function () {
+	SaveManager.setSaver(PromisedIDBSaver)
 	const engine = Engine()
-
+	await SaveManager.load()
 	for (const name of ['', 'Amélie', 'Clémentine', 'Hughie', 'Jack']) {
 		await AssetManager.load(`${name ? name + ' - ' : ''}Premium Charakter Spritesheet`)
 	}
@@ -14,14 +17,14 @@ import AssetManager from './src/AssetManager'
 	await AssetManager.load('containers')
 	await AssetManager.load('Farming Plants')
 	await AssetManager.load('All items')
-	const SummerPixel = new FontFace('SummerPixel', 'url(../assets/fonts/SummerPixel22Regular-jE0W7.ttf)');
-	await SummerPixel.load()
-	const m5x7 = new FontFace('m5x7', 'url(../assets/fonts/m5x7.ttf)');
-	await m5x7.load()
-	//@ts-ignore
-	document.fonts.add(SummerPixel)
-	//@ts-ignore
-	document.fonts.add(m5x7)
+
+
+
+
+	await new Promise<void>((resolve) => preloadFont(
+		{ font: '../assets/fonts/m5x7.ttf', },
+		() => resolve()
+	))
 
 
 	const run = Run()

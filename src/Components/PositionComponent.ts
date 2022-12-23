@@ -5,7 +5,7 @@ class PositionComponent extends Component {
 	y: number
 	initialPosition = true
 	constructor(x: number, y: number) {
-		super()
+		super(arguments)
 		this.x = x
 		this.y = y
 	}

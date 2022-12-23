@@ -34,7 +34,7 @@ class AnimationComponent extends Component {
 	selectedDirection = 'down'
 	isAnimationPlaying = false
 	constructor(options: animationOptions) {
-		super()
+		super(arguments)
 		Object.assign(this, options)
 	}
 	get selectedState() {

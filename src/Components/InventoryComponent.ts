@@ -4,15 +4,15 @@ import StackableComponent from "./StackableComponent";
 import { observable, computed } from "mobx";
 import UIManager from "../UI/UIManager";
 class InventoryComponent extends Component {
-	#itemsIds: string[] = observable([])
+	itemsIds: string[] = observable([])
 	size: number = 9
 	get items() {
-		return this.#itemsIds.map((itemId: string) => ECS.getEntityById(itemId))
+		return this.itemsIds.map((itemId: string) => ECS.getEntityById(itemId))
 	}
 	render = false
 	rendered = false
 	constructor(render: boolean) {
-		super()
+		super(arguments)
 		this.render = render
 		if (this.render) {
 
@@ -25,10 +25,10 @@ class InventoryComponent extends Component {
 			let addToInventory = true
 			if (stackable) {
 				this.items.forEach((inventoryItem: Entity) => {
+					const inventoryItemStack = inventoryItem.getComponent(StackableComponent)
 
-
-					if (itemComponent.compare(inventoryItem) && inventoryItem.getComponent(StackableComponent).canAddToStack()) {
-						inventoryItem.getComponent(StackableComponent).amount += 1
+					if (itemComponent.compare(inventoryItem) && inventoryItemStack.canAddToStack()) {
+						inventoryItemStack.amount += stackable.amount
 						addToInventory = false
 					}
 
@@ -37,7 +37,7 @@ class InventoryComponent extends Component {
 			}
 
 			if (addToInventory) {
-				this.#itemsIds.push(item.id)
+				this.itemsIds.push(item.id)
 			}
 
 
